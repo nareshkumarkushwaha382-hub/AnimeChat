@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnimeChat</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="sidebar">
+
+        <div class="logo">
+            AnimeChat
+        </div>
+
+        <div class="searchBox">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search chats...">
+        </div>
+
+        <div id="chatList">
+
+            <div class="chatItem active" id="gojoBtn">
+
+                <div class="avatar">👑</div>
+
+                <div class="chatInfo">
+                    <div class="chatName">Gojo</div>
+                    <div class="chatPreview" id="gojoPreview">
+                        Welcome!
+                    </div>
+                </div>
+
+                <div class="chatTime" id="gojoTime">
+                    Now
+                </div>
+
+            </div>
+
+            <div class="chatItem" id="subaruBtn">
+
+                <div class="avatar">⚔️</div>
+
+                <div class="chatInfo">
+                    <div class="chatName">Subaru</div>
+                    <div class="chatPreview" id="subaruPreview">
+                        Hello, I'm Subaru.
+                    </div>
+                </div>
+
+                <div class="chatTime" id="subaruTime">
+                    Now
+                </div>
+
+            </div>
+
+            <div class="chatItem" id="remBtn">
+
+                <div class="avatar">💙</div>
+
+                <div class="chatInfo">
+                    <div class="chatName">Rem</div>
+                    <div class="chatPreview" id="remPreview">
+                        Hello, I'm Rem.
+                    </div>
+                </div>
+
+                <div class="chatTime" id="remTime">
+                    Now
+                </div>
+
+            </div>
+
+            <div class="chatItem" id="groupBtn">
+
+                <div class="avatar">👥</div>
+
+                <div class="chatInfo">
+                    <div class="chatName">
+                        Anime Friends
+                    </div>
+
+                    <div class="chatPreview" id="groupPreview">
+                        Welcome to Anime Friends!
+                    </div>
+
+                </div>
+
+                <div class="chatTime" id="groupTime">
+                    Now
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="chatArea">
+
+        <div class="chatHeader">
+
+            <div class="headerAvatar" id="headerAvatar">
+                👑
+            </div>
+
+            <div>
+
+                <div id="headerName">
+                    Gojo
+                </div>
+
+                <div id="headerStatus">
+                    Online
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="messages"></div>
+
+        <div class="inputArea">
+
+            <input
+                id="messageInput"
+                type="text"
+                placeholder="Type a message...">
+
+            <button id="sendButton">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
