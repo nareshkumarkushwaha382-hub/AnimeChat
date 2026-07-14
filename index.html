@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AnimeChat</title>
 
 <link rel="stylesheet" href="style.css">
@@ -12,6 +13,7 @@
 
 <div class="app">
 
+    <!-- Sidebar -->
     <div class="sidebar">
 
         <div class="logo">
@@ -25,23 +27,23 @@
                 placeholder="Search chats...">
         </div>
 
-        <body>
+        <div id="chatList">
 
-<div id="chatList">
-    ...
-</div>
+            <div class="chatItem" id="gojoBtn">
 
-<div id="chatScreen">
+                <div class="avatar">👑</div>
 
-    <!-- Header -->
+                <div class="chatInfo">
 
-    <!-- Messages -->
+                    <div class="chatName">
+                        Gojo
+                    </div>
 
-    <!-- Input -->
+                    <div class="chatPreview" id="gojoPreview">
+                        Welcome!
+                    </div>
 
-</div>
-
-        </body>
+                </div>
 
                 <div class="chatTime" id="gojoTime">
                     Now
@@ -54,10 +56,15 @@
                 <div class="avatar">⚔️</div>
 
                 <div class="chatInfo">
-                    <div class="chatName">Subaru</div>
-                    <div class="chatPreview" id="subaruPreview">
-                        Hello, I'm Subaru.
+
+                    <div class="chatName">
+                        Subaru
                     </div>
+
+                    <div class="chatPreview" id="subaruPreview">
+                        Hello!
+                    </div>
+
                 </div>
 
                 <div class="chatTime" id="subaruTime">
@@ -71,10 +78,15 @@
                 <div class="avatar">💙</div>
 
                 <div class="chatInfo">
-                    <div class="chatName">Rem</div>
-                    <div class="chatPreview" id="remPreview">
-                        Hello, I'm Rem.
+
+                    <div class="chatName">
+                        Rem
                     </div>
+
+                    <div class="chatPreview" id="remPreview">
+                        Welcome...
+                    </div>
+
                 </div>
 
                 <div class="chatTime" id="remTime">
@@ -88,12 +100,13 @@
                 <div class="avatar">👥</div>
 
                 <div class="chatInfo">
+
                     <div class="chatName">
                         Anime Friends
                     </div>
 
                     <div class="chatPreview" id="groupPreview">
-                        Welcome to Anime Friends!
+                        Group chat
                     </div>
 
                 </div>
@@ -108,12 +121,17 @@
 
     </div>
 
+    <!-- Chat Screen -->
+
     <div class="chatArea">
 
         <div class="chatHeader">
-            <button id="backButton">←</button>
 
-            <div class="headerAvatar" id="headerAvatar">
+            <button id="backButton">
+                ←
+            </button>
+
+            <div id="headerAvatar" class="headerAvatar">
                 👑
             </div>
 
@@ -153,4 +171,4 @@
 <script src="script.js"></script>
 
 </body>
-</html>
+                </html>
