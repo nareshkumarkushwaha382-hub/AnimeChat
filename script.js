@@ -130,3 +130,19 @@ document.getElementById("groupBtn").onclick = function () {
 
 // Show Gojo chat when the app starts
 showChat();
+function openChat(name){
+
+    currentChat = name;
+
+    chatList.style.display = "none";
+    chatScreen.style.display = "block";
+    backButton.style.display = "block";
+
+    showChat();
+}
+
+function closeChat(){
+
+    chatScreen.style.display = "none";
+    chatList.style.display = "block";
+      }
