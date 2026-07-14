@@ -1,5 +1,12 @@
+// ===== AnimeChat v1.0 Alpha =====
+
+// Chat database
 const chats = {
   Gojo: {
+    avatar: "👑",
+    status: "Online",
+    previewId: "gojoPreview",
+    timeId: "gojoTime",
     messages: [
       { sender: "Gojo", text: "Welcome!" }
     ],
@@ -12,6 +19,10 @@ const chats = {
   },
 
   Subaru: {
+    avatar: "⚔️",
+    status: "Online",
+    previewId: "subaruPreview",
+    timeId: "subaruTime",
     messages: [
       { sender: "Subaru", text: "Hello, I'm Subaru." }
     ],
@@ -24,6 +35,10 @@ const chats = {
   },
 
   Rem: {
+    avatar: "💙",
+    status: "Online",
+    previewId: "remPreview",
+    timeId: "remTime",
     messages: [
       { sender: "Rem", text: "Hello, I'm Rem." }
     ],
@@ -36,183 +51,24 @@ const chats = {
   },
 
   AnimeFriends: {
+    avatar: "👥",
+    status: "3 members",
+    previewId: "groupPreview",
+    timeId: "groupTime",
     messages: [
-      {
-        sender: "System",
-        text: "Welcome to Anime Friends!"
-      }
-    ],
-    replies: []
+      { sender: "System", text: "Welcome to Anime Friends!" }
+    ]
   }
 };
 
+// Current chat
 let currentChat = "Gojo";
 
+// Elements
 const messages = document.getElementById("messages");
 const input = document.getElementById("messageInput");
 const sendButton = document.getElementById("sendButton");
 
-function showChat() {
-
-    messages.innerHTML = "";
-
-    chats[currentChat].messages.forEach(msg => {
-
-        const side = msg.sender === "You" ? "right" : "left";
-
-        messages.innerHTML += `
-        <div class="message ${side}">
-            <div class="bubble">
-                <b>${msg.sender}</b><br>
-                ${msg.text}
-            </div>
-        </div>
-        `;
-
-    });
-
-    messages.scrollTop = messages.scrollHeight;
-}
-
-sendButton.onclick = function () {
-
-    const text = input.value.trim();
-
-    if (text === "") return;
-
-    chats[currentChat].messages.push({
-        sender: "You",
-        text: text
-    });
-
-    input.value = "";
-
-    showChat();
-
-    if (currentChat === "AnimeFriends") {
-
-        setTimeout(function () {
-
-            chats[currentChat].messages.push({
-                sender: "Gojo",
-                text: "Yo."
-            });
-
-            showChat();
-
-        }, 1000);
-
-        setTimeout(function () {
-
-            chats[currentChat].messages.push({
-                sender: "Subaru",
-                text: "Let's think first."
-            });
-
-            showChat();
-
-        }, 2000);
-
-        setTimeout(function () {
-
-            chats[currentChat].messages.push({
-                sender: "Rem",
-                text: "Rem understands."
-            });
-
-            showChat();
-
-        }, 3000);
-
-    } else {
-
-        setTimeout(function () {
-
-            const replies = chats[currentChat].replies;
-
-            const reply =
-                replies[Math.floor(Math.random() * replies.length)];
-
-            chats[currentChat].messages.push({
-                sender: currentChat,
-                text: reply
-            });
-
-            showChat();
-
-        }, 1000);
-
-    }
-
-};
-
-    input.value = "";
-
-    showChat();
-
-    setTimeout(function () {
-
-        const replies = chats[currentChat].replies;
-
-        const reply =
-            replies[Math.floor(Math.random() * replies.length)];
-
-        chats[currentChat].messages.push({
-            sender: currentChat,
-            text: reply
-        });
-
-        showChat();
-
-    }, 1000);
-
-    const replies = chats[currentChat].replies;
-
-    const reply =
-        replies[Math.floor(Math.random() * replies.length)];
-
-    chats[currentChat].messages.push({
-        sender: currentChat,
-        text: reply
-    });
-
-    input.value = "";
-
-showChat();
-
-setTimeout(function () {
-
-    const replies = chats[currentChat].replies;
-
-    const reply =
-        replies[Math.floor(Math.random() * replies.length)];
-
-    chats[currentChat].messages.push({
-        sender: currentChat,
-        text: reply
-    });
-
-    showChat();
-
-}, 1000);
-
-document.getElementById("gojoBtn").onclick = function () {
-  currentChat = "Gojo";
-  showChat();
-};
-
-document.getElementById("subaruBtn").onclick = function () {
-  currentChat = "Subaru";
-  showChat();
-};
-
-document.getElementById("remBtn").onclick = function () {
-  currentChat = "Rem";
-  showChat();
-};
-
-showChat();
-document.getElementById("groupBtn").onclick = function () {
-    currentChat = "AnimeFriends";
-    showChat();
-};
+const headerAvatar = document.getElementById("headerAvatar");
+const headerName = document.getElementById("headerName");
+const headerStatus = document.getElementById("headerStatus");
