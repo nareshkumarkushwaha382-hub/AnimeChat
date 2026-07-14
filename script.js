@@ -1,97 +1,111 @@
-// ===== AnimeChat v1.0 Alpha =====
+// AnimeChat v2.0
 
-// Chat database
 const chats = {
-  Gojo: {
-    avatar: "👑",
-    status: "Online",
-    previewId: "gojoPreview",
-    timeId: "gojoTime",
-    messages: [
-      { sender: "Gojo", text: "Welcome!" }
-    ],
-    replies: [
-      "Yo.",
-      "Interesting.",
-      "Leave it to me.",
-      "Too easy."
-    ]
-    const chatList = document.getElementById("chatList");
-const chatScreen = document.getElementById("chatScreen");
-const backButton = document.getElementById("backButton");
-  },
 
-  Subaru: {
-    avatar: "⚔️",
-    status: "Online",
-    previewId: "subaruPreview",
-    timeId: "subaruTime",
-    messages: [
-      { sender: "Subaru", text: "Hello, I'm Subaru." }
-    ],
-    replies: [
-      "Be careful.",
-      "Let's think first.",
-      "That's risky.",
-      "I understand."
-    ]
-  },
+Gojo:{
+avatar:"👑",
+status:"Online",
+previewId:"gojoPreview",
+timeId:"gojoTime",
+messages:[
+{sender:"Gojo",text:"Welcome!"}
+],
+replies:[
+"Yo.",
+"Interesting.",
+"Too easy.",
+"Leave it to me."
+]
+},
 
-  Rem: {
-    avatar: "💙",
-    status: "Online",
-    previewId: "remPreview",
-    timeId: "remTime",
-    messages: [
-      { sender: "Rem", text: "Hello, I'm Rem." }
-    ],
-    replies: [
-      "Rem understands.",
-      "I'll support you.",
-      "Please stay safe.",
-      "Yes."
-    ]
-  },
+Subaru:{
+avatar:"⚔️",
+status:"Online",
+previewId:"subaruPreview",
+timeId:"subaruTime",
+messages:[
+{sender:"Subaru",text:"Hello, I'm Subaru."}
+],
+replies:[
+"Be careful.",
+"I understand.",
+"Let's think first.",
+"That's risky."
+]
+},
 
-  AnimeFriends: {
-    avatar: "👥",
-    status: "3 members",
-    previewId: "groupPreview",
-    timeId: "groupTime",
-    messages: [
-      { sender: "System", text: "Welcome to Anime Friends!" }
-    ]
-  }
+Rem:{
+avatar:"💙",
+status:"Online",
+previewId:"remPreview",
+timeId:"remTime",
+messages:[
+{sender:"Rem",text:"Hello, I'm Rem."}
+],
+replies:[
+"Rem understands.",
+"I'll support you.",
+"Please stay safe.",
+"Yes."
+]
+},
+
+AnimeFriends:{
+avatar:"👥",
+status:"3 members",
+previewId:"groupPreview",
+timeId:"groupTime",
+messages:[
+{sender:"System",text:"Welcome to Anime Friends!"}
+],
+replies:[
+"Everyone is online.",
+"Let's begin!",
+"Nice to meet you!"
+]
+}
+
 };
 
-// Current chat
-let currentChat = "Gojo";
+let currentChat="Gojo";
 
-// Elements
-const messages = document.getElementById("messages");
-const input = document.getElementById("messageInput");
-const sendButton = document.getElementById("sendButton");
+const messages=document.getElementById("messages");
+const input=document.getElementById("messageInput");
+const sendButton=document.getElementById("sendButton");
 
-const headerAvatar = document.getElementById("headerAvatar");
-const headerName = document.getElementById("headerName");
-const headerStatus = document.getElementById("headerStatus");
-// Show current chat
-function showChat() {
+const headerAvatar=document.getElementById("headerAvatar");
+const headerName=document.getElementById("headerName");
+const headerStatus=document.getElementById("headerStatus");
 
-    // Update header
-    headerAvatar.textContent = chats[currentChat].avatar;
-    headerName.textContent = currentChat === "AnimeFriends"
+const chatArea=document.querySelector(".chatArea");
+const sidebar=document.querySelector(".sidebar");
+
+const backButton=document.getElementById("backButton");
+
+const gojoBtn=document.getElementById("gojoBtn");
+const subaruBtn=document.getElementById("subaruBtn");
+const remBtn=document.getElementById("remBtn");
+const groupBtn=document.getElementById("groupBtn");
+function showChat(){
+
+    const chat = chats[currentChat];
+
+    headerAvatar.textContent = chat.avatar;
+    headerName.textContent =
+        currentChat === "AnimeFriends"
         ? "Anime Friends"
         : currentChat;
-    headerStatus.textContent = chats[currentChat].status;
 
-    // Clear old messages
+    headerStatus.textContent = chat.status;
+
     messages.innerHTML = "";
 
-    // Show messages
-    chats[currentChat].messages.forEach(msg => {
+    chat.messages.forEach(msg=>{
 
-        const side = msg.sender === "You" ? "right" : "left";
+        const side =
+            msg.sender==="You"
+            ? "right"
+            : "left";
 
         messages.innerHTML += `
         <div class="message ${side}">
@@ -104,33 +118,101 @@ function showChat() {
 
     });
 
-    messages.scrollTop = messages.scrollHeight;
+    const last =
+        chat.messages[chat.messages.length-1];
+
+    document.getElementById(chat.previewId).textContent =
+        last.text;
+
+    document.getElementById(chat.timeId).textContent =
+        "Now";
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
 }
 
-// Switch chats
+function openChat(name){
+
+    currentChat=name;
+
+    showChat();
+
+    if(window.innerWidth<=768){
+
+        sidebar.classList.add("hide");
+
+        chatArea.classList.add("active");
+
+    }
+
+}
+
+function closeChat(){
+
+    sidebar.classList.remove("hide");
+
+    chatArea.classList.remove("active");
+
+  }
+// Send message
+sendButton.onclick = function () {
+
+    const text = input.value.trim();
+
+    if (text === "") return;
+
+    chats[currentChat].messages.push({
+        sender: "You",
+        text: text
+    });
+
+    input.value = "";
+
+    showChat();
+
+    // Random AI reply
+    setTimeout(function () {
+
+        const replies = chats[currentChat].replies || [
+            "Okay!"
+        ];
+
+        const reply =
+            replies[Math.floor(Math.random() * replies.length)];
+
+        chats[currentChat].messages.push({
+            sender: currentChat === "AnimeFriends"
+                ? "System"
+                : currentChat,
+            text: reply
+        });
+
+        showChat();
+
+    }, 1000);
+
+};
+
+// Chat buttons
 gojoBtn.onclick = () => openChat("Gojo");
 subaruBtn.onclick = () => openChat("Subaru");
 remBtn.onclick = () => openChat("Rem");
 groupBtn.onclick = () => openChat("AnimeFriends");
 
+// Back button
 backButton.onclick = closeChat;
-};
 
-// Show Gojo chat when the app starts
-showChat();
-function openChat(name){
+// Press Enter to send
+input.addEventListener("keydown", function(e){
 
-    currentChat = name;
+    if(e.key==="Enter"){
+        sendButton.click();
+    }
 
-    chatList.style.display = "none";
-    chatScreen.style.display = "block";
-    backButton.style.display = "block";
+});
 
+// Desktop starts with chat visible
+if(window.innerWidth>768){
     showChat();
-}
-
-function closeChat(){
-
-    chatScreen.style.display = "none";
-    chatList.style.display = "block";
-      }
+          }
