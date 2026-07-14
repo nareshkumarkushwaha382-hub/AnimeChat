@@ -6,7 +6,7 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:#0b141a;
+background:#111b21;
 height:100vh;
 }
 
@@ -17,10 +17,10 @@ height:100vh;
 
 .sidebar{
 width:35%;
-background:#111b21;
-border-right:1px solid #2a3942;
+background:#202c33;
 display:flex;
 flex-direction:column;
+border-right:1px solid #2a3942;
 }
 
 .logo{
@@ -29,133 +29,118 @@ font-size:24px;
 font-weight:bold;
 color:#25D366;
 text-align:center;
-border-bottom:1px solid #2a3942;
 }
 
-.searchBox{
+.search{
 padding:10px;
 }
 
-.searchBox input{
+.search input{
 width:100%;
-padding:10px;
+padding:12px;
 border:none;
 outline:none;
-border-radius:8px;
-background:#202c33;
+border-radius:25px;
+background:#2a3942;
 color:white;
 }
 
-#chatList{
-overflow-y:auto;
+.chat-list{
 flex:1;
+overflow:auto;
 }
 
-.chatItem{
+.chat{
 display:flex;
 align-items:center;
 padding:15px;
 cursor:pointer;
-transition:.2s;
-border-bottom:1px solid #202c33;
+border-bottom:1px solid #2a3942;
 }
 
-.chatItem:hover{
-background:#202c33;
+.chat:hover{
+background:#2a3942;
 }
 
 .avatar{
 width:50px;
 height:50px;
-border-radius:
-    .chatHeader{
-height:70px;
-background:#202c33;
-display:flex;
-align-items:center;
-padding:0 15px;
-color:white;
-border-bottom:1px solid #2a3942;
-}
-
-#backButton{
-display:none;
-background:none;
-border:none;
-color:white;
-font-size:28px;
-cursor:pointer;
-margin-right:15px;
-}
-
-.headerAvatar{
-width:45px;
-height:45px;
 border-radius:50%;
-background:#2a3942;
+background:#374248;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 font-size:24px;
 margin-right:12px;
 }
 
-#headerName{
-font-weight:bold;
-font-size:18px;
+.info{
+flex:1;
 }
 
-#headerStatus{
+.name{
+color:white;
+font-weight:bold;
+}
+
+.preview{
+font-size:14px;
+color:#aebac1;
+margin-top:3px;
+}
+
+.time{
+font-size:12px;
+color:#8696a0;
+}
+
+.chat-area{
+flex:1;
+display:flex;
+flex-direction:column;
+background:#0b141a;
+}
+
+.header{
+height:70px;
+background:#202c33;
+display:flex;
+align-items:center;
+padding:15px;
+border-bottom:1px solid #2a3942;
+}
+
+.status{
 font-size:13px;
 color:#aebac1;
 }
 
-#messages{
+.messages{
 flex:1;
-overflow-y:auto;
 padding:20px;
-display:flex;
-flex-direction:column;
-gap:10px;
-background:#0b141a;
-}
-
-.message{
-display:flex;
+overflow:auto;
 }
 
 .left{
-justify-content:flex-start;
-}
-
-.right{
-justify-content:flex-end;
+display:flex;
+margin-bottom:10px;
 }
 
 .bubble{
-max-width:70%;
-padding:10px 14px;
-border-radius:12px;
-word-wrap:break-word;
+background:#202c33;
 color:white;
-}
-
-.left .bubble{
-background:#202c33;
-}
-
-.right .bubble{
-background:#005c4b;
-}
-
-.inputArea{
-display:flex;
 padding:12px;
-background:#202c33;
-gap:10px;
+border-radius:12px;
+max-width:70%;
 }
 
-#messageInput{
+.input{
+display:flex;
+padding:10px;
+background:#202c33;
+}
+
+.input input{
 flex:1;
 padding:12px;
 border:none;
@@ -163,40 +148,31 @@ outline:none;
 border-radius:25px;
 background:#2a3942;
 color:white;
-font-size:15px;
 }
 
-#sendButton{
+.input button{
 width:50px;
-height:50px;
+margin-left:10px;
 border:none;
 border-radius:50%;
 background:#25D366;
-font-size:22px;
+font-size:20px;
 cursor:pointer;
 }
 
 @media(max-width:768px){
 
+.app{
+flex-direction:column;
+}
+
 .sidebar{
 width:100%;
+height:45%;
 }
 
-.chatArea{
-display:none;
-width:100%;
-}
-
-.chatArea.active{
-display:flex;
-}
-
-.sidebar.hide{
-display:none;
-}
-
-#backButton{
-display:block;
+.chat-area{
+height:55%;
 }
 
     }
