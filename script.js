@@ -16,6 +16,9 @@ const chats = {
       "Leave it to me.",
       "Too easy."
     ]
+    const chatList = document.getElementById("chatList");
+const chatScreen = document.getElementById("chatScreen");
+const backButton = document.getElementById("backButton");
   },
 
   Subaru: {
