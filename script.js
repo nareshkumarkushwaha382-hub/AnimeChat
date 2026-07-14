@@ -108,24 +108,12 @@ function showChat() {
 }
 
 // Switch chats
-document.getElementById("gojoBtn").onclick = function () {
-    currentChat = "Gojo";
-    showChat();
-};
+gojoBtn.onclick = () => openChat("Gojo");
+subaruBtn.onclick = () => openChat("Subaru");
+remBtn.onclick = () => openChat("Rem");
+groupBtn.onclick = () => openChat("AnimeFriends");
 
-document.getElementById("subaruBtn").onclick = function () {
-    currentChat = "Subaru";
-    showChat();
-};
-
-document.getElementById("remBtn").onclick = function () {
-    currentChat = "Rem";
-    showChat();
-};
-
-document.getElementById("groupBtn").onclick = function () {
-    currentChat = "AnimeFriends";
-    showChat();
+backButton.onclick = closeChat;
 };
 
 // Show Gojo chat when the app starts
