@@ -72,3 +72,58 @@ const sendButton = document.getElementById("sendButton");
 const headerAvatar = document.getElementById("headerAvatar");
 const headerName = document.getElementById("headerName");
 const headerStatus = document.getElementById("headerStatus");
+// Show current chat
+function showChat() {
+
+    // Update header
+    headerAvatar.textContent = chats[currentChat].avatar;
+    headerName.textContent = currentChat === "AnimeFriends"
+        ? "Anime Friends"
+        : currentChat;
+    headerStatus.textContent = chats[currentChat].status;
+
+    // Clear old messages
+    messages.innerHTML = "";
+
+    // Show messages
+    chats[currentChat].messages.forEach(msg => {
+
+        const side = msg.sender === "You" ? "right" : "left";
+
+        messages.innerHTML += `
+        <div class="message ${side}">
+            <div class="bubble">
+                <b>${msg.sender}</b><br>
+                ${msg.text}
+            </div>
+        </div>
+        `;
+
+    });
+
+    messages.scrollTop = messages.scrollHeight;
+}
+
+// Switch chats
+document.getElementById("gojoBtn").onclick = function () {
+    currentChat = "Gojo";
+    showChat();
+};
+
+document.getElementById("subaruBtn").onclick = function () {
+    currentChat = "Subaru";
+    showChat();
+};
+
+document.getElementById("remBtn").onclick = function () {
+    currentChat = "Rem";
+    showChat();
+};
+
+document.getElementById("groupBtn").onclick = function () {
+    currentChat = "AnimeFriends";
+    showChat();
+};
+
+// Show Gojo chat when the app starts
+showChat();
