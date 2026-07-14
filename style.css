@@ -196,3 +196,16 @@ body{
     cursor:pointer;
     margin-right:15px;
 }
+/* Mobile navigation */
+
+#chatScreen{
+    display:none;
+    width:100%;
+    height:100%;
+}
+
+#chatList{
+    display:block;
+    width:100%;
+    height:100%;
+    }
