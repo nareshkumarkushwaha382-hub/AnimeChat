@@ -1,5 +1,4 @@
-    console.log("AnimeChat v0.2 running");
-
+console.log("AnimeChat v0.3 running");
 
 const contacts = document.querySelectorAll(".contact");
 
@@ -23,7 +22,7 @@ const search = document.getElementById("search");
 let currentPerson = "Gojo";
 
 
-// Character data
+// Characters
 
 const characters = {
 
@@ -54,10 +53,9 @@ const characters = {
 };
 
 
+// Load chats from storage
 
-// Chat memory
-
-const chats = {
+let chats = JSON.parse(localStorage.getItem("animeChats")) || {
 
     Gojo:[
         {
@@ -91,7 +89,20 @@ const chats = {
 
 
 
-// Open contacts
+// Save chats
+
+function saveChats(){
+
+    localStorage.setItem(
+        "animeChats",
+        JSON.stringify(chats)
+    );
+
+}
+
+
+
+// Contact click
 
 contacts.forEach(contact=>{
 
@@ -121,11 +132,9 @@ function openChat(name){
     chatStatus.textContent = person.status;
 
 
-
     contactPage.classList.add("hide");
 
     chatPage.classList.add("active");
-
 
 
     loadChat();
@@ -134,18 +143,18 @@ function openChat(name){
 
 
 
-// Load saved messages
+// Load messages
 
 function loadChat(){
 
-    messages.innerHTML = "";
+    messages.innerHTML="";
 
 
-    chats[currentPerson].forEach(message=>{
+    chats[currentPerson].forEach(msg=>{
 
         addMessage(
-            message.text,
-            message.type
+            msg.text,
+            msg.type
         );
 
     });
@@ -158,17 +167,15 @@ function loadChat(){
 
 function addMessage(text,type){
 
-    const message = document.createElement("div");
+    const div = document.createElement("div");
 
-
-    message.className =
+    div.className =
         "message " + type;
 
+    div.textContent = text;
 
-    message.textContent = text;
 
-
-    messages.appendChild(message);
+    messages.appendChild(div);
 
 
     messages.scrollTop =
@@ -180,19 +187,24 @@ function addMessage(text,type){
 
 // Send message
 
-sendButton.addEventListener("click",sendMessage);
+sendButton.addEventListener(
+    "click",
+    sendMessage
+);
 
 
+input.addEventListener(
+    "keydown",
+    function(event){
 
-input.addEventListener("keydown",(event)=>{
+        if(event.key==="Enter"){
 
-    if(event.key==="Enter"){
+            sendMessage();
 
-        sendMessage();
+        }
 
     }
-
-});
+);
 
 
 
@@ -206,9 +218,7 @@ function sendMessage(){
     }
 
 
-
     addMessage(text,"user");
-
 
 
     chats[currentPerson].push({
@@ -219,6 +229,8 @@ function sendMessage(){
 
     });
 
+
+    saveChats();
 
 
     input.value="";
@@ -232,9 +244,7 @@ function sendMessage(){
         characters[currentPerson].reply;
 
 
-
         addMessage(reply,"bot");
-
 
 
         chats[currentPerson].push({
@@ -246,8 +256,11 @@ function sendMessage(){
         });
 
 
+        saveChats();
+
 
     },600);
+
 
 }
 
@@ -255,55 +268,47 @@ function sendMessage(){
 
 // Back button
 
-backButton.addEventListener("click",()=>{
+backButton.addEventListener(
+    "click",
+    ()=>{
 
+        chatPage.classList.remove("active");
 
-    chatPage.classList.remove("active");
+        contactPage.classList.remove("hide");
 
-
-    contactPage.classList.remove("hide");
-
-
-});
-
+    }
+);
 
 
 
 // Search
 
-search.addEventListener("input",()=>{
+search.addEventListener(
+    "input",
+    ()=>{
+
+        const value =
+        search.value.toLowerCase();
 
 
-    const value =
-    search.value.toLowerCase();
+        contacts.forEach(contact=>{
+
+            const name =
+            contact.dataset.name.toLowerCase();
 
 
+            if(name.includes(value)){
 
-    contacts.forEach(contact=>{
+                contact.style.display="flex";
 
+            }
+            else{
 
-        const name =
-        contact.dataset.name.toLowerCase();
+                contact.style.display="none";
 
+            }
 
+        });
 
-        if(name.includes(value)){
-
-
-            contact.style.display="flex";
-
-
-        }
-        else{
-
-
-            contact.style.display="none";
-
-
-        }
-
-
-    });
-
-
-});
+    }
+);
