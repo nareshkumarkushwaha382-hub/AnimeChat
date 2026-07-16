@@ -1,5 +1,5 @@
-// AnimeChat v0.1
 alert("AnimeChat JS loaded");
+//AnimeChatv0.1
 
 const contacts = document.querySelectorAll(".contact");
 
