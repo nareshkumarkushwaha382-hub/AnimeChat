@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AnimeChat</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,113 +13,113 @@
 
 <div class="app">
 
-    <div class="sidebar">
+    <!-- Contact List -->
+    <section class="contacts" id="contacts">
 
         <div class="logo">
             AnimeChat
         </div>
 
-        <div class="search">
-            <input type="text" placeholder="Search">
-        </div>
+        <input 
+            id="search"
+            class="search"
+            type="text"
+            placeholder="Search contacts">
 
-        <div class="chat-list">
+        <div id="contactList">
 
-            <div class="chat">
+            <div class="contact" data-name="Gojo">
                 <div class="avatar">👑</div>
-
-                <div class="info">
-                    <div class="name">Gojo</div>
-                    <div class="preview">Welcome!</div>
+                <div>
+                    <h3>Gojo</h3>
+                    <p>Online</p>
                 </div>
-
-                <div class="time">Now</div>
             </div>
 
-            <div class="chat">
+            <div class="contact" data-name="Rem">
                 <div class="avatar">💙</div>
-
-                <div class="info">
-                    <div class="name">Rem</div>
-                    <div class="preview">Hello...</div>
+                <div>
+                    <h3>Rem</h3>
+                    <p>Online</p>
                 </div>
-
-                <div class="time">Now</div>
             </div>
 
-            <div class="chat">
+            <div class="contact" data-name="Subaru">
                 <div class="avatar">⚔️</div>
-
-                <div class="info">
-                    <div class="name">Subaru</div>
-                    <div class="preview">Let's go.</div>
+                <div>
+                    <h3>Subaru</h3>
+                    <p>Online</p>
                 </div>
-
-                <div class="time">Now</div>
             </div>
 
-            <div class="chat">
+            <div class="contact" data-name="Friend">
                 <div class="avatar">👤</div>
-
-                <div class="info">
-                    <div class="name">Rahul</div>
-                    <div class="preview">See you tomorrow.</div>
+                <div>
+                    <h3>Friend</h3>
+                    <p>Last seen</p>
                 </div>
-
-                <div class="time">8:20 PM</div>
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-    <div class="chat-area">
 
-        <div class="header">
+    <!-- Chat Area -->
+    <section class="chat" id="chat">
 
-            <div class="avatar">
+        <header class="chatHeader">
+
+            <button id="back">
+                ←
+            </button>
+
+            <div class="avatar" id="chatAvatar">
                 👑
             </div>
 
             <div>
-                <div class="name">
+                <h2 id="chatName">
                     Gojo
-                </div>
+                </h2>
 
-                <div class="status">
+                <p id="chatStatus">
                     Online
-                </div>
+                </p>
             </div>
 
-        </div>
+        </header>
 
-        <div class="messages">
 
-            <div class="left">
-                <div class="bubble">
-                    Welcome to AnimeChat.
-                </div>
+        <main id="messages">
+
+            <div class="message bot">
+                Welcome to AnimeChat!
             </div>
 
-        </div>
+        </main>
 
-        <div class="input">
 
-            <input
-            type="text"
-            placeholder="Type a message">
+        <footer class="inputBox">
 
-            <button>
+            <input 
+                id="messageInput"
+                type="text"
+                placeholder="Type message">
+
+            <button id="send">
                 ➤
             </button>
 
-        </div>
+        </footer>
 
-    </div>
+
+    </section>
 
 </div>
+
 
 <script src="script.js"></script>
 
 </body>
-    </html>
+</html>
