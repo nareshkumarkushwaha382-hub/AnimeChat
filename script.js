@@ -1,4 +1,4 @@
-alert("AnimeChat JS loaded");
+console.log("AnimeChat running");
 //AnimeChatv0.1
 
 const contacts = document.querySelectorAll(".contact");
