@@ -217,4 +217,18 @@ body{
     }
 
 }
+.chat{
+    height:100vh;
+}
+
+#messages{
+    flex:1;
+    overflow-y:auto;
+}
+
+.inputBox{
+    display:flex;
+    position:sticky;
+    bottom:0;
+}
 
