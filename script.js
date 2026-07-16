@@ -1,5 +1,6 @@
 // AnimeChat v0.1
 
+alert("AnimeChat JS loaded");
 const contacts = document.querySelectorAll(".contact");
 
 const contactPage = document.getElementById("contacts");
