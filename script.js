@@ -165,21 +165,27 @@ function loadChat(){
 
 // Add message
 
-function addMessage(text,type){
+function addMessage(text, type){
 
     const div = document.createElement("div");
 
-    div.className =
-        "message " + type;
+    div.className = "message " + type;
 
-    div.textContent = text;
+    const now = new Date();
 
+    const time = now.toLocaleTimeString([],{
+        hour:"2-digit",
+        minute:"2-digit"
+    });
+
+    div.innerHTML = `
+        <div>${text}</div>
+        <div class="msgTime">${time}</div>
+    `;
 
     messages.appendChild(div);
 
-
-    messages.scrollTop =
-        messages.scrollHeight;
+    messages.scrollTop = messages.scrollHeight;
 
 }
 
