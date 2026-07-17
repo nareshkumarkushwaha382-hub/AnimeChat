@@ -231,4 +231,10 @@ body{
     position:sticky;
     bottom:0;
 }
+.msgTime{
+    margin-top:6px;
+    font-size:11px;
+    color:#b8c7cb;
+    text-align:right;
+}
 
