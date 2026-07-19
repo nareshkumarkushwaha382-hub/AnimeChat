@@ -516,4 +516,23 @@ body{
     }
 
     }
+#profileButton{
+
+width:100%;
+padding:14px;
+margin-bottom:10px;
+border:none;
+border-radius:30px;
+background:#2a3942;
+color:white;
+font-size:16px;
+cursor:pointer;
+
+}
+
+#profileButton:hover{
+
+background:#374248;
+
+}
 
