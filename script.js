@@ -27,6 +27,13 @@ const sendButton = document.getElementById("sendButton");
 const search = document.getElementById("search");
 
 const backButton = document.getElementById("backButton");
+const profilePage = document.getElementById("profilePage");
+
+const settingsPage = document.getElementById("settingsPage");
+
+const addContactPage = document.getElementById("addContactPage");
+
+const callPage = document.getElementById("callPage");
 
 
 // ===========================
