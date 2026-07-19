@@ -1,9 +1,14 @@
-console.log("AnimeChat v0.3 running");
+console.log("AnimeChat v1.0");
+
+// ============================
+// ELEMENTS
+// ============================
 
 const contacts = document.querySelectorAll(".contact");
+const contactList = document.getElementById("contactList");
 
-const contactPage = document.getElementById("contacts");
-const chatPage = document.getElementById("chat");
+const chatContainer = document.getElementById("chatContainer");
+const sidebar = document.getElementById("sidebar");
 
 const chatName = document.getElementById("chatName");
 const chatAvatar = document.getElementById("chatAvatar");
@@ -12,17 +17,26 @@ const chatStatus = document.getElementById("chatStatus");
 const messages = document.getElementById("messages");
 
 const input = document.getElementById("messageInput");
-const sendButton = document.getElementById("send");
-
-const backButton = document.getElementById("back");
+const sendButton = document.getElementById("sendButton");
 
 const search = document.getElementById("search");
 
+const backButton = document.getElementById("backButton");
+
+const profilePage = document.getElementById("profilePage");
+const settingsPage = document.getElementById("settingsPage");
+const addContactPage = document.getElementById("addContactPage");
+const callPage = document.getElementById("callPage");
+
+// ============================
+// CURRENT CHAT
+// ============================
 
 let currentPerson = "Gojo";
 
-
-// Characters
+// ============================
+// CHARACTERS
+// ============================
 
 const characters = {
 
@@ -52,269 +66,498 @@ const characters = {
 
 };
 
+// ============================
+// LOCAL STORAGE
+// ============================
 
-// Load chats from storage
+let chats =
+JSON.parse(
+localStorage.getItem("animechat_v1")
+);
 
-let chats = JSON.parse(localStorage.getItem("animeChats")) || {
+if(!chats){
 
-    Gojo:[
-        {
-            text:"Nice to meet you.",
-            type:"bot"
-        }
-    ],
+    chats={};
 
-    Rem:[
-        {
-            text:"Rem is here to support you.",
-            type:"bot"
-        }
-    ],
+    Object.keys(characters).forEach(name=>{
 
-    Subaru:[
-        {
-            text:"Let's think carefully.",
-            type:"bot"
-        }
-    ],
+        chats[name]=[
+            {
+                text:characters[name].reply,
+                type:"bot",
+                time:getTime()
+            }
+        ];
 
-    Friend:[
-        {
-            text:"Hey, good to see you.",
-            type:"bot"
-        }
-    ]
+    });
 
-};
+    saveChats();
 
+}
 
-
-// Save chats
+// ============================
+// SAVE
+// ============================
 
 function saveChats(){
 
     localStorage.setItem(
-        "animeChats",
+        "animechat_v1",
         JSON.stringify(chats)
     );
 
 }
 
+// ============================
+// TIME
+// ============================
 
+function getTime(){
 
-// Contact click
+    return new Date().toLocaleTimeString([],{
+
+        hour:"2-digit",
+        minute:"2-digit"
+
+    });
+
+}
+
+// ============================
+// OPEN CHAT
+// ============================
 
 contacts.forEach(contact=>{
 
-    contact.addEventListener("click",()=>{
+    contact.onclick=()=>{
 
-        currentPerson = contact.dataset.name;
+        currentPerson=
+        contact.dataset.name;
 
         openChat(currentPerson);
+
+    };
+
+});
+
+function openChat(name){
+
+    const person=
+    characters[name];
+
+    chatName.textContent=name;
+    chatAvatar.textContent=
+    person.avatar;
+    chatStatus.textContent=
+    person.status;
+
+    sidebar.classList.add("hide");
+    chatContainer.classList.add("active");
+
+    loadMessages();
+
+}
+
+// ============================
+// LOAD CHAT
+// ============================
+
+function loadMessages(){
+
+    messages.innerHTML="";
+
+    chats[currentPerson].forEach(msg=>{
+
+        createMessage(
+            msg.text,
+            msg.type,
+            msg.time
+        );
+
+    });
+
+    messages.scrollTop=
+    messages.scrollHeight;
+
+}
+
+// ============================
+// CREATE MESSAGE
+// ============================
+
+function createMessage(
+
+text,
+type,
+time
+
+){
+
+    const div=
+    document.createElement("div");
+
+    div.className=
+    "message "+type;
+
+    div.innerHTML=`
+
+        <div>
+
+            ${text}
+
+        </div>
+
+        <div class="msgTime">
+
+            ${time}
+
+        </div>
+
+    `;
+
+    messages.appendChild(div);
+
+    }
+// ============================
+// SEND MESSAGE
+// ============================
+
+sendButton.addEventListener("click",sendMessage);
+
+input.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Enter"){
+
+        sendMessage();
+
+    }
+
+});
+
+function sendMessage(){
+
+    const text=input.value.trim();
+
+    if(text==="") return;
+
+    const time=getTime();
+
+    chats[currentPerson].push({
+
+        text:text,
+        type:"user",
+        time:time
+
+    });
+
+    saveChats();
+
+    createMessage(
+        text,
+        "user",
+        time
+    );
+
+    input.value="";
+
+    updatePreview(
+        currentPerson,
+        text,
+        time
+    );
+
+    setTimeout(aiReply,700);
+
+}
+
+// ============================
+// AI REPLY
+// ============================
+
+function aiReply(){
+
+    const reply=
+    characters[currentPerson].reply;
+
+    const time=getTime();
+
+    chats[currentPerson].push({
+
+        text:reply,
+        type:"bot",
+        time:time
+
+    });
+
+    saveChats();
+
+    createMessage(
+        reply,
+        "bot",
+        time
+    );
+
+    updatePreview(
+        currentPerson,
+        reply,
+        time
+    );
+
+    messages.scrollTop=
+    messages.scrollHeight;
+
+}
+
+// ============================
+// CONTACT PREVIEW
+// ============================
+
+function updatePreview(
+
+name,
+text,
+time
+
+){
+
+    const contact=document.querySelector(
+        `.contact[data-name="${name}"]`
+    );
+
+    if(!contact) return;
+
+    contact.querySelector(".lastMessage").textContent=text;
+
+    contact.querySelector(".time").textContent=time;
+
+}
+
+// ============================
+// SEARCH
+// ============================
+
+search.addEventListener("input",()=>{
+
+    const value=
+    search.value.toLowerCase();
+
+    document.querySelectorAll(".contact").forEach(contact=>{
+
+        const name=
+        contact.dataset.name.toLowerCase();
+
+        contact.style.display=
+        name.includes(value)
+        ? "flex"
+        : "none";
 
     });
 
 });
 
+// ============================
+// ADD CONTACT
+// ============================
 
+document
+.getElementById("saveContact")
+.addEventListener("click",()=>{
 
-// Open chat
+    const name=
+    document
+    .getElementById("newContactName")
+    .value
+    .trim();
 
-function openChat(name){
+    const avatar=
+    document
+    .getElementById("newContactAvatar")
+    .value
+    .trim() || "👤";
 
-    const person = characters[name];
+    if(name==="") return;
 
+    if(characters[name]){
 
-    chatName.textContent = name;
+        alert("Contact already exists.");
 
-    chatAvatar.textContent = person.avatar;
+        return;
 
-    chatStatus.textContent = person.status;
+    }
 
+    characters[name]={
 
-    contactPage.classList.add("hide");
+        avatar:avatar,
 
-    chatPage.classList.add("active");
+        status:"Online",
 
+        reply:"Hello!"
 
-    loadChat();
+    };
 
-}
+    chats[name]=[
 
+        {
 
+            text:"Hello!",
 
-// Load messages
+            type:"bot",
 
-function loadChat(){
-
-    messages.innerHTML="";
-
-
-    chats[currentPerson].forEach(msg=>{
-
-        addMessage(
-            msg.text,
-            msg.type
-        );
-
-    });
-
-}
-
-
-
-// Add message
-
-function addMessage(text, type){
-
-    const div = document.createElement("div");
-
-    div.className = "message " + type;
-
-    const now = new Date();
-
-    const time = now.toLocaleTimeString([],{
-        hour:"2-digit",
-        minute:"2-digit"
-    });
-
-    div.innerHTML = `
-        <div>${text}</div>
-        <div class="msgTime">${time}</div>
-    `;
-
-    messages.appendChild(div);
-
-    messages.scrollTop = messages.scrollHeight;
-
-}
-
-
-
-// Send message
-
-sendButton.addEventListener(
-    "click",
-    sendMessage
-);
-
-
-input.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key==="Enter"){
-
-            sendMessage();
+            time:getTime()
 
         }
 
-    }
-);
-
-
-
-function sendMessage(){
-
-    const text = input.value.trim();
-
-
-    if(text===""){
-        return;
-    }
-
-
-    addMessage(text,"user");
-
-
-    chats[currentPerson].push({
-
-        text:text,
-
-        type:"user"
-
-    });
-
+    ];
 
     saveChats();
 
+    const div=document.createElement("div");
 
-    input.value="";
+    div.className="contact";
 
+    div.dataset.name=name;
 
+    div.innerHTML=`
 
-    setTimeout(()=>{
+        <div class="avatar">
 
+            ${avatar}
 
-        const reply =
-        characters[currentPerson].reply;
+        </div>
 
+        <div class="contactInfo">
 
-        addMessage(reply,"bot");
+            <div class="contactTop">
 
+                <h3>${name}</h3>
 
-        chats[currentPerson].push({
+                <span class="time">
 
-            text:reply,
+                    Now
 
-            type:"bot"
+                </span>
 
-        });
+            </div>
 
+            <p class="lastMessage">
 
-        saveChats();
+                Hello!
 
+            </p>
 
-    },600);
+        </div>
 
+    `;
+
+    div.onclick=()=>{
+
+        currentPerson=name;
+
+        openChat(name);
+
+    };
+
+    contactList.appendChild(div);
+
+    addContactPage.classList.remove("active");
+
+});
+
+// ============================
+// BACK BUTTON
+// ============================
+
+backButton.onclick=()=>{
+
+    chatContainer.classList.remove("active");
+
+    sidebar.classList.remove("hide");
+
+};
+
+// ============================
+// CALL UI
+// ============================
+
+document
+.getElementById("voiceCall")
+.onclick=()=>{
+
+    callPage.classList.add("active");
+
+    document
+    .getElementById("callName")
+    .textContent=currentPerson;
+
+    document
+    .getElementById("callStatus")
+    .textContent="Voice Calling...";
+
+};
+
+document
+.getElementById("videoCall")
+.onclick=()=>{
+
+    callPage.classList.add("active");
+
+    document
+    .getElementById("callName")
+    .textContent=currentPerson;
+
+    document
+    .getElementById("callStatus")
+    .textContent="Video Calling...";
+
+};
+
+document
+.getElementById("endCall")
+.onclick=()=>{
+
+    callPage.classList.remove("active");
+
+};
+
+// ============================
+// AI READY
+// ============================
+
+async function askAI(message){
+
+    /*
+
+    Future Gemini request
+
+    const response=
+    await fetch("/api/chat",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            character:currentPerson,
+
+            message:message
+
+        })
+
+    });
+
+    return await response.json();
+
+    */
 
 }
 
+// ============================
+// START
+// ============================
 
+openChat(currentPerson);
 
-// Back button
-
-backButton.addEventListener(
-    "click",
-    ()=>{
-
-        chatPage.classList.remove("active");
-
-        contactPage.classList.remove("hide");
-
-    }
-);
-
-
-
-// Search
-
-search.addEventListener(
-    "input",
-    ()=>{
-
-        const value =
-        search.value.toLowerCase();
-
-
-        contacts.forEach(contact=>{
-
-            const name =
-            contact.dataset.name.toLowerCase();
-
-
-            if(name.includes(value)){
-
-                contact.style.display="flex";
-
-            }
-            else{
-
-                contact.style.display="none";
-
-            }
-
-        });
-
-    }
-);
+console.log("AnimeChat v1.0 Loaded");
