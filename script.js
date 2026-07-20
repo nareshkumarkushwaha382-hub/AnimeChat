@@ -149,7 +149,7 @@ contact.addEventListener("click",()=>{
 currentPerson=
 contact.dataset.name;
 
-openChat(currentPerson);
+LoadMessages():
 
 });
 
