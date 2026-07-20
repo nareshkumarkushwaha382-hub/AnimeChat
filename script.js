@@ -144,15 +144,6 @@ minute:"2-digit"
 
 document.querySelectorAll(".contact").forEach(contact=>{
 
-contact.addEventListener("click",()=>{
-
-currentPerson=
-contact.dataset.name;
-
-LoadMessages():
-
-});
-
 });
 
 
