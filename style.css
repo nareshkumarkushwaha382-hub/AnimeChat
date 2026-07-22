@@ -1,538 +1,1397 @@
-/* ===========================
-   AnimeChat v1.0
+/* =========================================
+   AnimeChat v1.0 Final
    Part 1
-=========================== */
+========================================= */
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Poppins",sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Poppins",sans-serif;
 }
 
-html,
+:root{
+
+--bg:#0b141a;
+--panel:#202c33;
+--panel2:#111b21;
+--accent:#00a884;
+--text:#e9edef;
+--sub:#8696a0;
+--border:#2a3942;
+--hover:#2a3942;
+--white:#ffffff;
+--danger:#e53935;
+
+}
+
 body{
-    width:100%;
-    height:100%;
-    background:#0b141a;
-    overflow:hidden;
-}
 
-body{
-    color:#fff;
-}
+background:var(--bg);
+color:var(--text);
+height:100vh;
+overflow:hidden;
 
-/* ===========================
-   APP
-=========================== */
+}
 
 .app{
-    width:100%;
-    height:100vh;
-    display:flex;
+
+display:flex;
+width:100%;
+height:100vh;
+overflow:hidden;
+
 }
 
-/* ===========================
-   SIDEBAR
-=========================== */
+/* ==========================
+SIDEBAR
+========================== */
 
 .sidebar{
-    width:360px;
-    background:#202c33;
-    display:flex;
-    flex-direction:column;
-    border-right:1px solid #2f3b43;
+
+width:380px;
+background:var(--panel2);
+border-right:1px solid var(--border);
+
+display:flex;
+flex-direction:column;
+
 }
 
-.logo{
-    height:70px;
-    display:flex;
-    align-items:center;
-    padding:18px;
-    gap:12px;
-    background:#202c33;
+.brand{
+
+height:70px;
+
+display:flex;
+align-items:center;
+
+padding:0 20px;
+
+border-bottom:1px solid var(--border);
+
 }
 
-.logoIcon{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:#25D366;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
+.brandIcon{
+
+font-size:28px;
+margin-right:12px;
+
 }
 
-.logoText{
-    font-size:24px;
-    font-weight:600;
-}
+.brand h1{
 
-/* ===========================
-   SEARCH
-=========================== */
+font-size:22px;
+font-weight:600;
+
+}
 
 .searchBox{
-    padding:12px;
-    background:#111b21;
+
+padding:15px;
+
+border-bottom:1px solid var(--border);
+
 }
 
 .searchBox input{
-    width:100%;
-    padding:12px 16px;
-    border:none;
-    outline:none;
-    border-radius:25px;
-    background:#2a3942;
-    color:#fff;
-    font-size:15px;
+
+width:100%;
+
+height:45px;
+
+border:none;
+
+outline:none;
+
+border-radius:25px;
+
+background:var(--panel);
+
+color:var(--text);
+
+padding:0 18px;
+
+font-size:15px;
+
 }
 
 .searchBox input::placeholder{
-    color:#aebac1;
+
+color:var(--sub);
+
 }
 
-/* ===========================
-   MENU
-=========================== */
+/* ==========================
+MENU
+========================== */
 
 .menu{
-    display:flex;
-    background:#202c33;
+
+display:flex;
+
+justify-content:space-around;
+
+padding:10px;
+
+border-bottom:1px solid var(--border);
+
 }
 
-.menuBtn{
-    flex:1;
-    padding:14px;
-    border:none;
-    background:none;
-    color:#aebac1;
-    cursor:pointer;
-    transition:.3s;
-    font-size:15px;
+.menuItem{
+
+flex:1;
+
+margin:0 5px;
+
+height:42px;
+
+border:none;
+
+border-radius:12px;
+
+background:transparent;
+
+color:var(--text);
+
+cursor:pointer;
+
+transition:.25s;
+
+font-size:14px;
+
 }
 
-.menuBtn.active{
-    color:#25D366;
-    border-bottom:3px solid #25D366;
+.menuItem:hover{
+
+background:var(--hover);
+
 }
 
-/* ===========================
-   CONTACTS
-=========================== */
+.menuItem.active{
 
-.contactList{
-    flex:1;
-    overflow-y:auto;
+background:var(--accent);
+
+color:#fff;
+
+}
+
+/* ==========================
+CONTACT LIST
+========================== */
+
+.contacts{
+
+flex:1;
+
+overflow-y:auto;
+
+}
+
+.contacts::-webkit-scrollbar{
+
+width:6px;
+
+}
+
+.contacts::-webkit-scrollbar-thumb{
+
+background:#3b4a54;
+
+border-radius:10px;
+
 }
 
 .contact{
-    display:flex;
-    gap:14px;
-    padding:15px;
-    cursor:pointer;
-    transition:.25s;
+
+display:flex;
+
+align-items:center;
+
+padding:15px;
+
+cursor:pointer;
+
+transition:.2s;
+
+border-bottom:1px solid rgba(255,255,255,.04);
+
 }
 
 .contact:hover{
-    background:#2a3942;
+
+background:var(--hover);
+
 }
 
 .contact.active{
-    background:#2a3942;
+
+background:#2a3942;
+
 }
 
 .avatar{
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    background:#374248;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-    flex-shrink:0;
+
+width:55px;
+
+height:55px;
+
+border-radius:50%;
+
+background:var(--accent);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:24px;
+
+margin-right:15px;
+
+flex-shrink:0;
+
 }
 
-.contactInfo{
-    flex:1;
-    min-width:0;
+.contactData{
+
+flex:1;
+
+min-width:0;
+
 }
 
-.contactTop{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+.contactData h3{
 
-.contactTop h3{
-    font-size:16px;
-    font-weight:500;
-}
+font-size:16px;
 
-.time{
-    font-size:12px;
-    color:#aebac1;
+font-weight:500;
+
+margin-bottom:4px;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
 }
 
 .lastMessage{
-    margin-top:4px;
-    color:#aebac1;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    font-size:14px;
+
+font-size:13px;
+
+color:var(--sub);
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
 }
 
-/* ===========================
-   SIDEBAR BUTTON
-=========================== */
+.contactTime{
 
-.sidebarBottom{
-    padding:15px;
-    border-top:1px solid #2f3b43;
+font-size:12px;
+
+color:var(--sub);
+
+margin-left:10px;
+
 }
 
-#newChat{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:30px;
-    background:#25D366;
-    color:#fff;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:600;
-    }
-/* ===========================
-   CHAT CONTAINER
-=========================== */
+/* ==========================
+SIDEBAR BOTTOM
+========================== */
 
-.chatContainer{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    background:#0b141a;
+.sidebarActions{
+
+padding:15px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+border-top:1px solid var(--border);
+
 }
 
-/* ===========================
-   CHAT HEADER
-=========================== */
+.sidebarActions button{
+
+height:45px;
+
+border:none;
+
+border-radius:12px;
+
+background:var(--accent);
+
+color:#fff;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.sidebarActions button:hover{
+
+opacity:.9;
+
+   }
+/* =========================================
+   CHAT AREA
+========================================= */
+
+.chat{
+
+flex:1;
+
+display:flex;
+
+flex-direction:column;
+
+background:#0b141a;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+/* Background wallpaper */
+
+.chat::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:
+linear-gradient(rgba(11,20,26,.88),rgba(11,20,26,.88)),
+url("assets/images/chat-bg.png");
+
+background-size:cover;
+
+background-position:center;
+
+opacity:.25;
+
+pointer-events:none;
+
+}
+
+/* ==========================
+CHAT HEADER
+========================== */
 
 .chatHeader{
-    height:72px;
-    background:#202c33;
-    display:flex;
-    align-items:center;
-    padding:0 18px;
-    gap:15px;
-    border-bottom:1px solid #2f3b43;
+
+height:72px;
+
+background:var(--panel2);
+
+border-bottom:1px solid var(--border);
+
+display:flex;
+
+align-items:center;
+
+padding:0 18px;
+
+z-index:2;
+
 }
 
 #backButton{
-    display:none;
-    background:none;
-    border:none;
-    color:white;
-    font-size:24px;
-    cursor:pointer;
+
+width:42px;
+
+height:42px;
+
+border:none;
+
+border-radius:50%;
+
+background:transparent;
+
+color:var(--text);
+
+font-size:20px;
+
+cursor:pointer;
+
+margin-right:10px;
+
+transition:.2s;
+
 }
 
-.chatUser{
-    flex:1;
+#backButton:hover{
+
+background:var(--hover);
+
 }
 
-.chatUser h2{
-    font-size:18px;
-    font-weight:500;
+.userInfo{
+
+flex:1;
+
+margin-left:12px;
+
 }
 
-.chatUser p{
-    color:#aebac1;
-    font-size:13px;
+.userInfo h2{
+
+font-size:18px;
+
+font-weight:600;
+
 }
 
-.headerActions{
-    display:flex;
-    gap:10px;
+.userInfo p{
+
+font-size:13px;
+
+color:var(--sub);
+
+margin-top:2px;
+
 }
 
-.headerActions button{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:50%;
-    background:#2a3942;
-    color:white;
-    cursor:pointer;
-    font-size:18px;
-    transition:.25s;
+.chatActions{
+
+display:flex;
+
+gap:8px;
+
 }
 
-.headerActions button:hover{
-    background:#25D366;
+.chatActions button{
+
+width:42px;
+
+height:42px;
+
+border:none;
+
+border-radius:50%;
+
+background:transparent;
+
+color:var(--text);
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.2s;
+
 }
 
-/* ===========================
-   MESSAGES
-=========================== */
+.chatActions button:hover{
+
+background:var(--hover);
+
+}
+
+/* ==========================
+MESSAGES
+========================== */
 
 .messages{
-    flex:1;
-    overflow-y:auto;
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+
+flex:1;
+
+overflow-y:auto;
+
+padding:25px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:14px;
+
+position:relative;
+
+z-index:1;
+
 }
+
+.messages::-webkit-scrollbar{
+
+width:8px;
+
+}
+
+.messages::-webkit-scrollbar-thumb{
+
+background:#3b4a54;
+
+border-radius:10px;
+
+}
+
+/* ==========================
+MESSAGE BUBBLES
+========================== */
 
 .message{
-    max-width:72%;
-    padding:10px 14px;
-    border-radius:12px;
-    word-wrap:break-word;
-    position:relative;
-}
 
-.message.bot{
-    align-self:flex-start;
-    background:#202c33;
+max-width:72%;
+
+padding:10px 14px;
+
+border-radius:12px;
+
+position:relative;
+
+word-wrap:break-word;
+
+line-height:1.5;
+
+animation:fadeMessage .18s ease;
+
+box-shadow:0 2px 6px rgba(0,0,0,.25);
+
 }
 
 .message.user{
-    align-self:flex-end;
-    background:#005c4b;
+
+align-self:flex-end;
+
+background:#005c4b;
+
+color:#fff;
+
+border-bottom-right-radius:4px;
+
 }
+
+.message.bot{
+
+align-self:flex-start;
+
+background:#202c33;
+
+color:#fff;
+
+border-bottom-left-radius:4px;
+
+}
+
+/* ==========================
+MESSAGE TIME
+========================== */
 
 .msgTime{
-    margin-top:6px;
-    text-align:right;
-    font-size:11px;
-    color:#d3d3d3;
+
+font-size:11px;
+
+margin-top:6px;
+
+opacity:.75;
+
+text-align:right;
+
 }
 
-/* ===========================
-   INPUT
-=========================== */
+/* ==========================
+MESSAGE STATES
+========================== */
+
+.message.sending{
+
+opacity:.7;
+
+}
+
+.message.failed{
+
+border:1px solid #e53935;
+
+}
+
+.message.typing{
+
+font-style:italic;
+
+color:var(--sub);
+
+background:#1d2a30;
+
+}
+
+/* ==========================
+ANIMATION
+========================== */
+
+@keyframes fadeMessage{
+
+from{
+
+opacity:0;
+
+transform:translateY(8px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+   }
+/* =========================================
+   CHAT INPUT
+========================================= */
 
 .chatInput{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px;
-    background:#202c33;
+
+height:75px;
+
+background:var(--panel2);
+
+border-top:1px solid var(--border);
+
+display:flex;
+
+align-items:center;
+
+padding:12px 15px;
+
+gap:10px;
+
+z-index:2;
+
 }
 
 .inputButton{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:50%;
-    background:#2a3942;
-    color:white;
-    cursor:pointer;
-    font-size:18px;
+
+width:46px;
+
+height:46px;
+
+border:none;
+
+border-radius:50%;
+
+background:transparent;
+
+color:var(--text);
+
+font-size:22px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.inputButton:hover{
+
+background:var(--hover);
+
 }
 
 #messageInput{
-    flex:1;
-    padding:12px 16px;
-    border:none;
-    outline:none;
-    border-radius:25px;
-    background:#2a3942;
-    color:white;
-    font-size:15px;
+
+flex:1;
+
+height:48px;
+
+border:none;
+
+outline:none;
+
+border-radius:30px;
+
+padding:0 20px;
+
+font-size:15px;
+
+background:var(--panel);
+
+color:var(--text);
+
+}
+
+#messageInput::placeholder{
+
+color:var(--sub);
+
 }
 
 #sendButton{
-    width:48px;
-    height:48px;
-    border:none;
-    border-radius:50%;
-    background:#25D366;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
+
+width:52px;
+
+height:52px;
+
+border:none;
+
+border-radius:50%;
+
+background:var(--accent);
+
+color:#fff;
+
+font-size:22px;
+
+cursor:pointer;
+
+transition:.25s;
+
+box-shadow:0 5px 15px rgba(0,168,132,.3);
+
 }
 
-/* ===========================
-   PAGES
-=========================== */
+#sendButton:hover{
+
+transform:scale(1.06);
+
+}
+
+#sendButton:active{
+
+transform:scale(.96);
+
+}
+
+/* =========================================
+   COMMON PAGE
+========================================= */
 
 .page{
-    position:fixed;
-    inset:0;
-    background:#0b141a;
-    display:none;
-    flex-direction:column;
-    z-index:100;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:var(--bg);
+
+display:none;
+
+flex-direction:column;
+
+z-index:999;
+
 }
 
 .page.active{
-    display:flex;
+
+display:flex;
+
 }
 
 .pageHeader{
-    height:70px;
-    background:#202c33;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    padding:0 20px;
+
+height:70px;
+
+display:flex;
+
+align-items:center;
+
+padding:0 20px;
+
+background:var(--panel2);
+
+border-bottom:1px solid var(--border);
+
 }
 
-.pageHeader button{
-    border:none;
-    background:none;
-    color:white;
-    font-size:24px;
-    cursor:pointer;
+.pageHeader h2{
+
+margin-left:15px;
+
+font-size:22px;
+
 }
 
-.pageContent{
-    flex:1;
-    padding:30px;
-    overflow:auto;
-}
+.closePage{
 
-.profileAvatar{
-    width:130px;
-    height:130px;
-    border-radius:50%;
-    margin:auto;
-    background:#374248;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:70px;
-}
+width:42px;
 
-.pageContent h2{
-    margin-top:18px;
-    text-align:center;
-}
+height:42px;
 
-.pageContent p{
-    text-align:center;
-    margin-top:8px;
-    color:#aebac1;
-}
-
-.pageContent button,
-.settingItem{
-    width:100%;
-    padding:15px;
-    margin-top:18px;
-    border:none;
-    border-radius:10px;
-    background:#202c33;
-    color:white;
-    cursor:pointer;
-    text-align:left;
-    font-size:15px;
-}
-
-.pageContent input{
-    width:100%;
-    padding:14px;
-    margin-top:15px;
-    border:none;
-    outline:none;
-    border-radius:10px;
-    background:#202c33;
-    color:white;
-}
-
-/* ===========================
-   CALL PAGE
-=========================== */
-
-.callContainer{
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:18px;
-}
-
-.callAvatar{
-    width:170px;
-    height:170px;
-    border-radius:50%;
-    background:#374248;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:90px;
-}
-
-.callButtons{
-    display:flex;
-    gap:20px;
-    margin-top:30px;
-}
-
-.callButtons button{
-    width:65px;
-    height:65px;
-    border:none;
-    border-radius:50%;
-    cursor:pointer;
-    font-size:26px;
-}
-
-#endCall{
-    background:#e53935;
-    color:white;
-}
-
-/* ===========================
-   MOBILE
-=========================== */
-
-@media (max-width:768px){
-
-    .sidebar{
-        width:100%;
-    }
-
-    .chatContainer{
-        display:none;
-    }
-
-    .chatContainer.active{
-        display:flex;
-    }
-
-    .sidebar.hide{
-        display:none;
-    }
-
-    #backButton{
-        display:block;
-    }
-
-    }
-#profileButton{
-
-width:100%;
-padding:14px;
-margin-bottom:10px;
 border:none;
-border-radius:30px;
-background:#2a3942;
-color:white;
-font-size:16px;
+
+border-radius:50%;
+
+background:transparent;
+
+color:var(--text);
+
+font-size:20px;
+
 cursor:pointer;
 
 }
 
-#profileButton:hover{
+.closePage:hover{
 
-background:#374248;
+background:var(--hover);
 
 }
+
+.pageContent{
+
+flex:1;
+
+padding:25px;
+
+overflow-y:auto;
+
+}
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.profileAvatar{
+
+width:120px;
+
+height:120px;
+
+margin:25px auto;
+
+border-radius:50%;
+
+background:var(--accent);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:60px;
+
+}
+
+#profileName{
+
+text-align:center;
+
+font-size:28px;
+
+margin-bottom:8px;
+
+}
+
+#profileStatus{
+
+text-align:center;
+
+color:var(--sub);
+
+margin-bottom:30px;
+
+}
+
+#editProfile{
+
+width:100%;
+
+height:50px;
+
+border:none;
+
+border-radius:12px;
+
+background:var(--accent);
+
+color:#fff;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+/* =========================================
+   SETTINGS
+========================================= */
+
+.settingItem{
+
+width:100%;
+
+height:55px;
+
+margin-bottom:12px;
+
+border:none;
+
+border-radius:12px;
+
+background:var(--panel);
+
+color:var(--text);
+
+text-align:left;
+
+padding:0 18px;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.settingItem:hover{
+
+background:var(--hover);
+
+}
+
+/* =========================================
+   ADD CONTACT
+========================================= */
+
+#newContactName,
+#newContactAvatar{
+
+width:100%;
+
+height:50px;
+
+margin-bottom:15px;
+
+padding:0 16px;
+
+border:none;
+
+outline:none;
+
+border-radius:12px;
+
+background:var(--panel);
+
+color:var(--text);
+
+font-size:15px;
+
+}
+
+#saveContact{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+border-radius:12px;
+
+background:var(--accent);
+
+color:#fff;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+#saveContact:hover{
+
+opacity:.9;
+
+   }
+/* =========================================
+   CALL PAGE
+========================================= */
+
+.callContainer{
+
+width:100%;
+height:100%;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+padding:30px;
+
+background:linear-gradient(180deg,#111b21,#0b141a);
+
+}
+
+.callAvatar{
+
+width:140px;
+height:140px;
+
+border-radius:50%;
+
+background:var(--accent);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:70px;
+
+margin-bottom:25px;
+
+}
+
+#callName{
+
+font-size:30px;
+
+margin-bottom:10px;
+
+}
+
+#callStatus{
+
+font-size:18px;
+
+color:var(--sub);
+
+margin-bottom:15px;
+
+}
+
+.callTimer{
+
+font-size:24px;
+
+margin-bottom:40px;
+
+color:var(--white);
+
+letter-spacing:2px;
+
+}
+
+.callButtons{
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+.callButtons button{
+
+width:65px;
+height:65px;
+
+border:none;
+
+border-radius:50%;
+
+font-size:26px;
+
+cursor:pointer;
+
+transition:.25s;
+
+background:var(--panel);
+
+color:var(--text);
+
+}
+
+.callButtons button:hover{
+
+transform:scale(1.08);
+
+}
+
+#endCall{
+
+background:var(--danger);
+
+color:#fff;
+
+}
+
+/* =========================================
+   INCOMING CALL
+========================================= */
+
+.incomingContainer{
+
+width:100%;
+height:100%;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+padding:30px;
+
+}
+
+.incomingButtons{
+
+display:flex;
+
+gap:20px;
+
+margin-top:40px;
+
+}
+
+#acceptCall,
+#declineCall{
+
+width:150px;
+height:50px;
+
+border:none;
+
+border-radius:12px;
+
+cursor:pointer;
+
+font-size:16px;
+
+color:#fff;
+
+}
+
+#acceptCall{
+
+background:#00a884;
+
+}
+
+#declineCall{
+
+background:#e53935;
+
+}
+
+/* =========================================
+   LOADING SCREEN
+========================================= */
+
+#loadingScreen{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:#0b141a;
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+transition:.5s;
+
+}
+
+.loader{
+
+text-align:center;
+
+}
+
+.loaderLogo{
+
+font-size:70px;
+
+margin-bottom:20px;
+
+animation:logoFloat 2s infinite ease-in-out;
+
+}
+
+.loader h2{
+
+font-size:32px;
+
+margin-bottom:8px;
+
+}
+
+.loader p{
+
+color:var(--sub);
+
+}
+
+@keyframes logoFloat{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-10px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:900px){
+
+.sidebar{
+
+position:absolute;
+
+left:0;
+top:0;
+
+width:100%;
+height:100%;
+
+z-index:50;
+
+}
+
+.sidebar.hide{
+
+display:none;
+
+}
+
+.chat{
+
+width:100%;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.brand h1{
+
+font-size:20px;
+
+}
+
+.contactData h3{
+
+font-size:15px;
+
+}
+
+.lastMessage{
+
+font-size:12px;
+
+}
+
+.chatHeader{
+
+padding:0 10px;
+
+}
+
+#messageInput{
+
+font-size:14px;
+
+}
+
+.callButtons{
+
+gap:12px;
+
+}
+
+.callButtons button{
+
+width:58px;
+height:58px;
+
+font-size:22px;
+
+}
+
+}
+
+/* =========================================
+   UTILITIES
+========================================= */
+
+.hidden{
+
+display:none !important;
+
+}
+
+.fadeIn{
+
+animation:fadeMessage .25s ease;
+
+}
+
+.textCenter{
+
+text-align:center;
+
+}
+
+.round{
+
+border-radius:50%;
+
+}
+
+.shadow{
+
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+/* =========================================
+   END OF FILE
+========================================= */
 
