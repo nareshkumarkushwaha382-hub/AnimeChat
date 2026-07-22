@@ -4,224 +4,223 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AnimeChat v1.0</title>
 
 <link rel="stylesheet" href="style.css">
 
-<link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 </head>
+
 
 <body>
 
 <div class="app">
 
-<!-- ========================= -->
-<!-- LEFT SIDEBAR -->
-<!-- ========================= -->
+
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar" id="sidebar">
 
-<div class="logo">
 
-<div class="logoIcon">
+<div class="brand">
+
+<div class="brandIcon">
 💬
 </div>
 
-<div class="logoText">
+<h1>
 AnimeChat
-</div>
+</h1>
 
 </div>
+
+
 
 <div class="searchBox">
 
-<input
-type="text"
+<input 
 id="search"
-placeholder="Search characters or friends">
+type="text"
+placeholder="Search chats">
 
 </div>
 
+
+
 <div class="menu">
 
-<button class="menuBtn active" id="chatTab">
+<button class="menuItem active" id="chatTab">
 
 💬 Chats
 
 </button>
 
-<button class="menuBtn" id="friendsTab">
 
-👤 Friends
+<button class="menuItem" id="friendsTab">
+
+👥 Friends
 
 </button>
 
-<button class="menuBtn" id="settingsTab">
+
+<button class="menuItem" id="settingsTab">
 
 ⚙ Settings
 
 </button>
 
+
 </div>
 
-<div
-class="contactList"
-id="contactList">
 
-<!-- GOJO -->
 
-<div
-class="contact active"
-data-name="Gojo">
+<div class="contacts" id="contactList">
+
+
+<div class="contact active" data-name="Gojo">
 
 <div class="avatar">
-
 👑
-
 </div>
 
-<div class="contactInfo">
 
-<div class="contactTop">
+<div class="contactData">
 
-<h3>Gojo</h3>
+<h3>
+Gojo
+</h3>
 
-<span
-class="time">
 
-09:20
-
-</span>
-
-</div>
-
-<p
-class="lastMessage">
-
+<p class="preview">
 Nice to meet you.
-
 </p>
 
-</div>
 
 </div>
 
-<!-- REM -->
 
-<div
-class="contact"
-data-name="Rem">
+<span class="contactTime">
+09:20
+</span>
+
+
+</div>
+
+
+
+
+<div class="contact" data-name="Rem">
 
 <div class="avatar">
-
 💙
-
 </div>
 
-<div class="contactInfo">
 
-<div class="contactTop">
+<div class="contactData">
 
-<h3>Rem</h3>
+<h3>
+Rem
+</h3>
 
-<span class="time">
 
-09:18
-
-</span>
-
-</div>
-
-<p class="lastMessage">
-
+<p class="preview">
 Rem is here to support you.
-
 </p>
 
-</div>
 
 </div>
 
-<!-- SUBARU -->
 
-<div
-class="contact"
-data-name="Subaru">
+<span class="contactTime">
+09:18
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="contact" data-name="Subaru">
 
 <div class="avatar">
-
 ⚔️
-
 </div>
 
-<div class="contactInfo">
 
-<div class="contactTop">
+<div class="contactData">
 
-<h3>Subaru</h3>
+<h3>
+Subaru
+</h3>
 
-<span class="time">
 
-Yesterday
-
-</span>
-
-</div>
-
-<p class="lastMessage">
-
+<p class="preview">
 Let's think carefully.
-
 </p>
 
-</div>
 
 </div>
 
-<!-- FRIEND -->
 
-<div
-class="contact"
-data-name="Friend">
+<span class="contactTime">
+Yesterday
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="contact" data-name="Friend">
 
 <div class="avatar">
-
 👤
-
 </div>
 
-<div class="contactInfo">
 
-<div class="contactTop">
+<div class="contactData">
 
-<h3>Friend</h3>
+<h3>
+Friend
+</h3>
 
-<span class="time">
 
-Yesterday
-
-</span>
-
-</div>
-
-<p class="lastMessage">
-
+<p class="preview">
 Hey, good to see you.
-
 </p>
 
-</div>
 
 </div>
 
+
+<span class="contactTime">
+Yesterday
+</span>
+
+
 </div>
 
-<div class="sidebarBottom">
+
+
+</div>
+
+
+
+<div class="sidebarActions">
 
 <button id="profileButton">
 
@@ -229,150 +228,185 @@ Hey, good to see you.
 
 </button>
 
+
 <button id="newChat">
 
-➕
-
-New Chat
+➕ New Chat
 
 </button>
 
+
 </div>
+
 
 </aside>
 
-<!-- ========================= -->
-<!-- CHAT PAGE -->
-<!-- ========================= -->
 
-<section
-class="chatContainer"
-id="chatContainer">
+
+<!-- =========================
+     CHAT WINDOW
+========================= -->
+
+
+<section class="chat" id="chatContainer">
+
 
 <header class="chatHeader">
 
-<button
-id="backButton">
+
+<button id="backButton">
 
 ←
 
 </button>
 
-<div
-class="avatar"
-id="chatAvatar">
+
+<div class="avatar" id="chatAvatar">
 
 👑
 
 </div>
 
-<div
-class="chatUser">
 
-<h2
-id="chatName">
+<div class="userInfo">
+
+<h2 id="chatName">
 
 Gojo
 
 </h2>
 
-<p
-id="chatStatus">
+
+<p id="chatStatus">
 
 Online
 
 </p>
 
+
 </div>
 
-<div class="headerActions">
 
-<button
-id="voiceCall">
+<div class="chatActions">
+
+
+<button id="voiceCall">
 
 📞
 
 </button>
 
-<button
-id="videoCall">
+
+<button id="videoCall">
 
 🎥
 
 </button>
 
-<button
-id="chatMenu">
+
+<button id="chatMenu">
 
 ⋮
 
 </button>
 
-</div>
-
-</header>
-
-<main
-id="messages"
-class="messages">
-
-<!-- Messages loaded by JavaScript -->
-
-    </main>
-
-        <!-- Input Area -->
-
-        <footer class="chatInput">
-
-            <button
-                id="emojiButton"
-                class="inputButton">
-
-                😊
-
-            </button>
-
-            <button
-                id="attachButton"
-                class="inputButton">
-
-                📎
-
-            </button>
-
-            <input
-                type="text"
-                id="messageInput"
-                placeholder="Type a message...">
-
-            <button
-                id="sendButton">
-
-                ➤
-
-            </button>
-
-        </footer>
-
-    </section>
 
 </div>
 
-<!-- ========================= -->
-<!-- PROFILE PAGE -->
-<!-- ========================= -->
 
-<section
-class="page"
-id="profilePage">
+    </header>
+    
+<!-- =========================
+     MESSAGE AREA
+========================= -->
+
+<main class="messages" id="messages">
+
+<!-- Messages will be created by JavaScript -->
+
+</main>
+
+
+
+<!-- =========================
+     CHAT INPUT
+========================= -->
+
+<footer class="chatInput">
+
+
+<button 
+class="inputButton"
+id="emojiButton">
+
+😊
+
+</button>
+
+
+
+<button 
+class="inputButton"
+id="attachButton">
+
+📎
+
+</button>
+
+
+
+<input
+
+type="text"
+
+id="messageInput"
+
+placeholder="Type a message..."
+
+>
+
+
+
+<button
+
+id="sendButton"
+
+>
+
+➤
+
+</button>
+
+
+
+</footer>
+
+
+
+</section>
+
+
+</div>
+
+
+
+<!-- =========================
+     PROFILE PAGE
+========================= -->
+
+
+<section class="page" id="profilePage">
+
 
 <header class="pageHeader">
+
 
 <button class="closePage">
 
 ←
 
 </button>
+
 
 <h2>
 
@@ -380,9 +414,13 @@ Profile
 
 </h2>
 
+
 </header>
 
+
+
 <div class="pageContent">
+
 
 <div class="profileAvatar">
 
@@ -390,18 +428,23 @@ Profile
 
 </div>
 
+
+
 <h2 id="profileName">
 
 Your Name
 
 </h2>
 
-<p>
 
-Status:
+
+<p id="profileStatus">
+
 Available
 
 </p>
+
+
 
 <button id="editProfile">
 
@@ -409,25 +452,34 @@ Edit Profile
 
 </button>
 
+
+
 </div>
+
 
 </section>
 
-<!-- ========================= -->
-<!-- SETTINGS PAGE -->
-<!-- ========================= -->
 
-<section
-class="page"
-id="settingsPage">
+
+
+
+<!-- =========================
+     SETTINGS PAGE
+========================= -->
+
+
+<section class="page" id="settingsPage">
+
 
 <header class="pageHeader">
+
 
 <button class="closePage">
 
 ←
 
 </button>
+
 
 <h2>
 
@@ -435,58 +487,73 @@ Settings
 
 </h2>
 
+
 </header>
+
+
 
 <div class="pageContent">
 
-<button class="settingItem">
-
-🌙
-Dark Mode
-
-</button>
 
 <button class="settingItem">
 
-🔔
-Notifications
+🌙 Dark Mode
 
 </button>
+
+
 
 <button class="settingItem">
 
-🔒
-Privacy
+🔔 Notifications
 
 </button>
+
+
 
 <button class="settingItem">
 
-🤖
-AI Settings
+🔒 Privacy
 
 </button>
+
+
 
 <button class="settingItem">
 
-💾
-Backup Chats
+🤖 AI Settings
 
 </button>
+
+
+
+<button class="settingItem">
+
+💾 Backup Chats
+
+</button>
+
+
 
 </div>
 
+
 </section>
 
-<!-- ========================= -->
-<!-- ADD CONTACT PAGE -->
-<!-- ========================= -->
 
-<section
-class="page"
-id="addContactPage">
+
+
+
+<!-- =========================
+     ADD CONTACT PAGE
+========================= -->
+
+
+<section class="page" id="addContactPage">
+
 
 <header class="pageHeader">
+
 
 <button class="closePage">
 
@@ -494,25 +561,44 @@ id="addContactPage">
 
 </button>
 
+
 <h2>
 
-Add Contact
+New Contact
 
 </h2>
 
+
 </header>
+
+
 
 <div class="pageContent">
 
-<input
-type="text"
-id="newContactName"
-placeholder="Contact name">
 
 <input
+
+id="newContactName"
+
 type="text"
+
+placeholder="Contact name"
+
+>
+
+
+
+<input
+
 id="newContactAvatar"
-placeholder="Emoji (😀)">
+
+type="text"
+
+placeholder="Avatar emoji"
+
+>
+
+
 
 <button id="saveContact">
 
@@ -520,22 +606,21 @@ Save Contact
 
 </button>
 
+
+
 </div>
 
-</section>
 
-<!-- ========================= -->
-<!-- CALL SCREEN -->
-<!-- ========================= -->
+    </section>
+    <!-- =========================
+     CALL PAGE
+========================= -->
 
-<section
-class="page"
-id="callPage">
+<section class="page" id="callPage">
 
 <div class="callContainer">
 
-<div
-class="callAvatar">
+<div class="callAvatar" id="callAvatar">
 
 👑
 
@@ -553,24 +638,33 @@ Calling...
 
 </p>
 
+<div class="callTimer" id="callTimer">
+
+00:00
+
+</div>
+
 <div class="callButtons">
 
-<button
-id="muteCall">
+<button id="muteCall">
 
 🎤
 
 </button>
 
-<button
-id="speakerCall">
+<button id="speakerCall">
 
 🔊
 
 </button>
 
-<button
-id="endCall">
+<button id="videoToggle">
+
+🎥
+
+</button>
+
+<button id="endCall">
 
 📞
 
@@ -581,6 +675,110 @@ id="endCall">
 </div>
 
 </section>
+
+
+
+<!-- =========================
+     INCOMING CALL
+========================= -->
+
+<section class="page" id="incomingCallPage">
+
+<div class="incomingContainer">
+
+<div class="callAvatar" id="incomingAvatar">
+
+👤
+
+</div>
+
+<h2 id="incomingName">
+
+Unknown
+
+</h2>
+
+<p>
+
+Incoming Voice Call
+
+</p>
+
+<div class="incomingButtons">
+
+<button id="acceptCall">
+
+✅ Accept
+
+</button>
+
+<button id="declineCall">
+
+❌ Decline
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     LOADING SCREEN
+========================= -->
+
+<section id="loadingScreen">
+
+<div class="loader">
+
+<div class="loaderLogo">
+
+💬
+
+</div>
+
+<h2>
+
+AnimeChat
+
+</h2>
+
+<p>
+
+Loading...
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     AUDIO
+========================= -->
+
+<audio id="ringtone" preload="auto">
+
+<source src="assets/sounds/ringtone.mp3" type="audio/mpeg">
+
+</audio>
+
+<audio id="messageSound" preload="auto">
+
+<source src="assets/sounds/message.mp3" type="audio/mpeg">
+
+</audio>
+
+
+
+<!-- =========================
+     SCRIPT
+========================= -->
 
 <script src="script.js"></script>
 
