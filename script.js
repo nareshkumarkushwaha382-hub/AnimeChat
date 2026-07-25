@@ -748,3 +748,684 @@ Contacts.length
 /* =====================================================
    END OF PROJECT PART 3A
 ===================================================== */
+/* =====================================================
+   SEND MESSAGE
+===================================================== */
+
+sendButton.addEventListener(
+
+"click",
+
+sendMessage
+
+);
+
+messageInput.addEventListener(
+
+"keydown",
+
+(event)=>{
+
+if(event.key==="Enter"){
+
+event.preventDefault();
+
+sendMessage();
+
+}
+
+}
+
+);
+
+/* =====================================================
+   SEND FUNCTION
+===================================================== */
+
+function sendMessage(){
+
+const text=
+
+messageInput.value.trim();
+
+if(text===""){
+
+return;
+
+}
+
+const message={
+
+text:text,
+
+sender:"user",
+
+time:currentTime()
+
+};
+
+Chats[App.currentChat].push(
+
+message
+
+);
+
+saveAll();
+
+addMessage(
+
+message.text,
+
+message.sender,
+
+message.time
+
+);
+
+updateContactPreview(
+
+App.currentChat
+
+);
+
+scrollBottom();
+
+messageInput.value="";
+
+showTyping();
+
+setTimeout(
+
+botReply,
+
+900
+
+);
+
+}
+
+/* =====================================================
+   BOT REPLY
+===================================================== */
+
+function botReply(){
+
+hideTyping();
+
+const reply={
+
+text:getBotReply(
+
+App.currentChat
+
+),
+
+sender:"bot",
+
+time:currentTime()
+
+};
+
+Chats[App.currentChat].push(
+
+reply
+
+);
+
+saveAll();
+
+addMessage(
+
+reply.text,
+
+reply.sender,
+
+reply.time
+
+);
+
+updateContactPreview(
+
+App.currentChat
+
+);
+
+scrollBottom();
+
+}
+
+/* =====================================================
+   BOT REPLIES
+===================================================== */
+
+function getBotReply(name){
+
+switch(name){
+
+case "Gojo":
+
+return "You actually think that'll work? Interesting.";
+
+case "Rem":
+
+return "Rem believes in you.";
+
+case "Subaru":
+
+return "We'll figure it out together!";
+
+case "Friend":
+
+return "That's awesome!";
+
+default:
+
+return "Hello!";
+
+}
+
+}
+
+/* =====================================================
+   MESSAGE SOUND
+===================================================== */
+
+function playMessageSound(){
+
+const audio=
+
+document.getElementById(
+
+"messageSound"
+
+);
+
+if(audio){
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
+}
+
+}
+/* =====================================================
+   MESSAGE SOUND
+===================================================== */
+
+function playMessageSound(){
+
+const sound=document.getElementById("messageSound");
+
+if(!sound) return;
+
+sound.currentTime=0;
+
+sound.play().catch(()=>{});
+
+}
+
+/* =====================================================
+   IMPROVED AUTO SCROLL
+===================================================== */
+
+function smoothScrollBottom(){
+
+messages.scrollTo({
+
+top:messages.scrollHeight,
+
+behavior:"smooth"
+
+});
+
+}
+
+/* =====================================================
+   EXPORT CHAT
+===================================================== */
+
+const exportButton=
+
+document.getElementById("exportChat");
+
+if(exportButton){
+
+exportButton.addEventListener("click",()=>{
+
+const history=
+
+Chats[App.currentChat];
+
+const text=
+
+history.map(msg=>
+
+`[${msg.time}] ${msg.sender}: ${msg.text}`
+
+).join("\n");
+
+const blob=new Blob(
+
+[text],
+
+{type:"text/plain"}
+
+);
+
+const url=
+
+URL.createObjectURL(blob);
+
+const link=
+
+document.createElement("a");
+
+link.href=url;
+
+link.download=
+
+`${App.currentChat}.txt`;
+
+link.click();
+
+URL.revokeObjectURL(url);
+
+notify("Chat exported.");
+
+});
+
+}
+
+/* =====================================================
+   CLEAR CHAT
+===================================================== */
+
+const clearButton=
+
+document.getElementById("clearChat");
+
+if(clearButton){
+
+clearButton.addEventListener("click",()=>{
+
+if(
+
+!confirm(
+
+`Clear chat with ${App.currentChat}?`
+
+)
+
+){
+
+return;
+
+}
+
+Chats[App.currentChat]=[];
+
+saveAll();
+
+renderMessages();
+
+updateContactPreview(
+
+App.currentChat
+
+);
+
+notify("Chat cleared.");
+
+});
+
+}
+
+/* =====================================================
+   DELETE CHAT
+===================================================== */
+
+const deleteButton=
+
+document.getElementById("deleteChat");
+
+if(deleteButton){
+
+deleteButton.addEventListener("click",()=>{
+
+if(
+
+!confirm(
+
+`Delete ${App.currentChat}?`
+
+)
+
+){
+
+return;
+
+}
+
+if(App.currentChat==="Gojo"){
+
+notify(
+
+"Default characters cannot be deleted."
+
+);
+
+return;
+
+}
+
+delete Chats[App.currentChat];
+
+Contacts=
+
+Contacts.filter(
+
+name=>name!==App.currentChat
+
+);
+
+saveAll();
+
+renderContacts();
+
+openChat("Gojo");
+
+notify("Chat deleted.");
+
+});
+
+}
+
+/* =====================================================
+   PIN CHAT
+===================================================== */
+
+const pinButton=
+
+document.getElementById("pinChat");
+
+if(pinButton){
+
+pinButton.addEventListener("click",()=>{
+
+Contacts=
+
+Contacts.filter(
+
+name=>name!==App.currentChat
+
+);
+
+Contacts.unshift(
+
+App.currentChat
+
+);
+
+saveAll();
+
+renderContacts();
+
+notify(
+
+`${App.currentChat} pinned.`
+
+);
+
+});
+
+}
+
+/* =====================================================
+   MESSAGE ENGINE COMPLETE
+===================================================== */
+
+console.log(
+
+"Project Part 3B-2 Loaded"
+
+);
+/* =====================================================
+   EMOJI PICKER
+===================================================== */
+
+const emojiButton =
+document.getElementById("emojiButton");
+
+const emojiPicker =
+document.getElementById("emojiPicker");
+
+const closeEmoji =
+document.getElementById("closeEmoji");
+
+if(emojiButton){
+
+emojiButton.addEventListener("click",()=>{
+
+emojiPicker.classList.toggle("hidden");
+
+});
+
+}
+
+if(closeEmoji){
+
+closeEmoji.addEventListener("click",()=>{
+
+emojiPicker.classList.add("hidden");
+
+});
+
+}
+
+document.querySelectorAll(
+
+"#emojiPicker span"
+
+).forEach(emoji=>{
+
+emoji.addEventListener("click",()=>{
+
+messageInput.value+=emoji.textContent;
+
+messageInput.focus();
+
+});
+
+});
+
+
+/* =====================================================
+   ATTACHMENT MENU
+===================================================== */
+
+const attachButton =
+document.getElementById("attachButton");
+
+const attachmentMenu =
+document.getElementById("attachmentMenu");
+
+const closeAttachment =
+document.getElementById("closeAttachment");
+
+if(attachButton){
+
+attachButton.addEventListener("click",()=>{
+
+attachmentMenu.classList.toggle("hidden");
+
+});
+
+}
+
+if(closeAttachment){
+
+closeAttachment.addEventListener("click",()=>{
+
+attachmentMenu.classList.add("hidden");
+
+});
+
+}
+
+
+/* =====================================================
+   CHAT MENU
+===================================================== */
+
+const chatMenu =
+document.getElementById("chatMenu");
+
+const chatOptions =
+document.getElementById("chatOptions");
+
+const closeChatMenu =
+document.getElementById("closeChatMenu");
+
+if(chatMenu){
+
+chatMenu.addEventListener("click",()=>{
+
+chatOptions.classList.toggle("hidden");
+
+});
+
+}
+
+if(closeChatMenu){
+
+closeChatMenu.addEventListener("click",()=>{
+
+chatOptions.classList.add("hidden");
+
+});
+
+}
+
+
+/* =====================================================
+   CLOSE POPUPS WHEN CLICKING OUTSIDE
+===================================================== */
+
+document.addEventListener("click",(event)=>{
+
+if(
+
+emojiPicker &&
+!emojiPicker.contains(event.target) &&
+event.target!==emojiButton
+
+){
+
+emojiPicker.classList.add("hidden");
+
+}
+
+if(
+
+attachmentMenu &&
+!attachmentMenu.contains(event.target) &&
+event.target!==attachButton
+
+){
+
+attachmentMenu.classList.add("hidden");
+
+}
+
+if(
+
+chatOptions &&
+!chatOptions.contains(event.target) &&
+event.target!==chatMenu
+
+){
+
+chatOptions.classList.add("hidden");
+
+}
+
+});
+
+
+/* =====================================================
+   SHORTCUTS
+===================================================== */
+
+document.addEventListener("keydown",(event)=>{
+
+if(event.key==="Escape"){
+
+emojiPicker.classList.add("hidden");
+
+attachmentMenu.classList.add("hidden");
+
+chatOptions.classList.add("hidden");
+
+}
+
+});
+
+
+/* =====================================================
+   PLACEHOLDER ATTACHMENTS
+===================================================== */
+
+document.getElementById("imageAttachment")
+?.addEventListener("click",()=>{
+
+notify("Image sharing coming soon.");
+
+});
+
+document.getElementById("videoAttachment")
+?.addEventListener("click",()=>{
+
+notify("Video sharing coming soon.");
+
+});
+
+document.getElementById("audioAttachment")
+?.addEventListener("click",()=>{
+
+notify("Audio sharing coming soon.");
+
+});
+
+document.getElementById("documentAttachment")
+?.addEventListener("click",()=>{
+
+notify("Document sharing coming soon.");
+
+});
+
+
+/* =====================================================
+   MESSAGE INPUT AUTO FOCUS
+===================================================== */
+
+window.addEventListener("click",()=>{
+
+if(messageInput){
+
+messageInput.focus();
+
+}
+
+});
+
+
+/* =====================================================
+   PART 3B COMPLETE
+===================================================== */
+
+console.log(
+
+"Project Part 3B Complete"
+
+);
