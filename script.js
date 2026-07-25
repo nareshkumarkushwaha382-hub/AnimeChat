@@ -374,36 +374,9 @@ contactList.appendChild(contact);
 });
 
 }
-
-/* =====================================================
-   OPEN CHAT
-===================================================== */
-
 function openChat(name){
 
-App.currentChat=name;
-
-const character=Characters[name];
-
-chatName.textContent=
-
-character.name;
-
-chatAvatar.textContent=
-
-character.avatar;
-
-chatStatus.textContent=
-
-character.status;
-
-renderContacts();
-
-renderMessages();
-
-if(window.innerWidth<=900){
-
-sidebar.classList.add("hide");
+alert("Opening: " + name);
 
 }
 
