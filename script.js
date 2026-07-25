@@ -1,3 +1,4 @@
+alert("JavaScript is running!");
 /* =====================================================
    AnimeChat v1.0 Final
    script.js
