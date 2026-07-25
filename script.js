@@ -1429,3 +1429,673 @@ console.log(
 "Project Part 3B Complete"
 
 );
+/* =====================================================
+   PROFILE SYSTEM
+===================================================== */
+
+const profilePage =
+document.getElementById("profilePage");
+
+const profileButton =
+document.getElementById("profileButton");
+
+const editProfile =
+document.getElementById("editProfile");
+
+const saveProfile =
+document.getElementById("saveProfile");
+
+const profileName =
+document.getElementById("profileName");
+
+const profileAvatar =
+document.getElementById("profileAvatar");
+
+const usernameInput =
+document.getElementById("usernameInput");
+
+const bioInput =
+document.getElementById("bioInput");
+
+const statusInput =
+document.getElementById("statusInput");
+
+
+/* =====================================================
+   OPEN PROFILE
+===================================================== */
+
+if(profileButton){
+
+profileButton.addEventListener("click",()=>{
+
+loadProfile();
+
+profilePage.classList.add("active");
+
+});
+
+}
+
+
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
+
+function loadProfile(){
+
+profileName.textContent=
+Profile.name;
+
+profileAvatar.textContent=
+Profile.avatar;
+
+usernameInput.value=
+Profile.name;
+
+bioInput.value=
+Profile.bio;
+
+statusInput.value=
+Profile.status;
+
+}
+
+
+/* =====================================================
+   SAVE PROFILE
+===================================================== */
+
+if(saveProfile){
+
+saveProfile.addEventListener("click",()=>{
+
+Profile.name=
+
+usernameInput.value.trim()||"You";
+
+Profile.bio=
+
+bioInput.value.trim();
+
+Profile.status=
+
+statusInput.value.trim()||"Available";
+
+saveAll();
+
+profileName.textContent=
+Profile.name;
+
+notify("Profile updated.");
+
+});
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const settingsPage =
+document.getElementById("settingsPage");
+
+const settingsButton =
+document.getElementById("settingsButton");
+
+const themeButton =
+document.getElementById("themeButton");
+
+
+if(settingsButton){
+
+settingsButton.addEventListener("click",()=>{
+
+settingsPage.classList.add("active");
+
+});
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+if(themeButton){
+
+themeButton.addEventListener("click",()=>{
+
+document.body.classList.toggle("lightMode");
+
+notify("Theme changed.");
+
+});
+
+}
+
+
+/* =====================================================
+   CLOSE PAGES
+===================================================== */
+
+document.querySelectorAll(".closePage").forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+document.querySelectorAll(".page").forEach(page=>{
+
+page.classList.remove("active");
+
+});
+
+});
+
+});
+
+
+/* =====================================================
+   PART 3C-1 COMPLETE
+===================================================== */
+
+console.log("Project Part 3C-1 Loaded");
+/* =====================================================
+   ADD CONTACT SYSTEM
+===================================================== */
+
+const addContactPage =
+document.getElementById("addContactPage");
+
+const newChatButton =
+document.getElementById("newChat");
+
+const saveContactButton =
+document.getElementById("saveContact");
+
+const newContactName =
+document.getElementById("newContactName");
+
+const newContactAvatar =
+document.getElementById("newContactAvatar");
+
+
+/* =====================================================
+   OPEN ADD CONTACT PAGE
+===================================================== */
+
+if(newChatButton){
+
+newChatButton.addEventListener("click",()=>{
+
+addContactPage.classList.add("active");
+
+newContactName.focus();
+
+});
+
+}
+
+
+/* =====================================================
+   CREATE CONTACT
+===================================================== */
+
+if(saveContactButton){
+
+saveContactButton.addEventListener("click",()=>{
+
+const name=
+
+newContactName.value.trim();
+
+const avatar=
+
+newContactAvatar.value.trim() || "👤";
+
+if(name===""){
+
+notify("Enter a contact name.");
+
+return;
+
+}
+
+if(Characters[name]){
+
+notify("Contact already exists.");
+
+return;
+
+}
+
+Characters[name]={
+
+name:name,
+
+avatar:avatar,
+
+status:"Online",
+
+personality:"custom",
+
+welcome:"Hello! Nice to meet you."
+
+};
+
+Contacts.push(name);
+
+Chats[name]=[
+
+{
+
+text:"Hello! Nice to meet you.",
+
+sender:"bot",
+
+time:currentTime()
+
+}
+
+];
+
+saveAll();
+
+renderContacts();
+
+newContactName.value="";
+
+newContactAvatar.value="";
+
+addContactPage.classList.remove("active");
+
+notify(name+" added successfully.");
+
+});
+
+}
+
+
+/* =====================================================
+   AI CHARACTER PAGE
+===================================================== */
+
+const aiPage=
+
+document.getElementById("aiPage");
+
+const aiTab=
+
+document.getElementById("aiTab");
+
+if(aiTab){
+
+aiTab.addEventListener("click",()=>{
+
+aiPage.classList.add("active");
+
+});
+
+}
+
+
+/* =====================================================
+   SELECT AI CHARACTER
+===================================================== */
+
+document.querySelectorAll(
+
+".selectAI"
+
+).forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+const character=
+
+button.dataset.character;
+
+openChat(character);
+
+document.querySelectorAll(".page")
+
+.forEach(page=>{
+
+page.classList.remove("active");
+
+});
+
+notify(
+
+character+" selected."
+
+);
+
+});
+
+});
+
+
+/* =====================================================
+   VALIDATE CONTACT
+===================================================== */
+
+function contactExists(name){
+
+return Contacts.includes(name);
+
+}
+
+
+/* =====================================================
+   REFRESH CONTACT LIST
+===================================================== */
+
+function refreshContacts(){
+
+renderContacts();
+
+}
+
+
+/* =====================================================
+   PART 3C-2 COMPLETE
+===================================================== */
+
+console.log(
+
+"Project Part 3C-2 Loaded"
+
+);
+/* =====================================================
+   CALL SYSTEM
+===================================================== */
+
+const callPage =
+document.getElementById("callPage");
+
+const incomingCallPage =
+document.getElementById("incomingCallPage");
+
+const voiceCall =
+document.getElementById("voiceCall");
+
+const videoCall =
+document.getElementById("videoCall");
+
+const endCall =
+document.getElementById("endCall");
+
+const acceptCall =
+document.getElementById("acceptCall");
+
+const declineCall =
+document.getElementById("declineCall");
+
+const callName =
+document.getElementById("callName");
+
+const callStatus =
+document.getElementById("callStatus");
+
+const callAvatar =
+document.getElementById("callAvatar");
+
+const callTimer =
+document.getElementById("callTimer");
+
+const ringtone =
+document.getElementById("ringtone");
+
+
+/* =====================================================
+   CALL TIMER
+===================================================== */
+
+let timerInterval = null;
+
+let seconds = 0;
+
+function startCallTimer(){
+
+seconds = 0;
+
+callTimer.textContent = "00:00";
+
+clearInterval(timerInterval);
+
+timerInterval = setInterval(()=>{
+
+seconds++;
+
+const min =
+
+String(Math.floor(seconds/60))
+
+.padStart(2,"0");
+
+const sec =
+
+String(seconds%60)
+
+.padStart(2,"0");
+
+callTimer.textContent =
+
+`${min}:${sec}`;
+
+},1000);
+
+}
+
+function stopCallTimer(){
+
+clearInterval(timerInterval);
+
+callTimer.textContent = "00:00";
+
+}
+
+
+/* =====================================================
+   START CALL
+===================================================== */
+
+function startCall(type){
+
+App.isCalling = true;
+
+callPage.classList.add("active");
+
+callName.textContent = App.currentChat;
+
+callAvatar.textContent =
+
+Characters[App.currentChat].avatar;
+
+callStatus.textContent =
+
+type==="video"
+
+? "Video Call"
+
+: "Voice Call";
+
+startCallTimer();
+
+notify(type+" call started.");
+
+}
+
+
+/* =====================================================
+   VOICE CALL
+===================================================== */
+
+if(voiceCall){
+
+voiceCall.addEventListener("click",()=>{
+
+startCall("voice");
+
+});
+
+}
+
+
+/* =====================================================
+   VIDEO CALL
+===================================================== */
+
+if(videoCall){
+
+videoCall.addEventListener("click",()=>{
+
+startCall("video");
+
+});
+
+}
+
+
+/* =====================================================
+   END CALL
+===================================================== */
+
+if(endCall){
+
+endCall.addEventListener("click",()=>{
+
+callPage.classList.remove("active");
+
+App.isCalling = false;
+
+stopCallTimer();
+
+notify("Call ended.");
+
+});
+
+}
+
+
+/* =====================================================
+   INCOMING CALL (Demo)
+===================================================== */
+
+function incomingCall(character){
+
+incomingCallPage.classList.add("active");
+
+document.getElementById(
+
+"incomingCaller"
+
+).textContent = character;
+
+if(ringtone){
+
+ringtone.currentTime = 0;
+
+ringtone.play().catch(()=>{});
+
+}
+
+}
+
+
+/* =====================================================
+   ACCEPT CALL
+===================================================== */
+
+if(acceptCall){
+
+acceptCall.addEventListener("click",()=>{
+
+incomingCallPage.classList.remove("active");
+
+if(ringtone){
+
+ringtone.pause();
+
+ringtone.currentTime = 0;
+
+}
+
+startCall("voice");
+
+});
+
+}
+
+
+/* =====================================================
+   DECLINE CALL
+===================================================== */
+
+if(declineCall){
+
+declineCall.addEventListener("click",()=>{
+
+incomingCallPage.classList.remove("active");
+
+if(ringtone){
+
+ringtone.pause();
+
+ringtone.currentTime = 0;
+
+}
+
+notify("Call declined.");
+
+});
+
+}
+
+
+/* =====================================================
+   DEMO SHORTCUT
+===================================================== */
+
+document.addEventListener("keydown",(event)=>{
+
+if(event.ctrlKey && event.key==="i"){
+
+incomingCall(App.currentChat);
+
+}
+
+});
+
+
+/* =====================================================
+   FINAL STARTUP CHECK
+===================================================== */
+
+window.addEventListener("load",()=>{
+
+console.log("================================");
+
+console.log("AnimeChat v1.0 Final");
+
+console.log("Frontend Initialized");
+
+console.log("Contacts:",Contacts.length);
+
+console.log("Characters:",Object.keys(Characters).length);
+
+console.log("Current Chat:",App.currentChat);
+
+console.log("Ready for Backend Integration");
+
+console.log("================================");
+
+});
+
+
+/* =====================================================
+   END OF PROJECT PART 3
+===================================================== */
+
+console.log("Project Part 3 Complete");
