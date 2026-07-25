@@ -5,229 +5,298 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<title>AnimeChat v1.0</title>
+<title>AnimeChat v1.0 Final</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="style.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="icon"
+href="assets/icons/logo.png">
 
 </head>
 
-
 <body>
+
+<div id="loadingScreen">
+
+<div class="loader">
+
+<img
+src="assets/icons/logo.png"
+alt="AnimeChat Logo">
+
+<h1>AnimeChat</h1>
+
+<p>Starting...</p>
+
+</div>
+
+</div>
+
+
 
 <div class="app">
 
-
-<!-- =========================
+<!-- ==========================
      SIDEBAR
-========================= -->
+========================== -->
 
-<aside class="sidebar" id="sidebar">
+<aside
+class="sidebar"
+id="sidebar">
 
+<div class="sidebarHeader">
 
-<div class="brand">
+<div class="logo">
 
-<div class="brandIcon">
-💬
-</div>
+<img
+src="assets/icons/logo.png"
+alt="Logo">
 
-<h1>
+<h2>
+
 AnimeChat
-</h1>
+
+</h2>
 
 </div>
 
+<div class="headerButtons">
 
+<button
+id="profileButton"
+title="Profile">
 
-<div class="searchBox">
-
-<input 
-id="search"
-type="text"
-placeholder="Search chats">
-
-</div>
-
-
-
-<div class="menu">
-
-<button class="menuItem active" id="chatTab">
-
-💬 Chats
-
-</button>
-
-
-<button class="menuItem" id="friendsTab">
-
-👥 Friends
-
-</button>
-
-
-<button class="menuItem" id="settingsTab">
-
-⚙ Settings
-
-</button>
-
-
-</div>
-
-
-
-<div class="contacts" id="contactList">
-
-
-<div class="contact active" data-name="Gojo">
-
-<div class="avatar">
-👑
-</div>
-
-
-<div class="contactData">
-
-<h3>
-Gojo
-</h3>
-
-
-<p class="lastmessage">
-Nice to meet you.
-</p>
-
-
-</div>
-
-
-<span class="contactTime">
-09:20
-</span>
-
-
-</div>
-
-
-
-
-<div class="contact" data-name="Rem">
-
-<div class="avatar">
-💙
-</div>
-
-
-<div class="contactData">
-
-<h3>
-Rem
-</h3>
-
-
-<p class="lastmessage">
-Rem is here to support you.
-</p>
-
-
-</div>
-
-
-<span class="contactTime">
-09:18
-</span>
-
-
-</div>
-
-
-
-
-
-<div class="contact" data-name="Subaru">
-
-<div class="avatar">
-⚔️
-</div>
-
-
-<div class="contactData">
-
-<h3>
-Subaru
-</h3>
-
-
-<p class="lastmessage">
-Let's think carefully.
-</p>
-
-
-</div>
-
-
-<span class="contactTime">
-Yesterday
-</span>
-
-
-</div>
-
-
-
-
-
-<div class="contact" data-name="Friend">
-
-<div class="avatar">
 👤
-</div>
-
-
-<div class="contactData">
-
-<h3>
-Friend
-</h3>
-
-
-<p class="lastmessage">
-Hey, good to see you.
-</p>
-
-
-</div>
-
-
-<span class="contactTime">
-Yesterday
-</span>
-
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="sidebarActions">
-
-<button id="profileButton">
-
-👤 Profile
 
 </button>
 
+<button
+id="settingsButton"
+title="Settings">
+
+⚙️
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<div class="searchContainer">
+
+<input
+
+type="text"
+
+id="search"
+
+placeholder="Search contacts"
+
+autocomplete="off">
+
+</div>
+
+
+
+<div class="sidebarTabs">
+
+<button
+class="tab active"
+id="chatTab">
+
+Chats
+
+</button>
+
+<button
+class="tab"
+id="friendsTab">
+
+Friends
+
+</button>
+
+<button
+class="tab"
+id="aiTab">
+
+AI
+
+</button>
+
+</div>
+
+
+
+<div
+class="contactList"
+id="contactList">
+
+
+
+<div
+class="contact active"
+data-name="Gojo">
+
+<div class="avatar">
+
+👑
+
+</div>
+
+<div class="contactInfo">
+
+<h3>
+
+Gojo
+
+</h3>
+
+<p class="lastMessage">
+
+Nice to meet you.
+
+</p>
+
+</div>
+
+<span class="contactTime">
+
+09:20
+
+</span>
+
+</div>
+
+
+
+<div
+class="contact"
+data-name="Rem">
+
+<div class="avatar">
+
+💙
+
+</div>
+
+<div class="contactInfo">
+
+<h3>
+
+Rem
+
+</h3>
+
+<p class="lastMessage">
+
+Rem is here to support you.
+
+</p>
+
+</div>
+
+<span class="contactTime">
+
+09:18
+
+</span>
+
+</div>
+
+
+
+<div
+class="contact"
+data-name="Subaru">
+
+<div class="avatar">
+
+⚔️
+
+</div>
+
+<div class="contactInfo">
+
+<h3>
+
+Subaru
+
+</h3>
+
+<p class="lastMessage">
+
+Let's think carefully.
+
+</p>
+
+</div>
+
+<span class="contactTime">
+
+Yesterday
+
+</span>
+
+</div>
+
+
+
+<div
+class="contact"
+data-name="Friend">
+
+<div class="avatar">
+
+👤
+
+</div>
+
+<div class="contactInfo">
+
+<h3>
+
+Friend
+
+</h3>
+
+<p class="lastMessage">
+
+Hey! What's up?
+
+</p>
+
+</div>
+
+<span class="contactTime">
+
+Yesterday
+
+</span>
+
+</div>
+
+</div>
+
+
+
+<div class="sidebarFooter">
 
 <button id="newChat">
 
@@ -235,125 +304,156 @@ Yesterday
 
 </button>
 
-
 </div>
-
 
 </aside>
 
 
 
-<!-- =========================
-     CHAT WINDOW
-========================= -->
+<!-- ==========================
+     CHAT SECTION
+========================== -->
 
+<section
+class="chatContainer"
+id="chatContainer">
 
-<section class="chat" id="chatContainer">
+<header
+class="chatHeader">
 
-
-<header class="chatHeader">
-
-
-<button id="backButton">
+<button
+id="backButton">
 
 ←
 
 </button>
 
-
-<div class="avatar" id="chatAvatar">
+<div
+class="chatAvatar"
+id="chatAvatar">
 
 👑
 
 </div>
 
+<div
+class="chatDetails">
 
-<div class="userInfo">
-
-<h2 id="chatName">
+<h2
+id="chatName">
 
 Gojo
 
 </h2>
 
-
-<p id="chatStatus">
+<p
+id="chatStatus">
 
 Online
 
 </p>
 
-
 </div>
 
+<div
+class="chatActions">
 
-<div class="chatActions">
-
-
-<button id="voiceCall">
+<button
+id="voiceCall">
 
 📞
 
 </button>
 
-
-<button id="videoCall">
+<button
+id="videoCall">
 
 🎥
 
 </button>
 
-
-<button id="chatMenu">
+<button
+id="chatMenu">
 
 ⋮
 
 </button>
 
-
 </div>
 
+</header>
+<!-- ==========================
+     MESSAGES AREA
+========================== -->
 
-    </header>
-    
-<!-- =========================
-     MESSAGE AREA
-========================= -->
+<main
+class="messages"
+id="messages">
 
-<main class="messages" id="messages">
-
-<!-- Messages will be created by JavaScript -->
+<!-- Messages will be inserted by JavaScript -->
 
 </main>
 
 
 
-<!-- =========================
+<!-- ==========================
+     TYPING INDICATOR
+========================== -->
+
+<div
+class="typingIndicator hidden"
+id="typingIndicator">
+
+<div class="typingAvatar">
+
+🤖
+
+</div>
+
+<div class="typingBubble">
+
+<span></span>
+
+<span></span>
+
+<span></span>
+
+</div>
+
+<p>
+
+Typing...
+
+</p>
+
+</div>
+
+
+
+<!-- ==========================
      CHAT INPUT
-========================= -->
+========================== -->
 
-<footer class="chatInput">
+<footer
+class="chatInput">
 
-
-<button 
+<button
 class="inputButton"
-id="emojiButton">
+id="emojiButton"
+title="Emoji">
 
 😊
 
 </button>
 
-
-
-<button 
+<button
 class="inputButton"
-id="attachButton">
+id="attachButton"
+title="Attachment">
 
 📎
 
 </button>
-
-
 
 <input
 
@@ -363,50 +463,206 @@ id="messageInput"
 
 placeholder="Type a message..."
 
+autocomplete="off"
+
 >
-
-
 
 <button
-
 id="sendButton"
-
->
+title="Send">
 
 ➤
 
 </button>
 
-
-
 </footer>
-
-
 
 </section>
 
+
+
+<!-- ==========================
+     EMOJI PICKER
+========================== -->
+
+<div
+class="popup hidden"
+id="emojiPicker">
+
+<div class="popupHeader">
+
+<h3>
+
+Emoji
+
+</h3>
+
+<button
+id="closeEmoji">
+
+✕
+
+</button>
+
+</div>
+
+<div
+class="emojiGrid">
+
+<span>😀</span>
+<span>😁</span>
+<span>😂</span>
+<span>🤣</span>
+<span>😊</span>
+<span>😍</span>
+<span>😎</span>
+<span>😭</span>
+<span>😡</span>
+<span>👍</span>
+<span>❤️</span>
+<span>🔥</span>
+<span>🎉</span>
+<span>✨</span>
+<span>🤖</span>
+<span>👑</span>
+
+</div>
 
 </div>
 
 
 
-<!-- =========================
+<!-- ==========================
+     ATTACHMENT MENU
+========================== -->
+
+<div
+class="popup hidden"
+id="attachmentMenu">
+
+<div class="popupHeader">
+
+<h3>
+
+Attachments
+
+</h3>
+
+<button
+id="closeAttachment">
+
+✕
+
+</button>
+
+</div>
+
+<button
+class="attachmentItem"
+id="imageAttachment">
+
+🖼 Image
+
+</button>
+
+<button
+class="attachmentItem"
+id="videoAttachment">
+
+🎥 Video
+
+</button>
+
+<button
+class="attachmentItem"
+id="audioAttachment">
+
+🎵 Audio
+
+</button>
+
+<button
+class="attachmentItem"
+id="documentAttachment">
+
+📄 Document
+
+</button>
+
+</div>
+
+
+
+<!-- ==========================
+     CHAT OPTIONS MENU
+========================== -->
+
+<div
+class="popup hidden"
+id="chatOptions">
+
+<div class="popupHeader">
+
+<h3>
+
+Chat Menu
+
+</h3>
+
+<button
+id="closeChatMenu">
+
+✕
+
+</button>
+
+</div>
+
+<button
+id="clearChat">
+
+🗑 Clear Chat
+
+</button>
+
+<button
+id="deleteChat">
+
+❌ Delete Chat
+
+</button>
+
+<button
+id="exportChat">
+
+📤 Export Chat
+
+</button>
+
+<button
+id="pinChat">
+
+📌 Pin Chat
+
+</button>
+
+</div>
+<!-- ==========================
      PROFILE PAGE
-========================= -->
+========================== -->
 
-
-<section class="page" id="profilePage">
-
+<section
+class="page"
+id="profilePage">
 
 <header class="pageHeader">
 
-
-<button class="closePage">
+<button
+class="closePage">
 
 ←
 
 </button>
-
 
 <h2>
 
@@ -414,72 +670,108 @@ Profile
 
 </h2>
 
-
 </header>
-
-
 
 <div class="pageContent">
 
+<div class="profileCard">
 
-<div class="profileAvatar">
+<div
+class="profileAvatar"
+id="profileAvatar">
 
 👤
 
 </div>
 
-
-
-<h2 id="profileName">
+<h2
+id="profileName">
 
 Your Name
 
 </h2>
 
-
-
-<p id="profileStatus">
+<p
+id="profileStatus">
 
 Available
 
 </p>
 
-
-
-<button id="editProfile">
+<button
+id="editProfile">
 
 Edit Profile
 
 </button>
 
+</div>
 
+<div class="profileInfo">
+
+<label>
+
+Username
+
+</label>
+
+<input
+type="text"
+id="usernameInput"
+placeholder="Enter username">
+
+<label>
+
+Bio
+
+</label>
+
+<textarea
+id="bioInput"
+placeholder="Write something about yourself..."></textarea>
+
+<label>
+
+Status
+
+</label>
+
+<input
+type="text"
+id="statusInput"
+placeholder="Available">
+
+<button
+id="saveProfile">
+
+Save Profile
+
+</button>
 
 </div>
 
+</div>
 
 </section>
 
 
 
-
-
-<!-- =========================
+<!-- ==========================
      SETTINGS PAGE
-========================= -->
+========================== -->
 
-
-<section class="page" id="settingsPage">
-
+<section
+class="page"
+id="settingsPage">
 
 <header class="pageHeader">
 
-
-<button class="closePage">
+<button
+class="closePage">
 
 ←
 
 </button>
-
 
 <h2>
 
@@ -487,158 +779,273 @@ Settings
 
 </h2>
 
-
 </header>
-
-
 
 <div class="pageContent">
 
-
-<button class="settingItem">
+<button
+class="settingItem"
+id="themeButton">
 
 🌙 Dark Mode
 
 </button>
 
-
-
-<button class="settingItem">
+<button
+class="settingItem"
+id="notificationButton">
 
 🔔 Notifications
 
 </button>
 
-
-
-<button class="settingItem">
+<button
+class="settingItem"
+id="privacyButton">
 
 🔒 Privacy
 
 </button>
 
-
-
-<button class="settingItem">
-
-🤖 AI Settings
-
-</button>
-
-
-
-<button class="settingItem">
+<button
+class="settingItem"
+id="backupButton">
 
 💾 Backup Chats
 
 </button>
 
+<button
+class="settingItem"
+id="aboutButton">
 
+ℹ About AnimeChat
+
+</button>
 
 </div>
-
 
 </section>
 
 
 
+<!-- ==========================
+     ADD CONTACT
+========================== -->
 
-
-<!-- =========================
-     ADD CONTACT PAGE
-========================= -->
-
-
-<section class="page" id="addContactPage">
-
+<section
+class="page"
+id="addContactPage">
 
 <header class="pageHeader">
 
-
-<button class="closePage">
+<button
+class="closePage">
 
 ←
 
 </button>
 
-
 <h2>
 
-New Contact
+Add Contact
 
 </h2>
 
-
 </header>
-
-
 
 <div class="pageContent">
 
-
 <input
-
+type="text"
 id="newContactName"
-
-type="text"
-
-placeholder="Contact name"
-
->
-
-
+placeholder="Contact Name">
 
 <input
-
-id="newContactAvatar"
-
 type="text"
+id="newContactAvatar"
+placeholder="Avatar Emoji (😀)">
 
-placeholder="Avatar emoji"
-
->
-
-
-
-<button id="saveContact">
+<button
+id="saveContact">
 
 Save Contact
 
 </button>
 
-
-
 </div>
 
+</section>
 
-    </section>
-    <!-- =========================
-     CALL PAGE
-========================= -->
 
-<section class="page" id="callPage">
 
-<div class="callContainer">
+<!-- ==========================
+     AI CHARACTER PAGE
+========================== -->
 
-<div class="callAvatar" id="callAvatar">
+<section
+class="page"
+id="aiPage">
+
+<header class="pageHeader">
+
+<button
+class="closePage">
+
+←
+
+</button>
+
+<h2>
+
+AI Characters
+
+</h2>
+
+</header>
+
+<div class="pageContent">
+
+<div class="aiCard">
+
+<div class="avatar">
 
 👑
 
 </div>
 
-<h2 id="callName">
+<div>
+
+<h3>
+
+Gojo
+
+</h3>
+
+<p>
+
+Confident • Funny • Powerful
+
+</p>
+
+</div>
+
+<button
+class="selectAI"
+data-character="Gojo">
+
+Chat
+
+</button>
+
+</div>
+
+<div class="aiCard">
+
+<div class="avatar">
+
+💙
+
+</div>
+
+<div>
+
+<h3>
+
+Rem
+
+</h3>
+
+<p>
+
+Kind • Caring • Loyal
+
+</p>
+
+</div>
+
+<button
+class="selectAI"
+data-character="Rem">
+
+Chat
+
+</button>
+
+</div>
+
+<div class="aiCard">
+
+<div class="avatar">
+
+⚔️
+
+</div>
+
+<div>
+
+<h3>
+
+Subaru
+
+</h3>
+
+<p>
+
+Energetic • Brave • Emotional
+
+</p>
+
+</div>
+
+<button
+class="selectAI"
+data-character="Subaru">
+
+Chat
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+<!-- ==========================
+     VOICE / VIDEO CALL PAGE
+========================== -->
+
+<section
+class="page"
+id="callPage">
+
+<div class="callContainer">
+
+<div
+class="callAvatar"
+id="callAvatar">
+
+👑
+
+</div>
+
+<h2
+id="callName">
 
 Gojo
 
 </h2>
 
-<p id="callStatus">
+<p
+id="callStatus">
 
 Calling...
 
 </p>
 
-<div class="callTimer" id="callTimer">
+<div
+class="callTimer"
+id="callTimer">
 
 00:00
 
@@ -646,25 +1053,33 @@ Calling...
 
 <div class="callButtons">
 
-<button id="muteCall">
+<button
+id="muteCall"
+title="Mute">
 
 🎤
 
 </button>
 
-<button id="speakerCall">
+<button
+id="speakerCall"
+title="Speaker">
 
 🔊
 
 </button>
 
-<button id="videoToggle">
+<button
+id="videoToggle"
+title="Video">
 
 🎥
 
 </button>
 
-<button id="endCall">
+<button
+id="endCall"
+title="End Call">
 
 📞
 
@@ -678,41 +1093,47 @@ Calling...
 
 
 
-<!-- =========================
+<!-- ==========================
      INCOMING CALL
-========================= -->
+========================== -->
 
-<section class="page" id="incomingCallPage">
+<section
+class="page"
+id="incomingCallPage">
 
 <div class="incomingContainer">
 
-<div class="callAvatar" id="incomingAvatar">
+<div
+class="callAvatar">
 
-👤
+👑
 
 </div>
 
-<h2 id="incomingName">
+<h2
+id="incomingCaller">
 
-Unknown
+Gojo
 
 </h2>
 
 <p>
 
-Incoming Voice Call
+Incoming Call...
 
 </p>
 
 <div class="incomingButtons">
 
-<button id="acceptCall">
+<button
+id="acceptCall">
 
 ✅ Accept
 
 </button>
 
-<button id="declineCall">
+<button
+id="declineCall">
 
 ❌ Decline
 
@@ -726,62 +1147,70 @@ Incoming Voice Call
 
 
 
-<!-- =========================
-     LOADING SCREEN
-========================= -->
+<!-- ==========================
+     NOTIFICATION
+========================== -->
 
-<section id="loadingScreen">
+<div
+class="notification hidden"
+id="notification">
 
-<div class="loader">
+<p
+id="notificationText">
 
-<div class="loaderLogo">
-
-💬
-
-</div>
-
-<h2>
-
-AnimeChat
-
-</h2>
-
-<p>
-
-Loading...
+Notification
 
 </p>
 
 </div>
 
-</section>
+
+
+<!-- ==========================
+     MODAL BACKDROP
+========================== -->
+
+<div
+class="modalBackdrop hidden"
+id="modalBackdrop">
+
+</div>
 
 
 
-<!-- =========================
+<!-- ==========================
      AUDIO
-========================= -->
+========================== -->
 
-<audio id="ringtone" preload="auto">
+<audio
+id="ringtone"
+preload="auto">
 
-<source src="assets/sounds/ringtone.mp3" type="audio/mpeg">
-
-</audio>
-
-<audio id="messageSound" preload="auto">
-
-<source src="assets/sounds/message.mp3" type="audio/mpeg">
+<source
+src="assets/sounds/ringtone.mp3"
+type="audio/mpeg">
 
 </audio>
 
+<audio
+id="messageSound"
+preload="auto">
+
+<source
+src="assets/sounds/message.mp3"
+type="audio/mpeg">
+
+</audio>
 
 
-<!-- =========================
-     SCRIPT
-========================= -->
 
-<script src="script.js"></script>
+<!-- ==========================
+     JAVASCRIPT
+========================== -->
+
+<script
+src="script.js"></script>
 
 </body>
 
-    </html>
+</html>
