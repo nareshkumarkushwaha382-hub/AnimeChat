@@ -1,16 +1,16 @@
-/* ==========================================
+/* =====================================================
    AnimeChat v1.0 Final
    script.js
    Project Part 3A-1
-========================================== */
+===================================================== */
 
 "use strict";
 
-console.log("AnimeChat v1.0 Starting...");
+console.log("AnimeChat v1.0 Loading...");
 
-/* ==========================================
-   DOM ELEMENTS
-========================================== */
+/* =====================================================
+   DOM REFERENCES
+===================================================== */
 
 const sidebar = document.getElementById("sidebar");
 const chatContainer = document.getElementById("chatContainer");
@@ -37,27 +37,33 @@ document.getElementById("typingIndicator");
 const loadingScreen =
 document.getElementById("loadingScreen");
 
-/* ==========================================
-   GLOBAL VARIABLES
-========================================== */
+/* =====================================================
+   APPLICATION STATE
+===================================================== */
 
-let currentChat = "Gojo";
+const App={
 
-let darkMode = true;
+currentChat:"Gojo",
 
-let callActive = false;
+theme:"dark",
 
-let chats = {};
+isTyping:false,
 
-let contacts = [];
+isCalling:false,
 
-/* ==========================================
+version:"1.0 Final"
+
+};
+
+/* =====================================================
    AI CHARACTERS
-========================================== */
+===================================================== */
 
-const characters = {
+const Characters={
 
 Gojo:{
+
+name:"Gojo",
 
 avatar:"👑",
 
@@ -65,11 +71,13 @@ status:"Online",
 
 personality:"confident",
 
-defaultReply:"Nice to meet you."
+welcome:"Nice to meet you."
 
 },
 
 Rem:{
+
+name:"Rem",
 
 avatar:"💙",
 
@@ -77,11 +85,13 @@ status:"Online",
 
 personality:"kind",
 
-defaultReply:"Rem is here to support you."
+welcome:"Rem is here to support you."
 
 },
 
 Subaru:{
+
+name:"Subaru",
 
 avatar:"⚔️",
 
@@ -89,11 +99,13 @@ status:"Online",
 
 personality:"energetic",
 
-defaultReply:"Let's think carefully."
+welcome:"Let's think carefully."
 
 },
 
 Friend:{
+
+name:"Friend",
 
 avatar:"👤",
 
@@ -101,117 +113,53 @@ status:"Online",
 
 personality:"friendly",
 
-defaultReply:"Hey! What's up?"
+welcome:"Hey! What's up?"
 
 }
 
 };
 
-/* ==========================================
-   LOCAL STORAGE
-========================================== */
+/* =====================================================
+   STORAGE
+===================================================== */
 
-function loadStorage(){
+const Storage={
 
-const savedChats =
+KEY_CHATS:"AnimeChat_Chats",
 
-localStorage.getItem("animechat_chats");
+KEY_CONTACTS:"AnimeChat_Contacts",
 
-const savedContacts =
+KEY_PROFILE:"AnimeChat_Profile"
 
-localStorage.getItem("animechat_contacts");
+};
 
-if(savedChats){
+/* =====================================================
+   DATA
+===================================================== */
 
-chats = JSON.parse(savedChats);
+let Chats={};
 
-}
+let Contacts=[];
 
-else{
+let Profile={
 
-initializeChats();
+name:"You",
 
-}
+status:"Available",
 
-if(savedContacts){
+bio:"",
 
-contacts = JSON.parse(savedContacts);
+avatar:"👤"
 
-}
+};
 
-else{
-
-contacts = Object.keys(characters);
-
-saveContacts();
-
-}
-
-}
-
-function saveChats(){
-
-localStorage.setItem(
-
-"animechat_chats",
-
-JSON.stringify(chats)
-
-);
-
-}
-
-function saveContacts(){
-
-localStorage.setItem(
-
-"animechat_contacts",
-
-JSON.stringify(contacts)
-
-);
-
-}
-
-/* ==========================================
-   INITIAL CHAT CREATION
-========================================== */
-
-function initializeChats(){
-
-chats = {};
-
-Object.keys(characters).forEach(name=>{
-
-chats[name]=[
-
-{
-
-text:characters[name].defaultReply,
-
-sender:"ai",
-
-time:getCurrentTime()
-
-}
-
-];
-
-});
-
-saveChats();
-
-}
-
-/* ==========================================
+/* =====================================================
    TIME
-========================================== */
+===================================================== */
 
-function getCurrentTime(){
+function currentTime(){
 
-const now = new Date();
-
-return now.toLocaleTimeString([],{
+return new Date().toLocaleTimeString([],{
 
 hour:"2-digit",
 
@@ -221,38 +169,158 @@ minute:"2-digit"
 
 }
 
-/* ==========================================
-   DATE
-========================================== */
+function currentDate(){
 
-function getCurrentDate(){
-
-const now = new Date();
-
-return now.toLocaleDateString();
+return new Date().toLocaleDateString();
 
 }
-/* ==========================================
-   RENDER CONTACT LIST
-========================================== */
+
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+
+function saveAll(){
+
+localStorage.setItem(
+
+Storage.KEY_CHATS,
+
+JSON.stringify(Chats)
+
+);
+
+localStorage.setItem(
+
+Storage.KEY_CONTACTS,
+
+JSON.stringify(Contacts)
+
+);
+
+localStorage.setItem(
+
+Storage.KEY_PROFILE,
+
+JSON.stringify(Profile)
+
+);
+
+}
+
+function loadAll(){
+
+Chats=
+
+JSON.parse(
+
+localStorage.getItem(
+
+Storage.KEY_CHATS
+
+)
+
+)||{};
+
+Contacts=
+
+JSON.parse(
+
+localStorage.getItem(
+
+Storage.KEY_CONTACTS
+
+)
+
+)||[];
+
+Profile=
+
+JSON.parse(
+
+localStorage.getItem(
+
+Storage.KEY_PROFILE
+
+)
+
+)||Profile;
+
+}
+
+/* =====================================================
+   FIRST START
+===================================================== */
+
+function firstStart(){
+
+if(
+
+Contacts.length>0
+
+){
+
+return;
+
+}
+
+Contacts=
+
+Object.keys(
+
+Characters
+
+);
+
+Contacts.forEach(name=>{
+
+Chats[name]=[
+
+{
+
+text:
+
+Characters[name].welcome,
+
+sender:"bot",
+
+time:currentTime()
+
+}
+
+];
+
+});
+
+saveAll();
+
+}
+
+console.log(
+
+"Part 3A-1 Loaded"
+
+);
+/* =====================================================
+   CONTACT LIST
+===================================================== */
 
 function renderContacts(){
 
 contactList.innerHTML="";
 
-contacts.forEach(name=>{
+Contacts.forEach(name=>{
 
-const person=characters[name];
+const character=Characters[name];
 
 const lastMessage=
 
-chats[name][chats[name].length-1];
+Chats[name][Chats[name].length-1];
 
 const contact=document.createElement("div");
 
 contact.className="contact";
 
-if(name===currentChat){
+if(name===App.currentChat){
 
 contact.classList.add("active");
 
@@ -264,13 +332,13 @@ contact.innerHTML=`
 
 <div class="avatar">
 
-${person.avatar}
+${character.avatar}
 
 </div>
 
 <div class="contactInfo">
 
-<h3>${name}</h3>
+<h3>${character.name}</h3>
 
 <p class="lastMessage">
 
@@ -306,29 +374,31 @@ contactList.appendChild(contact);
 
 }
 
-/* ==========================================
+/* =====================================================
    OPEN CHAT
-========================================== */
+===================================================== */
 
 function openChat(name){
 
-currentChat=name;
+App.currentChat=name;
 
-const person=characters[name];
+const character=Characters[name];
 
-chatName.textContent=name;
+chatName.textContent=
+
+character.name;
 
 chatAvatar.textContent=
 
-person.avatar;
+character.avatar;
 
 chatStatus.textContent=
 
-person.status;
+character.status;
 
 renderContacts();
 
-loadMessages();
+renderMessages();
 
 if(window.innerWidth<=900){
 
@@ -338,43 +408,43 @@ sidebar.classList.add("hide");
 
 }
 
-/* ==========================================
-   LOAD MESSAGES
-========================================== */
+/* =====================================================
+   RENDER MESSAGES
+===================================================== */
 
-function loadMessages(){
+function renderMessages(){
 
 messages.innerHTML="";
 
-if(!chats[currentChat]){
+if(!Chats[App.currentChat]){
 
-chats[currentChat]=[];
+Chats[App.currentChat]=[];
 
 }
 
-chats[currentChat].forEach(message=>{
+Chats[App.currentChat].forEach(msg=>{
 
-renderMessage(
+addMessage(
 
-message.text,
+msg.text,
 
-message.sender,
+msg.sender,
 
-message.time
+msg.time
 
 );
 
 });
 
-scrollToBottom();
+scrollBottom();
 
 }
 
-/* ==========================================
-   RENDER MESSAGE
-========================================== */
+/* =====================================================
+   CREATE MESSAGE
+===================================================== */
 
-function renderMessage(
+function addMessage(
 
 text,
 
@@ -384,15 +454,15 @@ time
 
 ){
 
-const div=
+const bubble=
 
 document.createElement("div");
 
-div.className=
+bubble.className=
 
-"message "+sender;
+`message ${sender}`;
 
-div.innerHTML=`
+bubble.innerHTML=`
 
 <div class="messageText">
 
@@ -408,15 +478,15 @@ ${time}
 
 `;
 
-messages.appendChild(div);
+messages.appendChild(bubble);
 
 }
 
-/* ==========================================
-   AUTO SCROLL
-========================================== */
+/* =====================================================
+   SCROLL
+===================================================== */
 
-function scrollToBottom(){
+function scrollBottom(){
 
 messages.scrollTop=
 
@@ -424,9 +494,9 @@ messages.scrollHeight;
 
 }
 
-/* ==========================================
+/* =====================================================
    SAFE HTML
-========================================== */
+===================================================== */
 
 function escapeHTML(text){
 
@@ -440,40 +510,56 @@ return div.innerHTML;
 
 }
 
-/* ==========================================
-   REFRESH PREVIEW
-========================================== */
+/* =====================================================
+   UPDATE CONTACT PREVIEW
+===================================================== */
 
-function refreshPreview(name){
+function updateContactPreview(name){
 
-renderContacts();
+const last=
+
+Chats[name][Chats[name].length-1];
+
+const contact=
+
+document.querySelector(
+
+`.contact[data-name="${name}"]`
+
+);
+
+if(!contact) return;
+
+contact.querySelector(
+
+".lastMessage"
+
+).textContent=
+
+last.text;
+
+contact.querySelector(
+
+".contactTime"
+
+).textContent=
+
+last.time;
 
 }
 
-/* ==========================================
-   WINDOW RESIZE
-========================================== */
+/* =====================================================
+   PART 3A-2 COMPLETE
+===================================================== */
 
-window.addEventListener(
+console.log(
 
-"resize",
+"Project Part 3A-2 Loaded"
 
-()=>{
-
-if(window.innerWidth>900){
-
-sidebar.classList.remove("hide");
-
-}
-
-}
-
-/* ==========================================
-   END PART 3A-2
-========================================== */
-   /* ==========================================
+);
+/* =====================================================
    SEARCH CONTACTS
-========================================== */
+===================================================== */
 
 searchInput.addEventListener("input",()=>{
 
@@ -499,10 +585,9 @@ name.includes(value)
 
 });
 
-
-/* ==========================================
-   BACK BUTTON
-========================================== */
+/* =====================================================
+   MOBILE NAVIGATION
+===================================================== */
 
 backButton.addEventListener("click",()=>{
 
@@ -510,16 +595,29 @@ sidebar.classList.remove("hide");
 
 });
 
+window.addEventListener("resize",()=>{
 
-/* ==========================================
+if(window.innerWidth>900){
+
+sidebar.classList.remove("hide");
+
+}
+
+});
+
+/* =====================================================
    LOADING SCREEN
-========================================== */
+===================================================== */
 
-function hideLoading(){
+function hideLoadingScreen(){
+
+if(!loadingScreen) return;
 
 setTimeout(()=>{
 
 loadingScreen.style.opacity="0";
+
+loadingScreen.style.pointerEvents="none";
 
 setTimeout(()=>{
 
@@ -527,53 +625,89 @@ loadingScreen.style.display="none";
 
 },500);
 
-},800);
+},600);
 
 }
 
+/* =====================================================
+   TYPING INDICATOR
+===================================================== */
 
-/* ==========================================
-   MOBILE CHECK
-========================================== */
+function showTyping(){
 
-function checkMobile(){
+if(!typingIndicator) return;
 
-if(window.innerWidth<=900){
+typingIndicator.classList.remove("hidden");
 
-sidebar.classList.remove("hide");
-
-}else{
-
-sidebar.classList.remove("hide");
+App.isTyping=true;
 
 }
 
+function hideTyping(){
+
+if(!typingIndicator) return;
+
+typingIndicator.classList.add("hidden");
+
+App.isTyping=false;
+
 }
 
-checkMobile();
+/* =====================================================
+   NOTIFICATION
+===================================================== */
 
+function notify(text){
 
-/* ==========================================
-   START APPLICATION
-========================================== */
+const box=
+
+document.getElementById("notification");
+
+const label=
+
+document.getElementById("notificationText");
+
+if(!box||!label) return;
+
+label.textContent=text;
+
+box.classList.remove("hidden");
+
+setTimeout(()=>{
+
+box.classList.add("hidden");
+
+},2500);
+
+}
+
+/* =====================================================
+   APPLICATION STARTUP
+===================================================== */
 
 function initializeApplication(){
 
-loadStorage();
+loadAll();
+
+firstStart();
 
 renderContacts();
 
-openChat(currentChat);
+openChat(App.currentChat);
 
-hideLoading();
+hideLoadingScreen();
 
 console.log(
 
-"AnimeChat Ready."
+"AnimeChat v1.0 Final Ready"
 
 );
 
 }
+
+/* =====================================================
+   START APP
+===================================================== */
 
 window.addEventListener(
 
@@ -583,34 +717,34 @@ initializeApplication
 
 );
 
-
-/* ==========================================
+/* =====================================================
    DEBUG
-========================================== */
+===================================================== */
 
 console.log(
 
-"Characters Loaded:",
+"Version:",
 
-Object.keys(characters).length
+App.version
 
 );
 
 console.log(
 
-"Contacts Loaded:",
+"Characters:",
 
-contacts.length
+Object.keys(Characters).length
 
 );
 
 console.log(
 
-"Chat System Initialized."
+"Contacts:",
+
+Contacts.length
 
 );
 
-
-/* ==========================================
-   PROJECT PART 3A COMPLETE
-========================================== */
+/* =====================================================
+   END OF PROJECT PART 3A
+===================================================== */
