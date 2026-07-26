@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========= START ========= */
 
-    openChat(currentChat);
+    renderContacts();
+openChat(currentChat);
 
 });
