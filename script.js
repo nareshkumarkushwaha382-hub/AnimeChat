@@ -1,18 +1,11 @@
 "use strict";
 
-/* ==========================================
-   AnimeChat JS 2
-========================================== */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ========= LOADING ========= */
 
     const loadingScreen = document.getElementById("loadingScreen");
-
-    if (loadingScreen) {
-        loadingScreen.style.display = "none";
-    }
+    if (loadingScreen) loadingScreen.style.display = "none";
 
     /* ========= DOM ========= */
 
@@ -21,70 +14,122 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatAvatar = document.getElementById("chatAvatar");
     const chatStatus = document.getElementById("chatStatus");
     const messages = document.getElementById("messages");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
 
     /* ========= DATA ========= */
 
     const contacts = [
-
         {
-            name: "Gojo",
-            avatar: "👑",
-            status: "Online"
+            name:"Gojo",
+            avatar:"👑",
+            status:"Online",
+            messages:[
+                {sender:"bot",text:"Welcome to AnimeChat!",time:"09:00"}
+            ]
         },
-
         {
-            name: "Rem",
-            avatar: "💙",
-            status: "Online"
+            name:"Rem",
+            avatar:"💙",
+            status:"Online",
+            messages:[]
         },
-
         {
-            name: "Subaru",
-            avatar: "⚔️",
-            status: "Online"
+            name:"Subaru",
+            avatar:"⚔️",
+            status:"Online",
+            messages:[]
         },
-
         {
-            name: "Friend",
-            avatar: "👤",
-            status: "Offline"
+            name:"Friend",
+            avatar:"👤",
+            status:"Offline",
+            messages:[]
         }
-
     ];
 
-    let currentChat = "Gojo";
+    let currentChat = contacts[0];
 
-    /* ========= RENDER CONTACTS ========= */
+    /* ========= TIME ========= */
 
-    function renderContacts() {
+    function getTime(){
 
-        const cards = contactList.querySelectorAll(".contact");
+        const now = new Date();
 
-        cards.forEach(card => {
+        return now.toLocaleTimeString([],{
 
-            const name = card.dataset.name;
+            hour:"2-digit",
+            minute:"2-digit"
 
-            if (name === currentChat) {
+        });
+
+    }
+
+    /* ========= RENDER MESSAGES ========= */
+
+    function renderMessages(){
+
+        messages.innerHTML="";
+
+        currentChat.messages.forEach(message=>{
+
+            const bubble=document.createElement("div");
+
+            bubble.className="message "+message.sender;
+
+            bubble.innerHTML=`
+                <div class="messageText">${message.text}</div>
+                <div class="messageTime">${message.time}</div>
+            `;
+
+            messages.appendChild(bubble);
+
+        });
+
+        messages.scrollTop=messages.scrollHeight;
+
+    }
+
+    /* ========= OPEN CHAT ========= */
+
+    function openChat(contact){
+
+        currentChat=contact;
+
+        chatName.textContent=contact.name;
+        chatAvatar.textContent=contact.avatar;
+        chatStatus.textContent=contact.status;
+
+        renderMessages();
+        renderContacts();
+
+    }
+
+    /* ========= CONTACTS ========= */
+
+    function renderContacts(){
+
+        const cards=contactList.querySelectorAll(".contact");
+
+        cards.forEach(card=>{
+
+            const name=card.dataset.name;
+
+            const contact=contacts.find(c=>c.name===name);
+
+            if(contact===currentChat){
+
                 card.classList.add("active");
-            } else {
+
+            }else{
+
                 card.classList.remove("active");
+
             }
 
-            card.onclick = () => {
+            card.onclick=()=>{
 
-                currentChat = name;
-
-                const contact = contacts.find(c => c.name === name);
-
-                if (!contact) return;
-
-                chatName.textContent = contact.name;
-                chatAvatar.textContent = contact.avatar;
-                chatStatus.textContent = contact.status;
-
-                messages.innerHTML = "";
-
-                renderContacts();
+                openChat(contact);
 
             };
 
@@ -92,8 +137,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    /* ========= SEND ========= */
+
+    function sendMessage(){
+
+        const text=input.value.trim();
+
+        if(text==="") return;
+
+        currentChat.messages.push({
+
+            sender:"user",
+            text:text,
+            time:getTime()
+
+        });
+
+        input.value="";
+
+        renderMessages();
+
+        setTimeout(()=>{
+
+            currentChat.messages.push({
+
+                sender:"bot",
+
+                text:"I received: "+text,
+
+                time:getTime()
+
+            });
+
+            renderMessages();
+
+        },1000);
+
+    }
+
+    sendButton.onclick=sendMessage;
+
+    input.addEventListener("keydown",e=>{
+
+        if(e.key==="Enter"){
+
+            sendMessage();
+
+        }
+
+    });
+
     /* ========= START ========= */
 
-    renderContacts();
+    openChat(currentChat);
 
 });
