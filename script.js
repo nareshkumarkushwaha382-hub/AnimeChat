@@ -1,8 +1,8 @@
 diff --git a/script.js b/script.js
-index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d378fff07b 100644
+index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522be7a93d5 100644
 --- a/script.js
 +++ b/script.js
-@@ -1,1107 +1,500 @@
+@@ -1,1107 +1,516 @@
  /*=====================================================
 -  AnimeChat v2.0 Final
 -  Part 3A
@@ -520,10 +520,6 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d3
 -const text=
 -
 -messageInput.value.trim();
--
--if(text==="") return;
--
--const message={
 +    function requireElements() {
 +        const requiredIds = [
 +            "contactList", "messages", "chatName", "chatAvatar", "chatStatus",
@@ -535,15 +531,33 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d3
 +        }
 +    }
  
--sender:"user",
+-if(text==="") return;
 +    function getTime() {
 +        return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
++    }
+ 
+-const message={
++    function readStorage(key) {
++        try {
++            return window.localStorage.getItem(key);
++        } catch {
++            return null;
++        }
++    }
+ 
+-sender:"user",
++    function writeStorage(key, value) {
++        try {
++            window.localStorage.setItem(key, value);
++        } catch {
++            // GitHub Pages and privacy-mode browsers should still run without persisted data.
++        }
 +    }
  
 -text:text,
 +    function readJson(key, fallback) {
 +        try {
-+            const saved = localStorage.getItem(key);
++            const saved = readStorage(key);
 +            return saved ? JSON.parse(saved) : fallback;
 +        } catch {
 +            return fallback;
@@ -552,9 +566,9 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d3
  
 -time:getTime()
 +    function saveData() {
-+        localStorage.setItem(STORAGE_KEYS.chats, JSON.stringify(state.chats));
-+        localStorage.setItem(STORAGE_KEYS.contacts, JSON.stringify(state.contacts));
-+        localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify(state.profile));
++        writeStorage(STORAGE_KEYS.chats, JSON.stringify(state.chats));
++        writeStorage(STORAGE_KEYS.contacts, JSON.stringify(state.contacts));
++        writeStorage(STORAGE_KEYS.profile, JSON.stringify(state.profile));
 +    }
  
 -};
@@ -889,7 +903,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d3
 -renderContacts();
 +    function setTheme(mode) {
 +        document.body.classList.toggle("light", mode === "light");
-+        localStorage.setItem(STORAGE_KEYS.theme, mode);
++        writeStorage(STORAGE_KEYS.theme, mode);
 +        if (dom.themeButton) {
 +            dom.themeButton.textContent = mode === "light" ? "☀️ Light Mode" : "🌙 Dark Mode";
 +        }
@@ -1555,7 +1569,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d3
 +        requireElements();
 +        loadData();
 +        seedData();
-+        setTheme(localStorage.getItem(STORAGE_KEYS.theme) || "dark");
++        setTheme(readStorage(STORAGE_KEYS.theme) || "dark");
 +        bindEvents();
 +        renderContacts();
 +        openChat(state.currentChat);
@@ -1567,4 +1581,5 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..cd591edfc87ac22acc5ef149260794d3
 -});
 +    document.addEventListener("DOMContentLoaded", boot, { once: true });
 +})();
+
 
