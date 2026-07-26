@@ -1,1216 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
+diff --git a/index.html b/index.html
+index 0db6edda5ef09a1a7dacdf20f333ebe47bf5717c..72cb836297454802cc199ceac77b402f3a26d741 100644
+--- a/index.html
++++ b/index.html
+@@ -2,90 +2,90 @@
+ <html lang="en">
+ 
+ <head>
+ 
+ <meta charset="UTF-8">
+ 
+ <meta name="viewport"
+ content="width=device-width, initial-scale=1.0">
+ 
+ <title>AnimeChat v1.0 Final</title>
+ 
+ <link rel="stylesheet"
+ href="style.css">
+ 
+ <link rel="preconnect"
+ href="https://fonts.googleapis.com">
+ 
+ <link rel="preconnect"
+ href="https://fonts.gstatic.com"
+ crossorigin>
+ 
+ <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+ rel="stylesheet">
+ 
+ <link rel="icon"
+-href="assets/icons/logo.png">
++href="assets/icons/logo.svg">
+ 
+ </head>
+ 
+ <body>
+ 
+ <div id="loadingScreen">
+ 
+ <div class="loader">
+ 
+ <img
+-src="assets/icons/logo.png"
++src="assets/icons/logo.svg"
+ alt="AnimeChat Logo">
+ 
+ <h1>AnimeChat</h1>
+ 
+ <p>Starting...</p>
+ 
+ </div>
+ 
+ </div>
+ 
+ 
+ 
+ <div class="app">
+ 
+ <!-- ==========================
+      SIDEBAR
+ ========================== -->
+ 
+ <aside
+ class="sidebar"
+ id="sidebar">
+ 
+ <div class="sidebarHeader">
+ 
+ <div class="logo">
+ 
+ <img
+-src="assets/icons/logo.png"
++src="assets/icons/logo.svg"
+ alt="Logo">
+ 
+ <h2>
+ 
+ AnimeChat
+ 
+ </h2>
+ 
+ </div>
+ 
+ <div class="headerButtons">
+ 
+ <button
+ id="profileButton"
+ title="Profile">
+ 
+ 👤
+ 
+ </button>
+ 
+ <button
+ id="settingsButton"
+ title="Settings">
+ 
+ ⚙️
+@@ -1162,55 +1162,43 @@ Notification
+ 
+ </p>
+ 
+ </div>
+ 
+ 
+ 
+ <!-- ==========================
+      MODAL BACKDROP
+ ========================== -->
+ 
+ <div
+ class="modalBackdrop hidden"
+ id="modalBackdrop">
+ 
+ </div>
+ 
+ 
+ 
+ <!-- ==========================
+      AUDIO
+ ========================== -->
+ 
+ <audio
+ id="ringtone"
+-preload="auto">
+-
+-<source
+-src="assets/sounds/ringtone.mp3"
+-type="audio/mpeg">
+-
+-</audio>
++preload="auto"></audio>
+ 
+ <audio
+ id="messageSound"
+-preload="auto">
+-
+-<source
+-src="assets/sounds/message.mp3"
+-type="audio/mpeg">
+-
+-</audio>
++preload="auto"></audio>
+ 
+ 
+ 
+ <!-- ==========================
+      JAVASCRIPT
+ ========================== -->
+ 
+ <script
+ src="script.js"></script>
+ 
+ </body>
+ 
+ </html>
 
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>AnimeChat v1.0 Final</title>
-
-<link rel="stylesheet"
-href="style.css">
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
-
-<link rel="icon"
-href="assets/icons/logo.png">
-
-</head>
-
-<body>
-
-<div id="loadingScreen">
-
-<div class="loader">
-
-<img
-src="assets/icons/logo.png"
-alt="AnimeChat Logo">
-
-<h1>AnimeChat</h1>
-
-<p>Starting...</p>
-
-</div>
-
-</div>
-
-
-
-<div class="app">
-
-<!-- ==========================
-     SIDEBAR
-========================== -->
-
-<aside
-class="sidebar"
-id="sidebar">
-
-<div class="sidebarHeader">
-
-<div class="logo">
-
-<img
-src="assets/icons/logo.png"
-alt="Logo">
-
-<h2>
-
-AnimeChat
-
-</h2>
-
-</div>
-
-<div class="headerButtons">
-
-<button
-id="profileButton"
-title="Profile">
-
-👤
-
-</button>
-
-<button
-id="settingsButton"
-title="Settings">
-
-⚙️
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<div class="searchContainer">
-
-<input
-
-type="text"
-
-id="search"
-
-placeholder="Search contacts"
-
-autocomplete="off">
-
-</div>
-
-
-
-<div class="sidebarTabs">
-
-<button
-class="tab active"
-id="chatTab">
-
-Chats
-
-</button>
-
-<button
-class="tab"
-id="friendsTab">
-
-Friends
-
-</button>
-
-<button
-class="tab"
-id="aiTab">
-
-AI
-
-</button>
-
-</div>
-
-
-
-<div
-class="contactList"
-id="contactList">
-
-
-
-<div
-class="contact active"
-data-name="Gojo">
-
-<div class="avatar">
-
-👑
-
-</div>
-
-<div class="contactInfo">
-
-<h3>
-
-Gojo
-
-</h3>
-
-<p class="lastMessage">
-
-Nice to meet you.
-
-</p>
-
-</div>
-
-<span class="contactTime">
-
-09:20
-
-</span>
-
-</div>
-
-
-
-<div
-class="contact"
-data-name="Rem">
-
-<div class="avatar">
-
-💙
-
-</div>
-
-<div class="contactInfo">
-
-<h3>
-
-Rem
-
-</h3>
-
-<p class="lastMessage">
-
-Rem is here to support you.
-
-</p>
-
-</div>
-
-<span class="contactTime">
-
-09:18
-
-</span>
-
-</div>
-
-
-
-<div
-class="contact"
-data-name="Subaru">
-
-<div class="avatar">
-
-⚔️
-
-</div>
-
-<div class="contactInfo">
-
-<h3>
-
-Subaru
-
-</h3>
-
-<p class="lastMessage">
-
-Let's think carefully.
-
-</p>
-
-</div>
-
-<span class="contactTime">
-
-Yesterday
-
-</span>
-
-</div>
-
-
-
-<div
-class="contact"
-data-name="Friend">
-
-<div class="avatar">
-
-👤
-
-</div>
-
-<div class="contactInfo">
-
-<h3>
-
-Friend
-
-</h3>
-
-<p class="lastMessage">
-
-Hey! What's up?
-
-</p>
-
-</div>
-
-<span class="contactTime">
-
-Yesterday
-
-</span>
-
-</div>
-
-</div>
-
-
-
-<div class="sidebarFooter">
-
-<button id="newChat">
-
-➕ New Chat
-
-</button>
-
-</div>
-
-</aside>
-
-
-
-<!-- ==========================
-     CHAT SECTION
-========================== -->
-
-<section
-class="chatContainer"
-id="chatContainer">
-
-<header
-class="chatHeader">
-
-<button
-id="backButton">
-
-←
-
-</button>
-
-<div
-class="chatAvatar"
-id="chatAvatar">
-
-👑
-
-</div>
-
-<div
-class="chatDetails">
-
-<h2
-id="chatName">
-
-Gojo
-
-</h2>
-
-<p
-id="chatStatus">
-
-Online
-
-</p>
-
-</div>
-
-<div
-class="chatActions">
-
-<button
-id="voiceCall">
-
-📞
-
-</button>
-
-<button
-id="videoCall">
-
-🎥
-
-</button>
-
-<button
-id="chatMenu">
-
-⋮
-
-</button>
-
-</div>
-
-</header>
-<!-- ==========================
-     MESSAGES AREA
-========================== -->
-
-<main
-class="messages"
-id="messages">
-
-<!-- Messages will be inserted by JavaScript -->
-
-</main>
-
-
-
-<!-- ==========================
-     TYPING INDICATOR
-========================== -->
-
-<div
-class="typingIndicator hidden"
-id="typingIndicator">
-
-<div class="typingAvatar">
-
-🤖
-
-</div>
-
-<div class="typingBubble">
-
-<span></span>
-
-<span></span>
-
-<span></span>
-
-</div>
-
-<p>
-
-Typing...
-
-</p>
-
-</div>
-
-
-
-<!-- ==========================
-     CHAT INPUT
-========================== -->
-
-<footer
-class="chatInput">
-
-<button
-class="inputButton"
-id="emojiButton"
-title="Emoji">
-
-😊
-
-</button>
-
-<button
-class="inputButton"
-id="attachButton"
-title="Attachment">
-
-📎
-
-</button>
-
-<input
-
-type="text"
-
-id="messageInput"
-
-placeholder="Type a message..."
-
-autocomplete="off"
-
->
-
-<button
-id="sendButton"
-title="Send">
-
-➤
-
-</button>
-
-</footer>
-
-</section>
-
-
-
-<!-- ==========================
-     EMOJI PICKER
-========================== -->
-
-<div
-class="popup hidden"
-id="emojiPicker">
-
-<div class="popupHeader">
-
-<h3>
-
-Emoji
-
-</h3>
-
-<button
-id="closeEmoji">
-
-✕
-
-</button>
-
-</div>
-
-<div
-class="emojiGrid">
-
-<span>😀</span>
-<span>😁</span>
-<span>😂</span>
-<span>🤣</span>
-<span>😊</span>
-<span>😍</span>
-<span>😎</span>
-<span>😭</span>
-<span>😡</span>
-<span>👍</span>
-<span>❤️</span>
-<span>🔥</span>
-<span>🎉</span>
-<span>✨</span>
-<span>🤖</span>
-<span>👑</span>
-
-</div>
-
-</div>
-
-
-
-<!-- ==========================
-     ATTACHMENT MENU
-========================== -->
-
-<div
-class="popup hidden"
-id="attachmentMenu">
-
-<div class="popupHeader">
-
-<h3>
-
-Attachments
-
-</h3>
-
-<button
-id="closeAttachment">
-
-✕
-
-</button>
-
-</div>
-
-<button
-class="attachmentItem"
-id="imageAttachment">
-
-🖼 Image
-
-</button>
-
-<button
-class="attachmentItem"
-id="videoAttachment">
-
-🎥 Video
-
-</button>
-
-<button
-class="attachmentItem"
-id="audioAttachment">
-
-🎵 Audio
-
-</button>
-
-<button
-class="attachmentItem"
-id="documentAttachment">
-
-📄 Document
-
-</button>
-
-</div>
-
-
-
-<!-- ==========================
-     CHAT OPTIONS MENU
-========================== -->
-
-<div
-class="popup hidden"
-id="chatOptions">
-
-<div class="popupHeader">
-
-<h3>
-
-Chat Menu
-
-</h3>
-
-<button
-id="closeChatMenu">
-
-✕
-
-</button>
-
-</div>
-
-<button
-id="clearChat">
-
-🗑 Clear Chat
-
-</button>
-
-<button
-id="deleteChat">
-
-❌ Delete Chat
-
-</button>
-
-<button
-id="exportChat">
-
-📤 Export Chat
-
-</button>
-
-<button
-id="pinChat">
-
-📌 Pin Chat
-
-</button>
-
-</div>
-<!-- ==========================
-     PROFILE PAGE
-========================== -->
-
-<section
-class="page"
-id="profilePage">
-
-<header class="pageHeader">
-
-<button
-class="closePage">
-
-←
-
-</button>
-
-<h2>
-
-Profile
-
-</h2>
-
-</header>
-
-<div class="pageContent">
-
-<div class="profileCard">
-
-<div
-class="profileAvatar"
-id="profileAvatar">
-
-👤
-
-</div>
-
-<h2
-id="profileName">
-
-Your Name
-
-</h2>
-
-<p
-id="profileStatus">
-
-Available
-
-</p>
-
-<button
-id="editProfile">
-
-Edit Profile
-
-</button>
-
-</div>
-
-<div class="profileInfo">
-
-<label>
-
-Username
-
-</label>
-
-<input
-type="text"
-id="usernameInput"
-placeholder="Enter username">
-
-<label>
-
-Bio
-
-</label>
-
-<textarea
-id="bioInput"
-placeholder="Write something about yourself..."></textarea>
-
-<label>
-
-Status
-
-</label>
-
-<input
-type="text"
-id="statusInput"
-placeholder="Available">
-
-<button
-id="saveProfile">
-
-Save Profile
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- ==========================
-     SETTINGS PAGE
-========================== -->
-
-<section
-class="page"
-id="settingsPage">
-
-<header class="pageHeader">
-
-<button
-class="closePage">
-
-←
-
-</button>
-
-<h2>
-
-Settings
-
-</h2>
-
-</header>
-
-<div class="pageContent">
-
-<button
-class="settingItem"
-id="themeButton">
-
-🌙 Dark Mode
-
-</button>
-
-<button
-class="settingItem"
-id="notificationButton">
-
-🔔 Notifications
-
-</button>
-
-<button
-class="settingItem"
-id="privacyButton">
-
-🔒 Privacy
-
-</button>
-
-<button
-class="settingItem"
-id="backupButton">
-
-💾 Backup Chats
-
-</button>
-
-<button
-class="settingItem"
-id="aboutButton">
-
-ℹ About AnimeChat
-
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- ==========================
-     ADD CONTACT
-========================== -->
-
-<section
-class="page"
-id="addContactPage">
-
-<header class="pageHeader">
-
-<button
-class="closePage">
-
-←
-
-</button>
-
-<h2>
-
-Add Contact
-
-</h2>
-
-</header>
-
-<div class="pageContent">
-
-<input
-type="text"
-id="newContactName"
-placeholder="Contact Name">
-
-<input
-type="text"
-id="newContactAvatar"
-placeholder="Avatar Emoji (😀)">
-
-<button
-id="saveContact">
-
-Save Contact
-
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- ==========================
-     AI CHARACTER PAGE
-========================== -->
-
-<section
-class="page"
-id="aiPage">
-
-<header class="pageHeader">
-
-<button
-class="closePage">
-
-←
-
-</button>
-
-<h2>
-
-AI Characters
-
-</h2>
-
-</header>
-
-<div class="pageContent">
-
-<div class="aiCard">
-
-<div class="avatar">
-
-👑
-
-</div>
-
-<div>
-
-<h3>
-
-Gojo
-
-</h3>
-
-<p>
-
-Confident • Funny • Powerful
-
-</p>
-
-</div>
-
-<button
-class="selectAI"
-data-character="Gojo">
-
-Chat
-
-</button>
-
-</div>
-
-<div class="aiCard">
-
-<div class="avatar">
-
-💙
-
-</div>
-
-<div>
-
-<h3>
-
-Rem
-
-</h3>
-
-<p>
-
-Kind • Caring • Loyal
-
-</p>
-
-</div>
-
-<button
-class="selectAI"
-data-character="Rem">
-
-Chat
-
-</button>
-
-</div>
-
-<div class="aiCard">
-
-<div class="avatar">
-
-⚔️
-
-</div>
-
-<div>
-
-<h3>
-
-Subaru
-
-</h3>
-
-<p>
-
-Energetic • Brave • Emotional
-
-</p>
-
-</div>
-
-<button
-class="selectAI"
-data-character="Subaru">
-
-Chat
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-<!-- ==========================
-     VOICE / VIDEO CALL PAGE
-========================== -->
-
-<section
-class="page"
-id="callPage">
-
-<div class="callContainer">
-
-<div
-class="callAvatar"
-id="callAvatar">
-
-👑
-
-</div>
-
-<h2
-id="callName">
-
-Gojo
-
-</h2>
-
-<p
-id="callStatus">
-
-Calling...
-
-</p>
-
-<div
-class="callTimer"
-id="callTimer">
-
-00:00
-
-</div>
-
-<div class="callButtons">
-
-<button
-id="muteCall"
-title="Mute">
-
-🎤
-
-</button>
-
-<button
-id="speakerCall"
-title="Speaker">
-
-🔊
-
-</button>
-
-<button
-id="videoToggle"
-title="Video">
-
-🎥
-
-</button>
-
-<button
-id="endCall"
-title="End Call">
-
-📞
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- ==========================
-     INCOMING CALL
-========================== -->
-
-<section
-class="page"
-id="incomingCallPage">
-
-<div class="incomingContainer">
-
-<div
-class="callAvatar">
-
-👑
-
-</div>
-
-<h2
-id="incomingCaller">
-
-Gojo
-
-</h2>
-
-<p>
-
-Incoming Call...
-
-</p>
-
-<div class="incomingButtons">
-
-<button
-id="acceptCall">
-
-✅ Accept
-
-</button>
-
-<button
-id="declineCall">
-
-❌ Decline
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- ==========================
-     NOTIFICATION
-========================== -->
-
-<div
-class="notification hidden"
-id="notification">
-
-<p
-id="notificationText">
-
-Notification
-
-</p>
-
-</div>
-
-
-
-<!-- ==========================
-     MODAL BACKDROP
-========================== -->
-
-<div
-class="modalBackdrop hidden"
-id="modalBackdrop">
-
-</div>
-
-
-
-<!-- ==========================
-     AUDIO
-========================== -->
-
-<audio
-id="ringtone"
-preload="auto">
-
-<source
-src="assets/sounds/ringtone.mp3"
-type="audio/mpeg">
-
-</audio>
-
-<audio
-id="messageSound"
-preload="auto">
-
-<source
-src="assets/sounds/message.mp3"
-type="audio/mpeg">
-
-</audio>
-
-
-
-<!-- ==========================
-     JAVASCRIPT
-========================== -->
-
-<script
-src="script.js"></script>
-
-</body>
-
-</html>
