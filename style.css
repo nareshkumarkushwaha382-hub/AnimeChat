@@ -1061,19 +1061,6 @@ display:block;
 
 }
 
-/* ========= LARGE SCREEN ========= */
-
-@media (min-width:769px){
-
-.chatContainer{
-
-position:relative;
-
-left:0;
-
-}
-
-}
 
 /* ========= DARK MODE ========= */
 
