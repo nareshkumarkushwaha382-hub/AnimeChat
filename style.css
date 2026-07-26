@@ -1060,6 +1060,33 @@ display:block;
 }
 
 }
+@media (max-width:768px){
+
+.sidebar{
+
+width:35%;
+
+position:relative;
+
+}
+
+.chatContainer{
+
+width:65%;
+
+position:relative;
+
+display:flex;
+
+}
+
+#backButton{
+
+display:none;
+
+}
+
+}
 
 
 /* ========= DARK MODE ========= */
