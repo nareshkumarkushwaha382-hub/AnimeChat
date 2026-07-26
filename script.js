@@ -1,8 +1,8 @@
 diff --git a/script.js b/script.js
-index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522be7a93d5 100644
+index 524e4fa2fd3603d4a0807e154c264bd9438c5924..eea5ea25c0937382ade085fa3003b8d99e32d64a 100644
 --- a/script.js
 +++ b/script.js
-@@ -1,1107 +1,516 @@
+@@ -1,1107 +1,524 @@
  /*=====================================================
 -  AnimeChat v2.0 Final
 -  Part 3A
@@ -540,7 +540,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +    function readStorage(key) {
 +        try {
 +            return window.localStorage.getItem(key);
-+        } catch {
++        } catch (error) {
 +            return null;
 +        }
 +    }
@@ -549,7 +549,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +    function writeStorage(key, value) {
 +        try {
 +            window.localStorage.setItem(key, value);
-+        } catch {
++        } catch (error) {
 +            // GitHub Pages and privacy-mode browsers should still run without persisted data.
 +        }
 +    }
@@ -559,7 +559,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        try {
 +            const saved = readStorage(key);
 +            return saved ? JSON.parse(saved) : fallback;
-+        } catch {
++        } catch (error) {
 +            return fallback;
 +        }
 +    }
@@ -573,11 +573,16 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
  
 -};
 +    function loadData() {
-+        state.contacts = readJson(STORAGE_KEYS.contacts, []);
-+        state.chats = readJson(STORAGE_KEYS.chats, {});
-+        state.profile = { ...state.profile, ...readJson(STORAGE_KEYS.profile, {}) };
- 
--Chats[App.currentChat].push(message);
++        const savedContacts = readJson(STORAGE_KEYS.contacts, []);
++        const savedChats = readJson(STORAGE_KEYS.chats, {});
++        const savedProfile = readJson(STORAGE_KEYS.profile, {});
++
++        state.contacts = Array.isArray(savedContacts) ? savedContacts : [];
++        state.chats = savedChats && typeof savedChats === "object" && !Array.isArray(savedChats) ? savedChats : {};
++        state.profile = savedProfile && typeof savedProfile === "object" && !Array.isArray(savedProfile)
++            ? { ...state.profile, ...savedProfile }
++            : state.profile;
++
 +        state.contacts.forEach((name) => {
 +            if (!state.characters[name]) {
 +                state.characters[name] = { avatar: "👤", status: "Online", reply: "Hello!" };
@@ -585,7 +590,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        });
 +    }
  
--addMessage(
+-Chats[App.currentChat].push(message);
 +    function seedData() {
 +        if (!state.contacts.length) {
 +            state.contacts = [...DEFAULT_CONTACTS];
@@ -607,7 +612,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        saveData();
 +    }
  
--message.sender,
+-addMessage(
 +    function escapeHtml(value) {
 +        return String(value).replace(/[&<>'"]/g, (char) => ({
 +            "&": "&amp;",
@@ -618,7 +623,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        }[char]));
 +    }
  
--message.text,
+-message.sender,
 +    function notify(text) {
 +        if (!dom.notification || !dom.notificationText || !state.notificationsEnabled) return;
 +        dom.notificationText.textContent = text;
@@ -627,20 +632,20 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        dom.notification.hideTimer = window.setTimeout(() => dom.notification.classList.add("hidden"), 2400);
 +    }
  
--message.time
+-message.text,
 +    function playSound(audio) {
 +        if (!audio) return;
 +        audio.currentTime = 0;
 +        audio.play().catch(() => undefined);
 +    }
  
--);
+-message.time
 +    function currentCharacter() {
 +        return state.characters[state.currentChat] || { avatar: "👤", status: "Online", reply: "Hello!" };
 +    }
  
--messageInput.value="";
-+    function renderContacts(filter = dom.search?.value || "") {
+-);
++    function renderContacts(filter = (dom.search ? dom.search.value : "") || "") {
 +        const query = filter.trim().toLowerCase();
 +        dom.contactList.innerHTML = "";
 +
@@ -667,7 +672,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +            });
 +    }
  
--saveData();
+-messageInput.value="";
 +    function addMessage(message) {
 +        const bubble = document.createElement("div");
 +        bubble.className = `message ${message.sender === "user" ? "user" : "bot"}`;
@@ -678,14 +683,14 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        dom.messages.appendChild(bubble);
 +    }
  
--messages.scrollTop=
+-saveData();
 +    function renderMessages() {
 +        dom.messages.innerHTML = "";
 +        (state.chats[state.currentChat] || []).forEach(addMessage);
 +        dom.messages.scrollTop = dom.messages.scrollHeight;
 +    }
  
--messages.scrollHeight;
+-messages.scrollTop=
 +    function openChat(name) {
 +        if (!state.contacts.includes(name)) return;
 +        state.currentChat = name;
@@ -700,17 +705,17 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        closePopups();
 +    }
  
--showTyping();
+-messages.scrollHeight;
 +    function hideTyping() {
 +        dom.typingIndicator.classList.add("hidden");
 +    }
  
--setTimeout(botReply,1000);
+-showTyping();
 +    function showTyping() {
 +        dom.typingIndicator.classList.remove("hidden");
 +    }
  
--}
+-setTimeout(botReply,1000);
 +    function sendMessage() {
 +        const text = dom.messageInput.value.trim();
 +        if (!text) return;
@@ -726,9 +731,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        queueBotReply();
 +    }
  
--/*=====================================================
--  BOT REPLY
--=====================================================*/
+-}
 +    function queueBotReply() {
 +        window.clearTimeout(state.botReplyTimerId);
 +        showTyping();
@@ -744,35 +747,39 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        }, 900);
 +    }
  
--function botReply(){
+-/*=====================================================
+-  BOT REPLY
+-=====================================================*/
 +    function closePopups() {
-+        [dom.emojiPicker, dom.attachmentMenu, dom.chatOptions].forEach((popup) => popup?.classList.add("hidden"));
-+        dom.modalBackdrop?.classList.add("hidden");
++        [dom.emojiPicker, dom.attachmentMenu, dom.chatOptions].forEach((popup) => { if (popup) popup.classList.add("hidden"); });
++        if (dom.modalBackdrop) dom.modalBackdrop.classList.add("hidden");
 +    }
  
--hideTyping();
+-function botReply(){
 +    function togglePopup(popup) {
++        if (!popup) return;
 +        const willOpen = popup.classList.contains("hidden");
 +        closePopups();
 +        if (willOpen) {
 +            popup.classList.remove("hidden");
-+            dom.modalBackdrop?.classList.remove("hidden");
++            if (dom.modalBackdrop) dom.modalBackdrop.classList.remove("hidden");
 +        }
 +    }
  
--const reply={
+-hideTyping();
 +    function openPage(page) {
++        if (!page) return;
 +        closePopups();
 +        document.querySelectorAll(".page").forEach((item) => item.classList.remove("active"));
 +        page.classList.add("active");
 +    }
  
--sender:"bot",
+-const reply={
 +    function closeAllPages() {
 +        document.querySelectorAll(".page").forEach((page) => page.classList.remove("active"));
 +    }
  
--text:Characters[App.currentChat].reply,
+-sender:"bot",
 +    function loadProfilePage() {
 +        dom.profileAvatar.textContent = state.profile.avatar;
 +        dom.profileName.textContent = state.profile.name;
@@ -782,7 +789,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        dom.statusInput.value = state.profile.status;
 +    }
  
--time:getTime()
+-text:Characters[App.currentChat].reply,
 +    function saveProfile() {
 +        state.profile.name = dom.usernameInput.value.trim() || "Your Name";
 +        state.profile.status = dom.statusInput.value.trim() || "Available";
@@ -792,7 +799,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        notify("Profile saved");
 +    }
  
--};
+-time:getTime()
 +    function addContact() {
 +        const name = dom.newContactName.value.trim();
 +        const avatar = dom.newContactAvatar.value.trim() || "👤";
@@ -815,7 +822,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        notify("Contact added");
 +    }
  
--Chats[App.currentChat].push(reply);
+-};
 +    function clearCurrentChat() {
 +        state.chats[state.currentChat] = [];
 +        saveData();
@@ -825,7 +832,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        notify("Chat cleared");
 +    }
  
--addMessage(
+-Chats[App.currentChat].push(reply);
 +    function deleteCurrentChat() {
 +        if (DEFAULT_CONTACTS.includes(state.currentChat)) {
 +            notify("Default contacts cannot be deleted");
@@ -839,7 +846,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        notify("Contact deleted");
 +    }
  
--reply.sender,
+-addMessage(
 +    function pinCurrentChat() {
 +        state.contacts = state.contacts.filter((name) => name !== state.currentChat);
 +        state.contacts.unshift(state.currentChat);
@@ -849,7 +856,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        notify("Chat pinned");
 +    }
  
--reply.text,
+-reply.sender,
 +    function exportCurrentChat() {
 +        const content = (state.chats[state.currentChat] || [])
 +            .map((message) => `[${message.time}] ${message.sender}: ${message.text}`)
@@ -865,7 +872,7 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        notify("Chat exported");
 +    }
  
--reply.time
+-reply.text,
 +    function startCall(type) {
 +        const character = currentCharacter();
 +        dom.callAvatar.textContent = character.avatar;
@@ -873,10 +880,10 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        dom.callStatus.textContent = type === "video" ? "Video Calling..." : "Voice Calling...";
 +        openPage(dom.callPage);
 +        startCallTimer();
-+        dom.ringtone?.play().catch(() => undefined);
++        if (dom.ringtone) dom.ringtone.play().catch(() => undefined);
 +    }
  
--);
+-reply.time
 +    function startCallTimer() {
 +        window.clearInterval(state.callTimerId);
 +        state.callSeconds = 0;
@@ -889,18 +896,18 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        }, 1000);
 +    }
  
--saveData();
+-);
 +    function endCall() {
 +        window.clearInterval(state.callTimerId);
 +        state.callTimerId = null;
 +        dom.callTimer.textContent = "00:00";
-+        dom.ringtone?.pause();
++        if (dom.ringtone) dom.ringtone.pause();
 +        if (dom.ringtone) dom.ringtone.currentTime = 0;
 +        closeAllPages();
 +        notify("Call ended");
 +    }
  
--renderContacts();
+-saveData();
 +    function setTheme(mode) {
 +        document.body.classList.toggle("light", mode === "light");
 +        writeStorage(STORAGE_KEYS.theme, mode);
@@ -909,20 +916,20 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        }
 +    }
  
--messages.scrollTop=
+-renderContacts();
 +    function bindEvents() {
 +        dom.sendButton.addEventListener("click", sendMessage);
 +        dom.messageInput.addEventListener("keydown", (event) => {
 +            if (event.key === "Enter") sendMessage();
 +        });
 +        dom.search.addEventListener("input", () => renderContacts());
-+        dom.emojiButton?.addEventListener("click", () => togglePopup(dom.emojiPicker));
-+        dom.attachButton?.addEventListener("click", () => togglePopup(dom.attachmentMenu));
-+        dom.closeEmoji?.addEventListener("click", closePopups);
-+        dom.closeAttachment?.addEventListener("click", closePopups);
-+        dom.chatMenu?.addEventListener("click", () => togglePopup(dom.chatOptions));
-+        dom.closeChatMenu?.addEventListener("click", closePopups);
-+        dom.modalBackdrop?.addEventListener("click", closePopups);
++        if (dom.emojiButton) dom.emojiButton.addEventListener("click", () => togglePopup(dom.emojiPicker));
++        if (dom.attachButton) dom.attachButton.addEventListener("click", () => togglePopup(dom.attachmentMenu));
++        if (dom.closeEmoji) dom.closeEmoji.addEventListener("click", closePopups);
++        if (dom.closeAttachment) dom.closeAttachment.addEventListener("click", closePopups);
++        if (dom.chatMenu) dom.chatMenu.addEventListener("click", () => togglePopup(dom.chatOptions));
++        if (dom.closeChatMenu) dom.closeChatMenu.addEventListener("click", closePopups);
++        if (dom.modalBackdrop) dom.modalBackdrop.addEventListener("click", closePopups);
 +        document.querySelectorAll(".emojiGrid span").forEach((emoji) => {
 +            emoji.addEventListener("click", () => {
 +                dom.messageInput.value += emoji.textContent;
@@ -935,40 +942,42 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +                closePopups();
 +            });
 +        });
-+        dom.profileButton?.addEventListener("click", () => { loadProfilePage(); openPage(dom.profilePage); });
-+        dom.settingsButton?.addEventListener("click", () => openPage(dom.settingsPage));
-+        dom.newChat?.addEventListener("click", () => openPage(dom.addContactPage));
-+        dom.aiTab?.addEventListener("click", () => openPage(dom.aiPage));
-+        dom.chatTab?.addEventListener("click", closeAllPages);
-+        dom.friendsTab?.addEventListener("click", () => notify("Friends view is coming soon"));
++        if (dom.profileButton) dom.profileButton.addEventListener("click", () => { loadProfilePage(); openPage(dom.profilePage); });
++        if (dom.settingsButton) dom.settingsButton.addEventListener("click", () => openPage(dom.settingsPage));
++        if (dom.newChat) dom.newChat.addEventListener("click", () => openPage(dom.addContactPage));
++        if (dom.aiTab) dom.aiTab.addEventListener("click", () => openPage(dom.aiPage));
++        if (dom.chatTab) dom.chatTab.addEventListener("click", closeAllPages);
++        if (dom.friendsTab) dom.friendsTab.addEventListener("click", () => notify("Friends view is coming soon"));
 +        document.querySelectorAll(".closePage").forEach((button) => button.addEventListener("click", closeAllPages));
 +        document.querySelectorAll(".selectAI").forEach((button) => button.addEventListener("click", () => openChat(button.dataset.character)));
-+        dom.saveProfile?.addEventListener("click", saveProfile);
-+        dom.editProfile?.addEventListener("click", () => dom.usernameInput?.focus());
-+        dom.saveContact?.addEventListener("click", addContact);
-+        dom.clearChat?.addEventListener("click", clearCurrentChat);
-+        dom.deleteChat?.addEventListener("click", deleteCurrentChat);
-+        dom.pinChat?.addEventListener("click", pinCurrentChat);
-+        dom.exportChat?.addEventListener("click", exportCurrentChat);
-+        dom.voiceCall?.addEventListener("click", () => startCall("voice"));
-+        dom.videoCall?.addEventListener("click", () => startCall("video"));
-+        dom.endCall?.addEventListener("click", endCall);
-+        dom.muteCall?.addEventListener("click", () => notify("Mute toggled"));
-+        dom.speakerCall?.addEventListener("click", () => notify("Speaker toggled"));
-+        dom.videoToggle?.addEventListener("click", () => notify("Video toggled"));
-+        dom.acceptCall?.addEventListener("click", () => startCall("voice"));
-+        dom.declineCall?.addEventListener("click", () => { closeAllPages(); notify("Call declined"); });
-+        dom.backButton?.addEventListener("click", () => document.querySelector(".sidebar")?.classList.remove("hide"));
-+        dom.themeButton?.addEventListener("click", () => setTheme(document.body.classList.contains("light") ? "dark" : "light"));
-+        dom.notificationButton?.addEventListener("click", () => {
++        if (dom.saveProfile) dom.saveProfile.addEventListener("click", saveProfile);
++        if (dom.editProfile) dom.editProfile.addEventListener("click", () => dom.usernameInput && dom.usernameInput.focus());
++        if (dom.saveContact) dom.saveContact.addEventListener("click", addContact);
++        if (dom.clearChat) dom.clearChat.addEventListener("click", clearCurrentChat);
++        if (dom.deleteChat) dom.deleteChat.addEventListener("click", deleteCurrentChat);
++        if (dom.pinChat) dom.pinChat.addEventListener("click", pinCurrentChat);
++        if (dom.exportChat) dom.exportChat.addEventListener("click", exportCurrentChat);
++        if (dom.voiceCall) dom.voiceCall.addEventListener("click", () => startCall("voice"));
++        if (dom.videoCall) dom.videoCall.addEventListener("click", () => startCall("video"));
++        if (dom.endCall) dom.endCall.addEventListener("click", endCall);
++        if (dom.muteCall) dom.muteCall.addEventListener("click", () => notify("Mute toggled"));
++        if (dom.speakerCall) dom.speakerCall.addEventListener("click", () => notify("Speaker toggled"));
++        if (dom.videoToggle) dom.videoToggle.addEventListener("click", () => notify("Video toggled"));
++        if (dom.acceptCall) dom.acceptCall.addEventListener("click", () => startCall("voice"));
++        if (dom.declineCall) dom.declineCall.addEventListener("click", () => { closeAllPages(); notify("Call declined"); });
++        if (dom.backButton) dom.backButton.addEventListener("click", () => (document.querySelector(".sidebar") && document.querySelector(".sidebar").classList.remove("hide")));
++        if (dom.themeButton) dom.themeButton.addEventListener("click", () => setTheme(document.body.classList.contains("light") ? "dark" : "light"));
++        if (dom.notificationButton) dom.notificationButton.addEventListener("click", () => {
 +            state.notificationsEnabled = !state.notificationsEnabled;
 +            notify(state.notificationsEnabled ? "Notifications enabled" : "Notifications disabled");
 +        });
-+        dom.privacyButton?.addEventListener("click", () => notify("Privacy settings are coming soon"));
-+        dom.backupButton?.addEventListener("click", saveData);
-+        dom.aboutButton?.addEventListener("click", () => notify("AnimeChat v1.0 Final"));
++        if (dom.privacyButton) dom.privacyButton.addEventListener("click", () => notify("Privacy settings are coming soon"));
++        if (dom.backupButton) dom.backupButton.addEventListener("click", saveData);
++        if (dom.aboutButton) dom.aboutButton.addEventListener("click", () => notify("AnimeChat v1.0 Final"));
 +    }
  
+-messages.scrollTop=
+-
 -messages.scrollHeight;
 -
 -}
@@ -1574,12 +1583,13 @@ index 524e4fa2fd3603d4a0807e154c264bd9438c5924..82965413e8e95d6c07512aeee6675522
 +        renderContacts();
 +        openChat(state.currentChat);
 +        loadProfilePage();
-+        dom.loadingScreen?.classList.add("hidden");
++        if (dom.loadingScreen) dom.loadingScreen.classList.add("hidden");
 +        notify("AnimeChat ready");
 +    }
  
 -});
 +    document.addEventListener("DOMContentLoaded", boot, { once: true });
 +})();
+
 
 
