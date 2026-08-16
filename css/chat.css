@@ -524,3 +524,43 @@
 .submit-btn:hover {
     background-color: var(--accent-hover);
 }
+/* Roleplay Banner & Active Styles */
+.rp-banner {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(109, 40, 217, 0.1));
+    border-bottom: 1px solid var(--accent-color);
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.rp-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #c4b5fd;
+}
+
+.rp-banner-content i {
+    color: var(--accent-color);
+}
+
+.rp-settings-trigger {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.rp-settings-trigger:hover {
+    color: var(--text-primary);
+}
+
+#roleplay-toggle-btn.rp-active-indicator {
+    color: var(--accent-color);
+    background-color: rgba(124, 58, 237, 0.15);
+}
