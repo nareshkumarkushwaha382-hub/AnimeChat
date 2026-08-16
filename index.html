@@ -1,209 +1,213 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeChat</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/chat.css">
-    <!-- FontAwesome for icons -->
+    <title>Anime & AI Chat App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+
     <div class="app-container">
-        <!-- Sidebar / Contacts Section -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="user-profile">
-                    <div class="avatar-container">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=user" alt="User Avatar" id="user-avatar">
-                    </div>
-                    <span class="username">You</span>
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=currentUser" alt="User Avatar" id="user-avatar">
+                    <h3>Chats</h3>
                 </div>
-               <div class="sidebar-actions">
+                <div class="sidebar-actions">
                     <button title="Add Character" id="add-char-btn"><i class="fa-solid fa-plus"></i></button>
                     <button title="Settings" id="settings-btn"><i class="fa-solid fa-gear"></i></button>
                 </div>
             </div>
 
+            <!-- Search Contacts -->
             <div class="search-container">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="search-contacts" placeholder="Search or start new chat">
-                </div>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-contacts" placeholder="Search or start new chat">
             </div>
 
+            <!-- Contacts List -->
             <div class="contacts-list" id="contacts-list">
-                <!-- Contacts will be dynamically loaded here -->
+                <!-- Dynamically rendered via app.js -->
             </div>
         </aside>
 
         <!-- Main Chat Area -->
         <main class="chat-area">
-            <!-- Default Empty State -->
+            <!-- Welcome View (When no chat is active) -->
             <div class="chat-welcome" id="chat-welcome">
                 <div class="welcome-content">
                     <i class="fa-solid fa-comments"></i>
-                    <h2>AnimeChat</h2>
-                    <p>Select a contact to start chatting with your favorite anime characters.</p>
+                    <h2>Anime & AI Messenger</h2>
+                    <p>Select a contact or create a custom character to start chatting and roleplaying.</p>
                 </div>
             </div>
 
-            <!-- Active Chat Window -->
+            <!-- Active Chat Box -->
             <div class="chat-box hidden" id="chat-box">
-                <header class="chat-header">
-                    <div class="chat-contact-info">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <div class="chat-header-user">
                         <button class="back-btn" id="back-btn"><i class="fa-solid fa-arrow-left"></i></button>
-                        <div class="avatar-container">
-                            <img src="" alt="Contact Avatar" id="active-avatar">
-                            <span class="status-dot" id="active-status-dot"></span>
-                        </div>
-                        <div class="contact-details">
+                        <img src="" alt="Avatar" id="active-avatar">
+                        <div class="chat-header-info">
                             <h3 id="active-name">Character Name</h3>
                             <span id="active-status">Online</span>
                         </div>
                     </div>
-                   <div class="chat-actions">
+                    <div class="chat-actions">
+                        <button title="Phone Call" id="phone-call-btn"><i class="fa-solid fa-phone"></i></button>
+                        <button title="Video Call" id="video-call-btn"><i class="fa-solid fa-video"></i></button>
                         <button title="Roleplay Mode" id="roleplay-toggle-btn"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
                         <button title="Clear Chat History" id="clear-chat-btn"><i class="fa-solid fa-trash-can"></i></button>
                         <button title="Character Info" id="char-info-btn"><i class="fa-solid fa-circle-info"></i></button>
                     </div>
-                </header>
-
-                <!-- Roleplay Active Banner -->
-                <div class="rp-banner hidden" id="rp-active-banner">
-                    <div class="rp-banner-content">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        <span id="rp-banner-desc">Roleplay Mode Active</span>
-                    </div>
-                    <button class="rp-settings-trigger" id="rp-settings-btn" title="Configure Roleplay Scenario"><i class="fa-solid fa-sliders"></i></button>
                 </div>
 
+                <!-- Messages Container -->
                 <div class="messages-container" id="messages-container">
-                    <!-- Messages will be dynamically loaded here -->
+                    <!-- Dynamically rendered via chat.js -->
                 </div>
 
-                <footer class="chat-input-area">
-                    <button class="input-action-btn"><i class="fa-solid fa-paperclip"></i></button>
-                    <div class="input-wrapper">
-                        <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
-                    </div>
-                    <button class="send-btn" id="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
-                </footer>
+                <!-- Chat Input Footer -->
+                <div class="chat-input-footer">
+                    <input type="text" id="message-input" placeholder="Type a message...">
+                    <button id="send-btn" title="Send Message"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
             </div>
         </main>
     </div>
 
+    <!-- API Settings Modal -->
+    <div id="api-settings-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>AI Settings</h3>
+                <button id="close-api-modal" class="close-btn">&times;</button>
+            </div>
+            <form id="api-settings-form">
+                <div class="form-group">
+                    <label for="ai-provider">AI Provider</label>
+                    <select id="ai-provider">
+                        <option value="openrouter">OpenRouter</option>
+                        <option value="openai">OpenAI</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="api-key-input">API Key</label>
+                    <input type="password" id="api-key-input" placeholder="Enter your API Key...">
+                </div>
+                <div class="form-group">
+                    <label for="ai-model-input">AI Model</label>
+                    <input type="text" id="ai-model-input" placeholder="e.g., openai/gpt-4o-mini">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Save AI Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Custom Character Modal -->
+    <div id="add-char-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Custom Character</h3>
+                <button id="close-add-btn" class="close-btn">&times;</button>
+            </div>
+            <form id="add-char-form">
+                <div class="form-group">
+                    <label for="new-char-name">Character Name</label>
+                    <input type="text" id="new-char-name" placeholder="e.g., Sebastian" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-char-personality">Personality Description</label>
+                    <textarea id="new-char-personality" placeholder="Polite, mysterious demon butler..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="new-char-prompt">System Prompt / Roleplay Directive</label>
+                    <textarea id="new-char-prompt" placeholder="You speak elegantly and end sentences with 'my lord'..."></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Create Character</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Character Info Modal -->
-    <div class="modal-overlay hidden" id="char-info-modal">
-        <div class="modal-card">
+    <div id="char-info-modal" class="modal hidden">
+        <div class="modal-content">
             <div class="modal-header">
                 <h3>Character Profile</h3>
-                <button class="close-modal-btn" id="close-info-btn"><i class="fa-solid fa-xmark"></i></button>
+                <button id="close-info-btn" class="close-btn">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="modal-avatar">
-                    <img src="" alt="Avatar" id="modal-avatar-img">
-                </div>
-                <h4 id="modal-char-name">Name</h4>
-                <p id="modal-char-status" class="modal-status"></p>
-                <div class="modal-section">
-                    <h5>Personality</h5>
+            <div class="char-profile-view">
+                <img id="modal-avatar-img" src="" alt="Avatar">
+                <h2 id="modal-char-name"></h2>
+                <span id="modal-char-status" class="status-tag">Online</span>
+                <div class="info-section">
+                    <h4>Personality</h4>
                     <p id="modal-char-personality"></p>
                 </div>
-                <div class="modal-section">
-                    <h5>System Prompt</h5>
-                    <p id="modal-char-prompt" class="code-font"></p>
+                <div class="info-section">
+                    <h4>System Prompt</h4>
+                    <p id="modal-char-prompt"></p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Roleplay Configuration Modal -->
-    <div class="modal-overlay hidden" id="rp-modal">
-        <div class="modal-card">
+    <div id="rp-modal" class="modal hidden">
+        <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Roleplay Scenario</h3>
-                <button class="close-modal-btn" id="close-rp-modal"><i class="fa-solid fa-xmark"></i></button>
+                <h3>Roleplay Scenario Config</h3>
+                <button id="close-rp-modal" class="close-btn">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="rp-config-form">
-                    <div class="form-group">
-                        <label>Scenario / Plot</label>
-                        <textarea id="rp-scenario" placeholder="e.g., Investigating a mysterious mansion together..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Setting / Location</label>
-                        <input type="text" id="rp-setting" placeholder="e.g., Roswaal Mansion Library, Night">
-                    </div>
-                    <div class="form-group">
-                        <label>Your Role (User)</label>
-                        <input type="text" id="rp-user-role" placeholder="e.g., A traveling knight">
-                    </div>
-                    <div class="form-group">
-                        <label>Character Role</label>
-                        <input type="text" id="rp-char-role" placeholder="e.g., Head Maid">
-                    </div>
-                    <button type="submit" class="submit-btn">Save Roleplay Settings</button>
-                </form>
-            </div>
+            <form id="rp-config-form">
+                <div class="form-group">
+                    <label for="rp-scenario">Scenario / Arc</label>
+                    <input type="text" id="rp-scenario" placeholder="e.g., Emerald Witch Arc">
+                </div>
+                <div class="form-group">
+                    <label for="rp-setting">Setting / Location</label>
+                    <input type="text" id="rp-setting" placeholder="e.g., Boadicea's Forest">
+                </div>
+                <div class="form-group">
+                    <label for="rp-user-role">Your Role</label>
+                    <input type="text" id="rp-user-role" placeholder="e.g., Earl Phantomhive">
+                </div>
+                <div class="form-group">
+                    <label for="rp-char-role">Character Role</label>
+                    <input type="text" id="rp-char-role" placeholder="e.g., Head Butler">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Start Roleplay</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- API Settings Modal -->
-    <div class="modal-overlay hidden" id="api-settings-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-key"></i> AI API Settings</h3>
-                <button class="close-modal-btn" id="close-api-modal"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Call Overlay Modal -->
+    <div id="call-modal" class="modal hidden">
+        <div class="modal-content call-modal-content">
+            <div class="call-header">
+                <h3 id="call-title">Calling...</h3>
+                <span id="call-status-timer">00:00</span>
             </div>
-            <div class="modal-body">
-                <form id="api-settings-form">
-                    <div class="form-group">
-                        <label>AI Provider</label>
-                        <select id="ai-provider">
-                            <option value="openrouter">OpenRouter (Recommended - Free/Flexible)</option>
-                            <option value="openai">OpenAI (ChatGPT)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>API Key</label>
-                        <input type="password" id="api-key-input" placeholder="sk-..." autocomplete="off">
-                        <small class="form-help">Your key is stored securely in your browser's localStorage and never shared.</small>
-                    </div>
-                    <div class="form-group">
-                        <label>AI Model</label>
-                        <input type="text" id="ai-model-input" value="openai/gpt-4o-mini" placeholder="e.g. openai/gpt-4o-mini">
-                    </div>
-                    <button type="submit" class="submit-btn">Save API Settings</button>
-                </form>
+            <div class="video-container">
+                <video id="remoteVideo" autoplay playsinline></video>
+                <video id="localVideo" autoplay muted playsinline></video>
             </div>
-        </div>
-    </div>
-
-    <!-- Add Custom Character Modal -->
-    <div class="modal-overlay hidden" id="add-char-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3>Add New Character</h3>
-                <button class="close-modal-btn" id="close-add-btn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body">
-                <form id="add-char-form">
-                    <div class="form-group">
-                        <label>Character Name</label>
-                        <input type="text" id="new-char-name" required placeholder="e.g. Kakashi">
-                    </div>
-                    <div class="form-group">
-                        <label>Personality Description</label>
-                        <textarea id="new-char-personality" required placeholder="Calm, tactical, lazy reader..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>AI System Prompt</label>
-                        <textarea id="new-char-prompt" required placeholder="You are Kakashi Hatake from Naruto..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Create Character</button>
-                </form>
+            <div class="call-controls">
+                <button id="mute-audio-btn" title="Mute Audio"><i class="fa-solid fa-microphone"></i></button>
+                <button id="toggle-video-btn" title="Toggle Video"><i class="fa-solid fa-video"></i></button>
+                <button id="end-call-btn" class="btn-danger" title="End Call"><i class="fa-solid fa-phone-slash"></i></button>
             </div>
         </div>
     </div>
@@ -214,6 +218,8 @@
     <script src="js/ai.js"></script>
     <script src="js/roleplay.js"></script>
     <script src="js/chat.js"></script>
+    <script src="js/call.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
+
