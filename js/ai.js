@@ -1,58 +1,100 @@
 const AIService = {
-    generateReply(characterId, userMessage) {
+    getSettings() {
+        return {
+            provider: localStorage.getItem("anime_ai_provider") || "openrouter",
+            apiKey: localStorage.getItem("anime_ai_key") || "",
+            model: localStorage.getItem("anime_ai_model") || "openai/gpt-4o-mini"
+        };
+    },
+
+    saveSettings(provider, apiKey, model) {
+        localStorage.setItem("anime_ai_provider", provider);
+        localStorage.setItem("anime_ai_key", apiKey);
+        localStorage.setItem("anime_ai_model", model);
+    },
+
+    async generateReply(characterId, messagesList) {
         const char = (typeof characters !== 'undefined' && characters[characterId]) || 
                      (typeof StorageManager !== 'undefined' && StorageManager.getSavedCustomCharacters()[characterId]) || 
-                     { name: "Character", personality: "Friendly" };
+                     { name: "Character", personality: "Friendly", prompt: "You are a helpful assistant." };
 
+        const settings = this.getSettings();
+
+        // If no API key is saved, fall back to smart mock generator
+        if (!settings.apiKey) {
+            const lastMsg = messagesList.length > 0 ? messagesList[messagesList.length - 1].text : "";
+            return this.getMockFallback(characterId, lastMsg, char);
+        }
+
+        // Build System Prompt
+        let systemPrompt = char.prompt || `You are ${char.name}. Personality: ${char.personality}`;
+        
+        const rpState = (typeof RoleplayManager !== 'undefined') ? RoleplayManager.getState(characterId) : { active: false };
+        if (rpState.active) {
+            systemPrompt += `\n\nROLEPLAY MODE ACTIVE:\n- Scenario: ${rpState.scenario || 'General chat'}\n- Setting: ${rpState.setting || 'Not specified'}\n- Your Role: ${rpState.charRole || char.name}\n- User Role: ${rpState.userRole || 'Traveler'}\nStay strictly in character and adhere to this scene.`;
+        }
+
+        // Format messages for OpenAI / OpenRouter API
+        const formattedMessages = [
+            { role: "system", content: systemPrompt },
+            ...messagesList.map(m => ({
+                role: m.sender === "sent" ? "user" : "assistant",
+                content: m.text
+            }))
+        ];
+
+        try {
+            let endpoint = "https://openrouter.ai/api/v1/chat/completions";
+            let headers = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${settings.apiKey}`
+            };
+
+            if (settings.provider === "openai") {
+                endpoint = "https://api.openai.com/v1/chat/completions";
+            } else {
+                headers["HTTP-Referer"] = window.location.origin;
+                headers["X-Title"] = "AnimeChat App";
+            }
+
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify({
+                    model: settings.model || "openai/gpt-4o-mini",
+                    messages: formattedMessages,
+                    temperature: 0.8
+                })
+            });
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.error?.message || `API Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.choices[0].message.content.trim();
+
+        } catch (error) {
+            console.error("AI API Error:", error);
+            return `[API Error]: ${error.message}. (Falling back to offline mode). Check your API Key in settings.`;
+        }
+    },
+
+    getMockFallback(characterId, userMessage, char) {
         const msgLower = (userMessage || "").toLowerCase();
-
-        // Check Roleplay Mode State
         const rpState = (typeof RoleplayManager !== 'undefined') ? RoleplayManager.getState(characterId) : { active: false };
 
         if (rpState.active) {
-            const scenarioText = rpState.scenario ? `Scenario: ${rpState.scenario}` : "";
-            const settingText = rpState.setting ? `Setting: ${rpState.setting}` : "";
-            const charRoleText = rpState.charRole ? `Your Role: ${rpState.charRole}` : "";
-            const userRoleText = rpState.userRole ? `User Role: ${rpState.userRole}` : "";
-
-            return `[Roleplay Mode - ${char.name} as ${rpState.charRole || 'Character'}]: *Responding within the scene (${settingText}).* ${scenarioText}\n\nI acknowledge your action: "${userMessage}". Let us continue our roleplay!`;
+            return `[Roleplay Mode - ${char.name}]: *Responds to "${userMessage}" within the scene.* (Add your API key in settings for full LLM generation!)`;
         }
 
-        // Standard Preset Replies
         if (characterId === "rem") {
-            if (msgLower.includes("hello") || msgLower.includes("hi")) {
-                return "Subaru-kun... ah, welcome! How can Rem be of service to you today?";
-            }
-            if (msgLower.includes("help") || msgLower.includes("assist")) {
-                return "Please leave everything to Rem! I will protect you no matter what happens.";
-            }
-            return `As Rem, I am listening closely to your words: "${userMessage}". Is there anything troubling you?`;
+            return `Subaru-kun... I heard you say: "${userMessage}". (Tip: Add your AI API key in Settings for real LLM chat!)`;
         }
-
         if (characterId === "gojo") {
-            if (msgLower.includes("hello") || msgLower.includes("hi")) {
-                return "Yo! What's up? Need the strongest on your side today?";
-            }
-            if (msgLower.includes("strong") || msgLower.includes("fight")) {
-                return "Nah, I'd win. Don't sweat it!";
-            }
-            return `Haha, interesting! You said: "${userMessage}". Want to grab some Kikufuku sweets later?`;
+            return `Yo! You said: "${userMessage}". Pretty fun, right? (Set up your API key in settings for live AI!).`;
         }
-
-        if (characterId === "subaru") {
-            if (msgLower.includes("hello") || msgLower.includes("hi")) {
-                return "Hey there! Ready to take on whatever fate throws at us today!";
-            }
-            return `I hear you! "${userMessage}" — we've gotta stay positive and find a way forward!`;
-        }
-
-        if (characterId === "emilia") {
-            if (msgLower.includes("hello") || msgLower.includes("hi")) {
-                return "Hello there! It's so nice to speak with you today.";
-            }
-            return `Thank you for sharing that with me. I appreciate your kindness!`;
-        }
-
-        return `[${char.name}]: I received your message: "${userMessage}". My personality is: ${char.personality || 'Friendly'}`;
+        return `[${char.name}]: I received: "${userMessage}". Add your AI API key in Settings for full generation!`;
     }
 };
