@@ -74,6 +74,17 @@ const ChatManager = {
         container.scrollTop = container.scrollHeight;
     },
 
+    clearHistory() {
+        if (!this.activeCharacterId) return;
+        if (confirm("Are you sure you want to clear the chat history with this character?")) {
+            localStorage.removeItem("anime_chat_" + this.activeCharacterId);
+            this.renderMessages();
+            if (typeof AppManager !== 'undefined' && AppManager.renderContacts) {
+                AppManager.renderContacts();
+            }
+        }
+    },
+
     handleSendMessage() {
         const input = document.getElementById("message-input");
         if (!input) return;
