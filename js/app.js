@@ -1,5 +1,6 @@
 const AppManager = {
     init() {
+        CustomCharacterManager.initCustoms();
         this.renderContacts();
         this.setupEventListeners();
         ChatManager.init();
@@ -12,12 +13,10 @@ const AppManager = {
         const conversations = StorageManager.getConversations();
 
         Object.values(characters).forEach(char => {
-            // Apply search filter if present
             if (filter && !char.name.toLowerCase().includes(filter.toLowerCase())) {
                 return;
             }
 
-            // Get last message from storage or character default
             const charMessages = conversations[char.id] || [];
             const lastMsgObj = charMessages.length > 0 ? charMessages[charMessages.length - 1] : { text: char.lastMessage, time: char.lastTime };
 
@@ -68,13 +67,59 @@ const AppManager = {
             document.getElementById("chat-box").classList.add("hidden");
             document.getElementById("chat-welcome").classList.remove("hidden");
             ChatManager.activeCharacterId = null;
-            
             document.querySelectorAll(".contact-item").forEach(item => item.classList.remove("active"));
         });
+
+        // Add character button in sidebar header
+        const sidebarActions = document.querySelector(".sidebar-actions");
+        const addBtn = document.createElement("button");
+        addBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i>';
+        addBtn.title = "Add Custom Character";
+        addBtn.id = "open-add-char-modal";
+        sidebarActions.prepend(addBtn);
+
+        // Add Character Modal events
+        const addModal = document.getElementById("add-char-modal");
+        addBtn.addEventListener("click", () => addModal.classList.remove("hidden"));
+        document.getElementById("close-add-btn").addEventListener("click", () => addModal.classList.add("hidden"));
+
+        document.getElementById("add-char-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("new-char-name").value.trim();
+            const personality = document.getElementById("new-char-personality").value.trim();
+            const prompt = document.getElementById("new-char-prompt").value.trim();
+
+            const newId = CustomCharacterManager.createCharacter(name, personality, prompt);
+            addModal.classList.add("hidden");
+            document.getElementById("add-char-form").reset();
+            this.renderContacts();
+            ChatManager.openChat(newId);
+        });
+
+        // Character Info Modal events from Chat Header
+        const infoModal = document.getElementById("char-info-modal");
+        const contactInfoSection = document.querySelector(".chat-contact-info");
+        
+        contactInfoSection.style.cursor = "pointer";
+        contactInfoSection.title = "View Character Profile";
+        contactInfoSection.addEventListener("click", () => {
+            if (!ChatManager.activeCharacterId) return;
+            const char = characters[ChatManager.activeCharacterId];
+            if (!char) return;
+
+            document.getElementById("modal-avatar-img").src = char.avatar;
+            document.getElementById("modal-char-name").textContent = char.name;
+            document.getElementById("modal-char-status").textContent = char.status;
+            document.getElementById("modal-char-personality").textContent = char.personality || "No personality defined.";
+            document.getElementById("modal-char-prompt").textContent = char.systemPrompt || "No system prompt defined.";
+
+            infoModal.classList.remove("hidden");
+        });
+
+        document.getElementById("close-info-btn").addEventListener("click", () => infoModal.classList.add("hidden"));
     }
 };
 
-// Initialize App when DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
     AppManager.init();
 });
