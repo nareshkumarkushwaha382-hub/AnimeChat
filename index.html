@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -143,6 +143,37 @@
                         <input type="text" id="rp-char-role" placeholder="e.g., Head Maid">
                     </div>
                     <button type="submit" class="submit-btn">Save Roleplay Settings</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Settings Modal -->
+    <div class="modal-overlay hidden" id="api-settings-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-key"></i> AI API Settings</h3>
+                <button class="close-modal-btn" id="close-api-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="api-settings-form">
+                    <div class="form-group">
+                        <label>AI Provider</label>
+                        <select id="ai-provider">
+                            <option value="openrouter">OpenRouter (Recommended - Free/Flexible)</option>
+                            <option value="openai">OpenAI (ChatGPT)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <input type="password" id="api-key-input" placeholder="sk-..." autocomplete="off">
+                        <small class="form-help">Your key is stored securely in your browser's localStorage and never shared.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>AI Model</label>
+                        <input type="text" id="ai-model-input" value="openai/gpt-4o-mini" placeholder="e.g. openai/gpt-4o-mini">
+                    </div>
+                    <button type="submit" class="submit-btn">Save API Settings</button>
                 </form>
             </div>
         </div>
