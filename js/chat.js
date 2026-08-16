@@ -45,6 +45,11 @@ const ChatManager = {
             }
         });
 
+        // Update Roleplay UI state for this character
+        if (typeof RoleplayManager !== 'undefined') {
+            RoleplayManager.updateUI(characterId);
+        }
+
         this.renderMessages();
     },
 
@@ -77,7 +82,6 @@ const ChatManager = {
         if (!text || !this.activeCharacterId) return;
 
         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
         const messages = StorageManager.getMessages(this.activeCharacterId);
 
         messages.push({
