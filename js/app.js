@@ -54,6 +54,64 @@ const AppManager = {
     },
 
     setupEventListeners() {
+        // Roleplay Mode Toggle & Scenario Modal
+        const rpToggleBtn = document.getElementById("roleplay-toggle-btn");
+        const rpModal = document.getElementById("rp-modal");
+        const rpSettingsBtn = document.getElementById("rp-settings-btn");
+
+        if (rpToggleBtn) {
+            rpToggleBtn.addEventListener("click", () => {
+                if (!ChatManager.activeCharacterId) return;
+                const isActive = RoleplayManager.toggleMode(ChatManager.activeCharacterId);
+                if (isActive) {
+                    // Open modal on first activate to let user set scenario
+                    const state = RoleplayManager.getState(ChatManager.activeCharacterId);
+                    document.getElementById("rp-scenario").value = state.scenario || "";
+                    document.getElementById("rp-setting").value = state.setting || "";
+                    document.getElementById("rp-user-role").value = state.userRole || "";
+                    document.getElementById("rp-char-role").value = state.charRole || "";
+                    rpModal.classList.remove("hidden");
+                }
+            });
+        }
+
+        if (rpSettingsBtn) {
+            rpSettingsBtn.addEventListener("click", () => {
+                if (!ChatManager.activeCharacterId) return;
+                const state = RoleplayManager.getState(ChatManager.activeCharacterId);
+                document.getElementById("rp-scenario").value = state.scenario || "";
+                document.getElementById("rp-setting").value = state.setting || "";
+                document.getElementById("rp-user-role").value = state.userRole || "";
+                document.getElementById("rp-char-role").value = state.charRole || "";
+                rpModal.classList.remove("hidden");
+            });
+        }
+
+        const closeRpBtn = document.getElementById("close-rp-modal");
+        if (closeRpBtn) {
+            closeRpBtn.addEventListener("click", () => rpModal.classList.add("hidden"));
+        }
+
+        const rpConfigForm = document.getElementById("rp-config-form");
+        if (rpConfigForm) {
+            rpConfigForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (!ChatManager.activeCharacterId) return;
+
+                const newState = {
+                    active: true,
+                    scenario: document.getElementById("rp-scenario").value.trim(),
+                    setting: document.getElementById("rp-setting").value.trim(),
+                    userRole: document.getElementById("rp-user-role").value.trim(),
+                    charRole: document.getElementById("rp-char-role").value.trim()
+                };
+
+                RoleplayManager.saveState(ChatManager.activeCharacterId, newState);
+                RoleplayManager.updateUI(ChatManager.activeCharacterId);
+                rpModal.classList.add("hidden");
+            });
+        }
+        
         // Search filter
         const searchInput = document.getElementById("search-contacts");
         searchInput.addEventListener("input", (e) => {
