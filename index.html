@@ -88,5 +88,63 @@
     <script src="js/storage.js"></script>
     <script src="js/chat.js"></script>
     <script src="js/app.js"></script>
+    <!-- Character Info Modal -->
+    <div class="modal-overlay hidden" id="char-info-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Character Profile</h3>
+                <button class="close-modal-btn" id="close-info-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-avatar">
+                    <img src="" alt="Avatar" id="modal-avatar-img">
+                </div>
+                <h4 id="modal-char-name">Name</h4>
+                <p id="modal-char-status" class="modal-status"></p>
+                <div class="modal-section">
+                    <h5>Personality</h5>
+                    <p id="modal-char-personality"></p>
+                </div>
+                <div class="modal-section">
+                    <h5>System Prompt</h5>
+                    <p id="modal-char-prompt" class="code-font"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Custom Character Modal -->
+    <div class="modal-overlay hidden" id="add-char-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Add New Character</h3>
+                <button class="close-modal-btn" id="close-add-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-char-form">
+                    <div class="form-group">
+                        <label>Character Name</label>
+                        <input type="text" id="new-char-name" required placeholder="e.g. Kakashi">
+                    </div>
+                    <div class="form-group">
+                        <label>Personality Description</label>
+                        <textarea id="new-char-personality" required placeholder="Calm, tactical, lazy reader..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>AI System Prompt</label>
+                        <textarea id="new-char-prompt" required placeholder="You are Kakashi Hatake from Naruto..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Create Character</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/characters.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
