@@ -175,6 +175,62 @@ const AppManager = {
                 alert("API Settings saved successfully!");
             });
         }
+        // Add Custom Character Listeners
+        const addCharBtn = document.getElementById("add-char-btn");
+        const addCharModal = document.getElementById("add-char-modal");
+        const closeAddBtn = document.getElementById("close-add-btn");
+        const addCharForm = document.getElementById("add-char-form");
+
+        if (addCharBtn) {
+            addCharBtn.addEventListener("click", () => {
+                if (addCharModal) addCharModal.classList.remove("hidden");
+            });
+        }
+
+        if (closeAddBtn) {
+            closeAddBtn.addEventListener("click", () => {
+                if (addCharModal) addCharModal.classList.add("hidden");
+            });
+        }
+
+        if (addCharForm) {
+            addCharForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById("new-char-name").value.trim();
+                const personality = document.getElementById("new-char-personality").value.trim();
+                const prompt = document.getElementById("new-char-prompt").value.trim();
+                
+                if (!name) return;
+
+                // Create a unique ID for the character
+                const id = "custom_" + Date.now();
+                
+                // Generate a random robot/anime style avatar using DiceBear
+                const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`;
+
+                const newChar = {
+                    name: name,
+                    avatar: avatarUrl,
+                    status: "Online",
+                    personality: personality,
+                    prompt: prompt
+                };
+
+                // Save to localStorage via StorageManager
+                StorageManager.saveCustomCharacter(id, newChar);
+                
+                // Close modal and reset form
+                addCharForm.reset();
+                if (addCharModal) addCharModal.classList.add("hidden");
+                
+                // Re-render sidebar to show the new character
+                AppManager.renderContacts();
+                
+                // Automatically open chat with the newly created character
+                ChatManager.openChat(id);
+            });
+        }
     },
 
     escapeHTML(str) {
