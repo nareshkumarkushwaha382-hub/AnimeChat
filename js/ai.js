@@ -1,13 +1,24 @@
 const AIService = {
     generateReply(characterId, userMessage) {
-        // Safely find the character from global objects or localStorage backup
         const char = (typeof characters !== 'undefined' && characters[characterId]) || 
                      (typeof StorageManager !== 'undefined' && StorageManager.getSavedCustomCharacters()[characterId]) || 
                      { name: "Character", personality: "Friendly" };
 
         const msgLower = (userMessage || "").toLowerCase();
 
-        // Preset anime character personalities
+        // Check Roleplay Mode State
+        const rpState = (typeof RoleplayManager !== 'undefined') ? RoleplayManager.getState(characterId) : { active: false };
+
+        if (rpState.active) {
+            const scenarioText = rpState.scenario ? `Scenario: ${rpState.scenario}` : "";
+            const settingText = rpState.setting ? `Setting: ${rpState.setting}` : "";
+            const charRoleText = rpState.charRole ? `Your Role: ${rpState.charRole}` : "";
+            const userRoleText = rpState.userRole ? `User Role: ${rpState.userRole}` : "";
+
+            return `[Roleplay Mode - ${char.name} as ${rpState.charRole || 'Character'}]: *Responding within the scene (${settingText}).* ${scenarioText}\n\nI acknowledge your action: "${userMessage}". Let us continue our roleplay!`;
+        }
+
+        // Standard Preset Replies
         if (characterId === "rem") {
             if (msgLower.includes("hello") || msgLower.includes("hi")) {
                 return "Subaru-kun... ah, welcome! How can Rem be of service to you today?";
@@ -42,7 +53,6 @@ const AIService = {
             return `Thank you for sharing that with me. I appreciate your kindness!`;
         }
 
-        // Fallback for custom characters
-        return `[${char.name}]: I received your message: "${userMessage}". My personality is: ${char.personality || 'Friendly and ready to chat.'}`;
+        return `[${char.name}]: I received your message: "${userMessage}". My personality is: ${char.personality || 'Friendly'}`;
     }
 };
