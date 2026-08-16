@@ -274,3 +274,4 @@ const AppManager = {
 document.addEventListener("DOMContentLoaded", () => {
     AppManager.init();
 });
+                
