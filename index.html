@@ -60,8 +60,6 @@
                         </div>
                     </div>
                     <div class="chat-actions">
-                        <button title="Phone Call" id="phone-call-btn"><i class="fa-solid fa-phone"></i></button>
-                        <button title="Video Call" id="video-call-btn"><i class="fa-solid fa-video"></i></button>
                         <button title="Roleplay Mode" id="roleplay-toggle-btn"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
                         <button title="Clear Chat History" id="clear-chat-btn"><i class="fa-solid fa-trash-can"></i></button>
                         <button title="Character Info" id="char-info-btn"><i class="fa-solid fa-circle-info"></i></button>
@@ -193,33 +191,15 @@
         </div>
     </div>
 
-    <!-- Call Overlay Modal -->
-    <div id="call-modal" class="modal hidden">
-        <div class="modal-content call-modal-content">
-            <div class="call-header">
-                <h3 id="call-title">Calling...</h3>
-                <span id="call-status-timer">00:00</span>
-            </div>
-            <div class="video-container">
-                <video id="remoteVideo" autoplay playsinline></video>
-                <video id="localVideo" autoplay muted playsinline></video>
-            </div>
-            <div class="call-controls">
-                <button id="mute-audio-btn" title="Mute Audio"><i class="fa-solid fa-microphone"></i></button>
-                <button id="toggle-video-btn" title="Toggle Video"><i class="fa-solid fa-video"></i></button>
-                <button id="end-call-btn" class="btn-danger" title="End Call"><i class="fa-solid fa-phone-slash"></i></button>
-            </div>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script src="js/characters.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/ai.js"></script>
     <script src="js/roleplay.js"></script>
     <script src="js/chat.js"></script>
-    <script src="js/call.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
+
+
 
