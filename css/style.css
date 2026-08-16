@@ -1,0 +1,42 @@
+/* Typing Indicator Animation */
+.message.typing-indicator-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 8px 12px;
+}
+
+.typing-dots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background: var(--incoming-bubble-bg, #f0f2f5);
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: #90949c;
+    border-radius: 50%;
+    display: inline-block;
+    animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typingBounce {
+    0%, 80%, 100% { 
+        transform: scale(0); 
+    } 
+    40% { 
+        transform: scale(1.0); 
+    }
+}
