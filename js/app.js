@@ -175,6 +175,7 @@ const AppManager = {
                 alert("API Settings saved successfully!");
             });
         }
+
         // Add Custom Character Listeners
         const addCharBtn = document.getElementById("add-char-btn");
         const addCharModal = document.getElementById("add-char-modal");
@@ -203,10 +204,7 @@ const AppManager = {
                 
                 if (!name) return;
 
-                // Create a unique ID for the character
                 const id = "custom_" + Date.now();
-                
-                // Generate a random robot/anime style avatar using DiceBear
                 const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`;
 
                 const newChar = {
@@ -217,20 +215,16 @@ const AppManager = {
                     prompt: prompt
                 };
 
-                // Save to localStorage via StorageManager
                 StorageManager.saveCustomCharacter(id, newChar);
                 
-                // Close modal and reset form
                 addCharForm.reset();
                 if (addCharModal) addCharModal.classList.add("hidden");
                 
-                // Re-render sidebar to show the new character
                 AppManager.renderContacts();
-                
-                // Automatically open chat with the newly created character
                 ChatManager.openChat(id);
             });
         }
+
         // Character Info Modal Listeners
         const infoBtn = document.getElementById("char-info-btn");
         const infoModal = document.getElementById("char-info-modal");
@@ -264,12 +258,7 @@ const AppManager = {
         const clearChatBtn = document.getElementById("clear-chat-btn");
         if (clearChatBtn) {
             clearChatBtn.addEventListener("click", () => {
-                if (!ChatManager.activeCharacterId) return;
-                if (confirm("Are you sure you want to clear the chat history with this character?")) {
-                    localStorage.removeItem("anime_chat_" + ChatManager.activeCharacterId);
-                    ChatManager.renderMessages();
-                    AppManager.renderContacts();
-                }
+                ChatManager.clearHistory();
             });
         }
     },
