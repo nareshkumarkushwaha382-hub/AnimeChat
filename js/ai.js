@@ -1,11 +1,13 @@
 const AIService = {
     generateReply(characterId, userMessage) {
-        const char = characters[characterId];
-        if (!char) return "Hello!";
+        // Safely find the character from global objects or localStorage backup
+        const char = (typeof characters !== 'undefined' && characters[characterId]) || 
+                     (typeof StorageManager !== 'undefined' && StorageManager.getSavedCustomCharacters()[characterId]) || 
+                     { name: "Character", personality: "Friendly" };
 
-        const msgLower = userMessage.toLowerCase();
+        const msgLower = (userMessage || "").toLowerCase();
 
-        // Custom personality-based responses for Phase 2
+        // Preset anime character personalities
         if (characterId === "rem") {
             if (msgLower.includes("hello") || msgLower.includes("hi")) {
                 return "Subaru-kun... ah, welcome! How can Rem be of service to you today?";
@@ -40,7 +42,7 @@ const AIService = {
             return `Thank you for sharing that with me. I appreciate your kindness!`;
         }
 
-        // Default fallback for custom or generic characters
-        return `[AI Layer - ${char.name}]: I received your message: "${userMessage}". My personality is: ${char.personality}`;
+        // Fallback for custom characters
+        return `[${char.name}]: I received your message: "${userMessage}". My personality is: ${char.personality || 'Friendly and ready to chat.'}`;
     }
 };
