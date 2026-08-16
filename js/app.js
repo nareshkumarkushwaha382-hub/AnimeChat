@@ -17,7 +17,6 @@ const AppManager = {
         Object.keys(allCharacters).forEach(id => {
             const char = allCharacters[id];
             
-            // Apply search filter if present
             if (filterText && !char.name.toLowerCase().includes(filterText.toLowerCase())) {
                 return;
             }
@@ -139,6 +138,41 @@ const AppManager = {
                 RoleplayManager.saveState(ChatManager.activeCharacterId, newState);
                 RoleplayManager.updateUI(ChatManager.activeCharacterId);
                 if (rpModal) rpModal.classList.add("hidden");
+            });
+        }
+
+        // API Settings Modal Listeners
+        const settingsBtn = document.getElementById("settings-btn");
+        const apiModal = document.getElementById("api-settings-modal");
+        const closeApiModal = document.getElementById("close-api-modal");
+        const apiForm = document.getElementById("api-settings-form");
+
+        if (settingsBtn) {
+            settingsBtn.addEventListener("click", () => {
+                const settings = AIService.getSettings();
+                document.getElementById("ai-provider").value = settings.provider;
+                document.getElementById("api-key-input").value = settings.apiKey;
+                document.getElementById("ai-model-input").value = settings.model;
+                if (apiModal) apiModal.classList.remove("hidden");
+            });
+        }
+
+        if (closeApiModal) {
+            closeApiModal.addEventListener("click", () => {
+                if (apiModal) apiModal.classList.add("hidden");
+            });
+        }
+
+        if (apiForm) {
+            apiForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const provider = document.getElementById("ai-provider").value;
+                const apiKey = document.getElementById("api-key-input").value.trim();
+                const model = document.getElementById("ai-model-input").value.trim();
+
+                AIService.saveSettings(provider, apiKey, model);
+                if (apiModal) apiModal.classList.add("hidden");
+                alert("API Settings saved successfully!");
             });
         }
     },
