@@ -231,6 +231,47 @@ const AppManager = {
                 ChatManager.openChat(id);
             });
         }
+        // Character Info Modal Listeners
+        const infoBtn = document.getElementById("char-info-btn");
+        const infoModal = document.getElementById("char-info-modal");
+        const closeInfoBtn = document.getElementById("close-info-btn");
+
+        if (infoBtn) {
+            infoBtn.addEventListener("click", () => {
+                if (!ChatManager.activeCharacterId) return;
+                const char = (typeof characters !== 'undefined' && characters[ChatManager.activeCharacterId]) || 
+                             (typeof StorageManager !== 'undefined' && StorageManager.getSavedCustomCharacters()[ChatManager.activeCharacterId]);
+                
+                if (!char) return;
+
+                document.getElementById("modal-avatar-img").src = char.avatar;
+                document.getElementById("modal-char-name").textContent = char.name;
+                document.getElementById("modal-char-status").textContent = char.status || "Online";
+                document.getElementById("modal-char-personality").textContent = char.personality || "No personality specified.";
+                document.getElementById("modal-char-prompt").textContent = char.prompt || "No system prompt specified.";
+
+                if (infoModal) infoModal.classList.remove("hidden");
+            });
+        }
+
+        if (closeInfoBtn) {
+            closeInfoBtn.addEventListener("click", () => {
+                if (infoModal) infoModal.classList.add("hidden");
+            });
+        }
+
+        // Clear Chat History Listener
+        const clearChatBtn = document.getElementById("clear-chat-btn");
+        if (clearChatBtn) {
+            clearChatBtn.addEventListener("click", () => {
+                if (!ChatManager.activeCharacterId) return;
+                if (confirm("Are you sure you want to clear the chat history with this character?")) {
+                    localStorage.removeItem("anime_chat_" + ChatManager.activeCharacterId);
+                    ChatManager.renderMessages();
+                    AppManager.renderContacts();
+                }
+            });
+        }
     },
 
     escapeHTML(str) {
