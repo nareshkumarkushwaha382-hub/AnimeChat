@@ -96,15 +96,27 @@ const ChatManager = {
 
     triggerMockReply() {
         if (!this.activeCharacterId) return;
-        const char = characters[this.activeCharacterId];
         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        const mockResponses = [
-            `That's very interesting! Tell me more.`,
-            `As ${char.name}, I will make sure we handle this properly.`,
-            `Hmm... what do you think we should do next?`,
-            `I understand completely. Let's keep moving forward!`
-        ];
+        const messages = StorageManager.getMessages(this.activeCharacterId);
+        const lastUserMsg = messages.length > 0 ? messages[messages.length - 1].text : "";
+
+        // Generate intelligent reply using our AI service & character personality
+        const replyText = AIService.generateReply(this.activeCharacterId, lastUserMsg);
+
+        messages.push({
+            sender: "received",
+            text: replyText,
+            time: currentTime
+        });
+
+        StorageManager.saveMessages(this.activeCharacterId, messages);
+        
+        if (this.activeCharacterId) {
+            this.renderMessages();
+            AppManager.renderContacts();
+        }
+    },
 
         const randomReply = mockResponses[Math.floor(Math.random() * mockResponses.length)];
 
