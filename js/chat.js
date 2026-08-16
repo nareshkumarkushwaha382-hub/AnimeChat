@@ -111,11 +111,11 @@ const ChatManager = {
 
         // Trigger AI reply after 1 second
         setTimeout(() => {
-            this.triggerMockReply();
+            this.triggerAIReply();
         }, 1000);
     },
 
-    async triggerMockReply() {
+    async triggerAIReply() {
         if (!this.activeCharacterId) return;
         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -148,3 +148,4 @@ const ChatManager = {
         );
     }
 };
+            
