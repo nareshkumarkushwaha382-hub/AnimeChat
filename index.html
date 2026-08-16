@@ -61,6 +61,8 @@
                     </div>
                     <div class="chat-actions">
                         <button title="Roleplay Mode" id="roleplay-toggle-btn"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+                        <button title="Clear Chat History" id="clear-chat-btn"><i class="fa-solid fa-trash-can"></i></button>
+                        <button title="Character Info" id="char-info-btn"><i class="fa-solid fa-circle-info"></i></button>
                     </div>
                 </div>
 
@@ -135,6 +137,29 @@
         </div>
     </div>
 
+    <!-- Character Info Modal -->
+    <div id="char-info-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Character Profile</h3>
+                <button id="close-info-btn" class="close-btn">&times;</button>
+            </div>
+            <div class="char-profile-view">
+                <img id="modal-avatar-img" src="" alt="Avatar">
+                <h2 id="modal-char-name"></h2>
+                <span id="modal-char-status" class="status-tag">Online</span>
+                <div class="info-section">
+                    <h4>Personality</h4>
+                    <p id="modal-char-personality"></p>
+                </div>
+                <div class="info-section">
+                    <h4>System Prompt</h4>
+                    <p id="modal-char-prompt"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Roleplay Configuration Modal -->
     <div id="rp-modal" class="modal hidden">
         <div class="modal-content">
@@ -174,6 +199,5 @@
     <script src="js/chat.js"></script>
     <script src="js/app.js"></script>
 </body>
-</html>
-
-
+                    </html>
+                    
