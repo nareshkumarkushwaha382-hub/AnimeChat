@@ -104,15 +104,14 @@ const ChatManager = {
         }, 1000);
     },
 
-    triggerMockReply() {
+    async triggerMockReply() {
         if (!this.activeCharacterId) return;
         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         const messages = StorageManager.getMessages(this.activeCharacterId);
-        const lastUserMsg = messages.length > 0 ? messages[messages.length - 1].text : "";
 
         const replyText = (typeof AIService !== 'undefined') ? 
-            AIService.generateReply(this.activeCharacterId, lastUserMsg) : 
+            await AIService.generateReply(this.activeCharacterId, messages) : 
             "Hello! (AI service loading...)";
 
         messages.push({
