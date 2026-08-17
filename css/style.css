@@ -1,5 +1,5 @@
 /* =================================================================
-   AnimeChat / Nexa Core - Refactored Stylesheet (v5 - Mobile Responsive & Overlap Fix)
+   AnimeChat / Nexa Core - Refactored Stylesheet (v6 - WhatsApp Style Alignment)
    =================================================================== */
 
 :root {
@@ -219,7 +219,7 @@ body {
   color: var(--text-muted);
 }
 
-/* Message Area (Fixed Overlap & Absolute Positioning Bugs) */
+/* Message Area - WhatsApp Style Left/Right Alignment */
 .chat-messages {
   flex: 1;
   min-height: 0;
@@ -243,12 +243,22 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.message.user {
+/* User Messages on the Right */
+.message.user,
+.message[data-sender="user"],
+.message.sent {
   align-self: flex-end;
+  align-items: flex-end;
 }
 
-.message.ai {
+/* Other Person / AI Messages on the Left */
+.message.ai,
+.message.receiver,
+.message[data-sender="ai"],
+.message[data-sender="receiver"],
+.message.received {
   align-self: flex-start;
+  align-items: flex-start;
 }
 
 .message-bubble {
@@ -260,13 +270,19 @@ body {
   overflow-wrap: break-word;
 }
 
-.message.user .message-bubble {
+.message.user .message-bubble,
+.message[data-sender="user"] .message-bubble,
+.message.sent .message-bubble {
   background-color: var(--bubble-user);
   color: #fff;
   border-bottom-right-radius: 4px;
 }
 
-.message.ai .message-bubble {
+.message.ai .message-bubble,
+.message.receiver .message-bubble,
+.message[data-sender="ai"] .message-bubble,
+.message[data-sender="receiver"] .message-bubble,
+.message.received .message-bubble {
   background-color: var(--bubble-ai);
   color: var(--text-main);
   border: 1px solid var(--border-color);
@@ -277,11 +293,6 @@ body {
   font-size: 0.7rem;
   color: var(--text-muted);
   margin-top: 0.25rem;
-  align-self: flex-end;
-}
-
-.message.ai .message-timestamp {
-  align-self: flex-start;
 }
 
 /* Input Area */
@@ -328,15 +339,12 @@ body {
   background-color: var(--accent-hover);
 }
 
-/* =================================================================
-   MOBILE RESPONSIVE MEDIA QUERY (Screens smaller than 768px)
-   =================================================================== */
+/* Responsive Media Query */
 @media screen and (max-width: 768px) {
   .app-container {
     position: relative;
   }
 
-  /* On mobile, sidebar can act as an overlay or toggle drawer */
   .sidebar {
     position: absolute;
     left: 0;
@@ -347,7 +355,6 @@ body {
     max-width: 320px;
   }
 
-  /* Add a utility class to hide sidebar on mobile when viewing chat */
   .app-container.sidebar-hidden .sidebar {
     transform: translateX(-100%);
   }
