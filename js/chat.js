@@ -1,4 +1,4 @@
-const ChatManager = {
+   const ChatManager = {
     activeCharacterId: null,
 
     init() {
@@ -139,36 +139,6 @@ const ChatManager = {
                 AppManager.renderContacts();
             }
         }
-        // Add these helper methods inside your Chat Controller / module object in js/chat.js:
-
-showTypingIndicator()
-    const container = document.getElementById("messages-container");
-    if (!container) return;
-
-    // Prevent duplicate indicators
-    this.removeTypingIndicator();
-
-    const typingDiv = document.createElement("div");
-    typingDiv.className = "message incoming typing-indicator-container";
-    typingDiv.id = "typing-indicator";
-    typingDiv.innerHTML = `
-        <div class="typing-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    `;
-    container.appendChild(typingDiv);
-    container.scrollTop = container.scrollHeight;
-},
-
-removeTypingIndicator() {
-    const typingDiv = document.getElementById("typing-indicator");
-    if (typingDiv) {
-        typingDiv.remove();
-    }
-}
-    
     },
 
     escapeHTML(str) {
@@ -178,4 +148,3 @@ removeTypingIndicator() {
         );
     }
 };
-            
