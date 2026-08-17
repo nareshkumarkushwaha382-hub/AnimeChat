@@ -141,7 +141,7 @@ const ChatManager = {
         }
         // Add these helper methods inside your Chat Controller / module object in js/chat.js:
 
-showTypingIndicator() {
+showTypingIndicator()
     const container = document.getElementById("messages-container");
     if (!container) return;
 
