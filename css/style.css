@@ -1,5 +1,5 @@
 /* =================================================================
-   AnimeChat / Nexa Core - Refactored Stylesheet (v6 - WhatsApp Style Alignment)
+   AnimeChat / Nexa Core - Refactored Stylesheet (v7 - Header & Footer Fix)
    =================================================================== */
 
 :root {
@@ -175,10 +175,12 @@ body {
   flex-direction: column;
   background-color: var(--bg-primary);
   height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
   position: relative;
 }
 
+/* Chat Header (Fixed Overlap & Non-flexible Height) */
 .chat-header {
   height: var(--header-height);
   min-height: var(--header-height);
@@ -198,6 +200,22 @@ body {
   align-items: center;
   gap: 0.75rem;
   min-width: 0;
+  flex-grow: 1;
+}
+
+/* Specific Header Avatar Override to Prevent Overlap */
+.chat-header img,
+.chat-header .avatar,
+.chat-header .contact-avatar {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  max-width: 38px !important;
+  max-height: 38px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
 }
 
 .character-details {
@@ -217,6 +235,9 @@ body {
 .character-status {
   font-size: 0.75rem;
   color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Message Area - WhatsApp Style Left/Right Alignment */
@@ -295,7 +316,7 @@ body {
   margin-top: 0.25rem;
 }
 
-/* Input Area */
+/* Input Area (Strictly Locked to Bottom) */
 .chat-input-area {
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-color);
@@ -305,6 +326,7 @@ body {
   align-items: center;
   flex-shrink: 0;
   z-index: 5;
+  width: 100%;
 }
 
 .chat-input {
