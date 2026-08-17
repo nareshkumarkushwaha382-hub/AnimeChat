@@ -1,4 +1,4 @@
-   const ChatManager = {
+const ChatManager = {
     activeCharacterId: null,
 
     init() {
