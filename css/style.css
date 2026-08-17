@@ -1,5 +1,5 @@
 /* =================================================================
-   AnimeChat / Nexa Core - Refactored Stylesheet (v3 - Scrolling & Avatar Fix)
+   AnimeChat / Nexa Core - Refactored Stylesheet (v4 - Final Layout & Avatar Fix)
    =================================================================== */
 
 :root {
@@ -14,7 +14,7 @@
   --bubble-user: #7c3aed;
   --bubble-ai: #23263b;
   --sidebar-width: 280px;
-  --header-height: 60px;
+  --header-height: 65px;
   --transition-speed: 0.2s;
 }
 
@@ -30,6 +30,7 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-main);
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
 }
 
@@ -41,7 +42,7 @@ body {
   overflow: hidden;
 }
 
-/* Sidebar (Fixed Height & Scroll Containment) */
+/* Sidebar */
 .sidebar {
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
@@ -93,13 +94,12 @@ body {
   background-color: var(--accent-hover);
 }
 
-/* Scrollable Contact / Chat List Container */
+/* Scrollable Chat List */
 .chat-list-container {
   flex: 1;
-  min-height: 0; /* Crucial: allows inner scrolling in flex layout */
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 2px;
 }
 
 .chat-list {
@@ -109,7 +109,7 @@ body {
   gap: 0.35rem;
 }
 
-/* Contact / Chat Item */
+/* Chat / Contact Item */
 .chat-item {
   display: flex;
   align-items: center;
@@ -124,19 +124,21 @@ body {
   background-color: var(--bg-tertiary);
 }
 
-/* Contact Avatar (Strictly Controlled Size) */
-.chat-item .contact-avatar,
-.chat-avatar {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
-  max-width: 36px;
-  max-height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  background-color: var(--accent-color);
+/* STRICT AVATAR CONSTRAINTS (Fixes oversized profile pictures) */
+.sidebar img,
+.chat-item img,
+.chat-avatar,
+.contact-avatar,
+.avatar {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
 }
 
 .contact-info {
