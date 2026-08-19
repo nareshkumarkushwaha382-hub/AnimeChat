@@ -1,224 +1,556 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime & AI Chat App</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime & AI Messenger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* =================================================================
+       AnimeChat / Nexa Core - Complete Refactored Stylesheet (v8)
+       =================================================================== */
+
+    :root {
+      --bg-primary: #0f111a;
+      --bg-secondary: #1a1c29;
+      --bg-tertiary: #23263b;
+      --accent-color: #7c3aed;
+      --accent-hover: #6d28d9;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: #2e324a;
+      --bubble-user: #7c3aed;
+      --bubble-ai: #23263b;
+      --sidebar-width: 280px;
+      --header-height: 65px;
+      --transition-speed: 0.2s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Sidebar Layout */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-height: 100vh;
+      padding: 1rem;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .new-chat-btn {
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background var(--transition-speed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      width: 100%;
+    }
+
+    .new-chat-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .chat-list-container {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .chat-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background var(--transition-speed), color var(--transition-speed);
+    }
+
+    .chat-item:hover, .chat-item.active {
+      background-color: var(--bg-tertiary);
+    }
+
+    /* Strict Avatar Controls */
+    .sidebar img,
+    .chat-item img,
+    .chat-avatar,
+    .contact-avatar,
+    .avatar {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      min-height: 36px !important;
+      max-width: 36px !important;
+      max-height: 36px !important;
+      border-radius: 50% !important;
+      object-fit: cover !important;
+      flex-shrink: 0 !important;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    .contact-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .contact-preview {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Main Chat Window */
+    .chat-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-primary);
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chat-header {
+      height: var(--header-height);
+      min-height: var(--header-height);
+      max-height: var(--header-height);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      background-color: var(--bg-secondary);
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    .character-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+      flex-grow: 1;
+    }
+
+    .chat-header img,
+    .chat-header .avatar,
+    .chat-header .contact-avatar {
+      width: 38px !important;
+      height: 38px !important;
+      min-width: 38px !important;
+      min-height: 38px !important;
+      max-width: 38px !important;
+      max-height: 38px !important;
+      border-radius: 50% !important;
+      object-fit: cover !important;
+      flex-shrink: 0 !important;
+    }
+
+    .character-details {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .character-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .character-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* WhatsApp Style Message Pane */
+    .chat-messages {
+      flex: 1;
+      min-height: 0;
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .message {
+      max-width: 75%;
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user,
+    .message[data-sender="user"],
+    .message.sent {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .message.ai,
+    .message.receiver,
+    .message[data-sender="ai"],
+    .message[data-sender="receiver"],
+    .message.received {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .message-bubble {
+      padding: 0.85rem 1.15rem;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .message.user .message-bubble,
+    .message[data-sender="user"] .message-bubble,
+    .message.sent .message-bubble {
+      background-color: var(--bubble-user);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.ai .message-bubble,
+    .message.receiver .message-bubble,
+    .message[data-sender="ai"] .message-bubble,
+    .message[data-sender="receiver"] .message-bubble,
+    .message.received .message-bubble {
+      background-color: var(--bubble-ai);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-timestamp {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Fixed Bottom Input Area */
+    .chat-input-area {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-secondary);
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 5;
+      width: 100%;
+    }
+
+    .chat-input {
+      flex-grow: 1;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color var(--transition-speed);
+    }
+
+    .chat-input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .send-btn {
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition-speed);
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .app-container {
+        position: relative;
+      }
+      .sidebar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        transition: transform var(--transition-speed) ease;
+        width: 85%;
+        max-width: 320px;
+      }
+      .app-container.sidebar-hidden .sidebar {
+        transform: translateX(-100%);
+      }
+      .chat-main {
+        width: 100vw;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="user-profile">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=currentUser" alt="User Avatar" id="user-avatar">
-                    <h3>Chats</h3>
-                </div>
-                <div class="sidebar-actions">
-                    <button title="Add Character" id="add-char-btn"><i class="fa-solid fa-plus"></i></button>
-                    <button title="Settings" id="settings-btn"><i class="fa-solid fa-gear"></i></button>
-                </div>
-            </div>
-
-            <!-- Search Contacts -->
-            <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="search-contacts" placeholder="Search or start new chat">
-            </div>
-
-            <!-- Contacts List -->
-            <div class="contacts-list" id="contacts-list">
-                <!-- Dynamically rendered via app.js -->
-            </div>
-        </aside>
-
-        <!-- Main Chat Area -->
-        <main class="chat-area">
-            <!-- Welcome View (When no chat is active) -->
-            <div class="chat-welcome" id="chat-welcome">
-                <div class="welcome-content">
-                    <i class="fa-solid fa-comments"></i>
-                    <h2>Anime & AI Messenger</h2>
-                    <p>Select a contact or create a custom character to start chatting and roleplaying.</p>
-                </div>
-            </div>
-
-            <!-- Active Chat Box -->
-            <div class="chat-box hidden" id="chat-box">
-                <!-- Chat Header -->
-                <div class="chat-header">
-                    <div class="chat-header-user">
-                        <button class="back-btn" id="back-btn"><i class="fa-solid fa-arrow-left"></i></button>
-                        <img src="" alt="Avatar" id="active-avatar">
-                        <div class="chat-header-info">
-                            <h3 id="active-name">Character Name</h3>
-                            <span id="active-status">Online</span>
-                        </div>
-                    </div>
-                    <div class="chat-actions">
-                        <button title="Phone Call" id="phone-call-btn"><i class="fa-solid fa-phone"></i></button>
-                        <button title="Video Call" id="video-call-btn"><i class="fa-solid fa-video"></i></button>
-                        <button title="Roleplay Mode" id="roleplay-toggle-btn"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
-                        <button title="Clear Chat History" id="clear-chat-btn"><i class="fa-solid fa-trash-can"></i></button>
-                        <button title="Character Info" id="char-info-btn"><i class="fa-solid fa-circle-info"></i></button>
-                    </div>
-                </div>
-
-                <!-- Messages Container -->
-                <div class="messages-container" id="messages-container">
-                    <!-- Dynamically rendered via chat.js -->
-                </div>
-
-                <!-- Chat Input Footer -->
-                <div class="chat-input-footer">
-                    <input type="text" id="message-input" placeholder="Type a message...">
-                    <button id="send-btn" title="Send Message"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- API Settings Modal -->
-    <div id="api-settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>AI Settings</h3>
-                <button id="close-api-modal" class="close-btn">&times;</button>
-            </div>
-            <form id="api-settings-form">
-                <div class="form-group">
-                    <label for="ai-provider">AI Provider</label>
-                    <select id="ai-provider">
-                        <option value="openrouter">OpenRouter</option>
-                        <option value="openai">OpenAI</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="api-key-input">API Key</label>
-                    <input type="password" id="api-key-input" placeholder="Enter your API Key...">
-                </div>
-                <div class="form-group">
-                    <label for="ai-model-input">AI Model</label>
-                    <input type="text" id="ai-model-input" placeholder="e.g., openai/gpt-4o-mini">
-                </div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn-primary">Save AI Settings</button>
-                </div>
-            </form>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-header">
+          <span>Chats</span>
+          <button class="new-chat-btn" id="newChatBtn">+ New Chat</button>
         </div>
-    </div>
+        <input type="text" class="chat-input" placeholder="Search or start new chat" id="searchInput" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">
+      </div>
 
-    <!-- Add Custom Character Modal -->
-    <div id="add-char-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Create Custom Character</h3>
-                <button id="close-add-btn" class="close-btn">&times;</button>
-            </div>
-            <form id="add-char-form">
-                <div class="form-group">
-                    <label for="new-char-name">Character Name</label>
-                    <input type="text" id="new-char-name" placeholder="e.g., Sebastian" required>
-                </div>
-                <div class="form-group">
-                    <label for="new-char-personality">Personality Description</label>
-                    <textarea id="new-char-personality" placeholder="Polite, mysterious demon butler..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="new-char-prompt">System Prompt / Roleplay Directive</label>
-                    <textarea id="new-char-prompt" placeholder="You speak elegantly and end sentences with 'my lord'..."></textarea>
-                </div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn-primary">Create Character</button>
-                </div>
-            </form>
+      <div class="chat-list-container">
+        <ul class="chat-list" id="chatList">
+          <!-- Populated dynamically via JS -->
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Chat Window -->
+    <main class="chat-main">
+      <header class="chat-header">
+        <div class="character-info">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="Avatar" id="headerAvatar">
+          <div class="character-details">
+            <span class="character-name" id="headerName">Select a chat</span>
+            <span class="character-status" id="headerStatus">Online</span>
+          </div>
         </div>
-    </div>
+      </header>
 
-    <!-- Character Info Modal -->
-    <div id="char-info-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Character Profile</h3>
-                <button id="close-info-btn" class="close-btn">&times;</button>
-            </div>
-            <div class="char-profile-view">
-                <img id="modal-avatar-img" src="" alt="Avatar">
-                <h2 id="modal-char-name"></h2>
-                <span id="modal-char-status" class="status-tag">Online</span>
-                <div class="info-section">
-                    <h4>Personality</h4>
-                    <p id="modal-char-personality"></p>
-                </div>
-                <div class="info-section">
-                    <h4>System Prompt</h4>
-                    <p id="modal-char-prompt"></p>
-                </div>
-            </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message ai">
+          <div class="message-bubble">Welcome to Anime & AI Messenger! Select a chat from the sidebar to start roleplaying.</div>
+          <span class="message-timestamp">Just now</span>
         </div>
-    </div>
+      </div>
 
-    <!-- Roleplay Configuration Modal -->
-    <div id="rp-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Roleplay Scenario Config</h3>
-                <button id="close-rp-modal" class="close-btn">&times;</button>
-            </div>
-            <form id="rp-config-form">
-                <div class="form-group">
-                    <label for="rp-scenario">Scenario / Arc</label>
-                    <input type="text" id="rp-scenario" placeholder="e.g., Emerald Witch Arc">
-                </div>
-                <div class="form-group">
-                    <label for="rp-setting">Setting / Location</label>
-                    <input type="text" id="rp-setting" placeholder="e.g., Boadicea's Forest">
-                </div>
-                <div class="form-group">
-                    <label for="rp-user-role">Your Role</label>
-                    <input type="text" id="rp-user-role" placeholder="e.g., Earl Phantomhive">
-                </div>
-                <div class="form-group">
-                    <label for="rp-char-role">Character Role</label>
-                    <input type="text" id="rp-char-role" placeholder="e.g., Head Butler">
-                </div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn-primary">Start Roleplay</button>
-                </div>
-            </form>
-        </div>
-    </div>
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" placeholder="Type a message..." id="messageInput">
+        <button class="send-btn" id="sendBtn">Send</button>
+      </div>
+    </main>
+  </div>
 
-    <!-- Call Overlay Modal -->
-    <div id="call-modal" class="modal hidden">
-        <div class="modal-content call-modal-content">
-            <div class="call-header">
-                <h3 id="call-title">Calling...</h3>
-                <span id="call-status-timer">00:00</span>
-            </div>
-            <div class="video-container">
-                <video id="remoteVideo" autoplay playsinline></video>
-                <video id="localVideo" autoplay muted playsinline></video>
-            </div>
-            <div class="call-controls">
-                <button id="mute-audio-btn" title="Mute Audio"><i class="fa-solid fa-microphone"></i></button>
-                <button id="toggle-video-btn" title="Toggle Video"><i class="fa-solid fa-video"></i></button>
-                <button id="end-call-btn" class="btn-danger" title="End Call"><i class="fa-solid fa-phone-slash"></i></button>
-            </div>
-        </div>
-    </div>
+  <script>
+    // Sample Data Source
+    const contacts = [
+      { id: 1, name: "Rem", status: "Working at the mansion", preview: "Let's work hard today!", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" },
+      { id: 2, name: "Ciel Phantomhive", status: "Busy with company affairs", preview: "Don't disappoint me.", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" },
+      { id: 3, name: "Emilia", status: "Resting at Roswaal's manor", preview: "Thank you for helping out!", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" }
+    ];
 
-    <!-- Scripts -->
-    <script src="js/characters.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/ai.js"></script>
-    <script src="js/roleplay.js"></script>
-    <script src="js/chat.js"></script>
-    <script src="js/call.js"></script>
-    <script src="js/app.js"></script>
+    const chatHistory = {
+      1: [
+        { sender: "ai", text: "Hello there! I'm Rem. How can I help you around the mansion today?", time: "08:30 AM" },
+        { sender: "user", text: "Hi Rem! Just checking in on our daily tasks.", time: "08:32 AM" }
+      ],
+      2: [
+        { sender: "ai", text: "The Earl of Phantomhive welcomes your report.", time: "Yesterday" }
+      ],
+      3: [
+        { sender: "ai", text: "Hi! I'm Emilia. It's so nice to talk to you.", time: "07:00 AM" }
+      ]
+    };
+
+    let activeContactId = 1;
+
+    const chatListEl = document.getElementById('chatList');
+    const headerNameEl = document.getElementById('headerName');
+    const headerStatusEl = document.getElementById('headerStatus');
+    const headerAvatarEl = document.getElementById('headerAvatar');
+    const chatMessagesEl = document.getElementById('chatMessages');
+    const messageInputEl = document.getElementById('messageInput');
+    const sendBtnEl = document.getElementById('sendBtn');
+
+    function renderChatList() {
+      chatListEl.innerHTML = '';
+      contacts.forEach(contact => {
+        const li = document.createElement('li');
+        li.className = `chat-item ${contact.id === activeContactId ? 'active' : ''}`;
+        li.innerHTML = `
+          <img src="${contact.avatar}" alt="${contact.name}" class="contact-avatar">
+          <div class="contact-info">
+            <span class="contact-name">${contact.name}</span>
+            <span class="contact-preview">${contact.preview}</span>
+          </div>
+        `;
+        li.addEventListener('click', () => {
+          activeContactId = contact.id;
+          renderChatList();
+          loadActiveChat();
+        });
+        chatListEl.appendChild(li);
+      });
+    }
+
+    function loadActiveChat() {
+      const contact = contacts.find(c => c.id === activeContactId);
+      if (!contact) return;
+
+      headerNameEl.textContent = contact.name;
+      headerStatusEl.textContent = contact.status;
+      headerAvatarEl.src = contact.avatar;
+
+      chatMessagesEl.innerHTML = '';
+      const messages = chatHistory[activeContactId] || [];
+      messages.forEach(msg => {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${msg.sender === 'user' ? 'user' : 'ai'}`;
+        msgDiv.innerHTML = `
+          <div class="message-bubble">${msg.text}</div>
+          <span class="message-timestamp">${msg.time}</span>
+        `;
+        chatMessagesEl.appendChild(msgDiv);
+      });
+      chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+    }
+
+    function sendMessage() {
+      const text = messageInputEl.value.trim();
+      if (!text) return;
+
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      if (!chatHistory[activeContactId]) {
+        chatHistory[activeContactId] = [];
+      }
+
+      chatHistory[activeContactId].push({ sender: 'user', text, time: timeStr });
+      messageInputEl.value = '';
+      loadActiveChat();
+
+      // Simulated auto-reply
+      setTimeout(() => {
+        chatHistory[activeContactId].push({ sender: 'ai', text: `Got your message: "${text}"! Let's continue our roleplay.`, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
+        loadActiveChat();
+      }, 1000);
+    }
+
+    sendBtnEl.addEventListener('click', sendMessage);
+    messageInputEl.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    // Initial load
+    renderChatList();
+    loadActiveChat();
+  </script>
 </body>
 </html>
