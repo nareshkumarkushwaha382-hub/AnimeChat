@@ -1,9 +1,9 @@
 /* =================================================================
-   AnimeChat / Nexa Core - Complete Standalone JavaScript
+   AnimeChat / Nexa Core - Complete Standalone JavaScript (v2 - Fixed)
    =================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Sample Data Source (Contacts and Initial Chat History)
+  // Sample Data Source
   const contacts = [
     { id: 1, name: "Rem", status: "Working at the mansion", preview: "Let's work hard today!", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" },
     { id: 2, name: "Ciel Phantomhive", status: "Busy with company affairs", preview: "Don't disappoint me.", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" },
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInputEl = document.getElementById('searchInput');
   const appContainerEl = document.querySelector('.app-container');
 
-  // Render Chat List with real-time search filtering
+  // Render Chat List with search filtering
   function renderChatList(filterText = '') {
     chatListEl.innerHTML = '';
     const filteredContacts = contacts.filter(c => 
@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderChatList(searchInputEl ? searchInputEl.value : '');
         loadActiveChat();
 
-        // On mobile screen sizes, collapse the sidebar automatically when a chat is selected
         if (window.innerWidth <= 768 && appContainerEl) {
           appContainerEl.classList.add('sidebar-hidden');
         }
@@ -95,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       chatMessagesEl.appendChild(msgDiv);
     });
 
-    // Auto-scroll to the bottom of the chat history
     chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
   }
 
@@ -105,17 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = messageInputEl.value.trim();
     if (!text) return;
 
+    // Lock in the current contact ID so the reply goes to the right person even if user switches chats
+    const targetContactId = activeContactId;
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
-    if (!chatHistory[activeContactId]) {
-      chatHistory[activeContactId] = [];
+    if (!chatHistory[targetContactId]) {
+      chatHistory[targetContactId] = [];
     }
 
     // Append user message
-    chatHistory[activeContactId].push({ sender: 'user', text, time: timeStr });
+    chatHistory[targetContactId].push({ sender: 'user', text, time: timeStr });
     
-    // Update live sidebar preview text
-    const contact = contacts.find(c => c.id === activeContactId);
+    const contact = contacts.find(c => c.id === targetContactId);
     if (contact) {
       contact.preview = `You: ${text}`;
     }
@@ -127,7 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Simulate Character / AI Auto-Reply after 1 second delay
     setTimeout(() => {
       const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      chatHistory[activeContactId].push({ 
+      
+      if (!chatHistory[targetContactId]) {
+        chatHistory[targetContactId] = [];
+      }
+
+      chatHistory[targetContactId].push({ 
         sender: 'ai', 
         text: `Got your message: "${text}"! Let's continue our roleplay.`, 
         time: replyTime 
@@ -138,11 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       renderChatList(searchInputEl ? searchInputEl.value : '');
-      loadActiveChat();
+      
+      // Only reload the active view if the user is still looking at this chat
+      if (activeContactId === targetContactId) {
+        loadActiveChat();
+      }
     }, 1000);
   }
 
-  // Utility to prevent basic XSS when rendering message text
   function escapeHtml(str) {
     return str
       .replace(/&/g, "&amp;")
