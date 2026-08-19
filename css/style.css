@@ -1,5 +1,5 @@
 /* =================================================================
-   AnimeChat / Nexa Core - Refactored Stylesheet (v7 - Header & Footer Fix)
+   AnimeChat / Nexa Core - Complete Standalone Stylesheet
    =================================================================== */
 
 :root {
@@ -96,7 +96,7 @@ body {
   background-color: var(--accent-hover);
 }
 
-/* Scrollable Chat List */
+/* Scrollable Chat List Container */
 .chat-list-container {
   flex: 1;
   min-height: 0;
@@ -111,7 +111,7 @@ body {
   gap: 0.35rem;
 }
 
-/* Chat / Contact Item */
+/* Contact / Chat Item */
 .chat-item {
   display: flex;
   align-items: center;
@@ -126,7 +126,7 @@ body {
   background-color: var(--bg-tertiary);
 }
 
-/* STRICT AVATAR CONSTRAINTS */
+/* Strict Avatar Constraints (Prevents Oversizing/Distortion) */
 .sidebar img,
 .chat-item img,
 .chat-avatar,
@@ -180,7 +180,7 @@ body {
   position: relative;
 }
 
-/* Chat Header (Fixed Overlap & Non-flexible Height) */
+/* Chat Header */
 .chat-header {
   height: var(--header-height);
   min-height: var(--header-height);
@@ -203,7 +203,7 @@ body {
   flex-grow: 1;
 }
 
-/* Specific Header Avatar Override to Prevent Overlap */
+/* Header Specific Avatar Override */
 .chat-header img,
 .chat-header .avatar,
 .chat-header .contact-avatar {
@@ -240,7 +240,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Message Area - WhatsApp Style Left/Right Alignment */
+/* WhatsApp Style Message Area */
 .chat-messages {
   flex: 1;
   min-height: 0;
@@ -316,7 +316,7 @@ body {
   margin-top: 0.25rem;
 }
 
-/* Input Area (Strictly Locked to Bottom) */
+/* Fixed Bottom Typing Bar & Send Button */
 .chat-input-area {
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-color);
@@ -361,7 +361,25 @@ body {
   background-color: var(--accent-hover);
 }
 
-/* Responsive Media Query */
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Mobile Responsive Media Query */
 @media screen and (max-width: 768px) {
   .app-container {
     position: relative;
@@ -384,22 +402,4 @@ body {
   .chat-main {
     width: 100vw;
   }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
 }
